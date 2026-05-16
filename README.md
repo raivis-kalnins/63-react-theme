@@ -1,9 +1,18 @@
 # 63.lv React Theme
 
-**Version:** 1.1.0  
+**Version:** 1.6.7  
 **Theme:** WordPress / headless React-style homepage for 63.lv  
 **Requires PHP:** 7.4+  
 **Recommended plugins:** WP BBuilder, Polylang
+
+## v1.6.7 SEO + minified React enhancement + JS/cache fix
+
+- Keeps the full homepage HTML server-rendered in view-source for Google and other crawlers.
+- Hydrates that existing HTML with React instead of replacing it, so Ajax search, menu, gallery/lightbox and booking scripts keep working.
+- Enqueues the minified React homepage bundle: `assets/js/63lv-react-home.min.js`.
+- Uses production React/ReactDOM UMD builds.
+- Adds verification markers: `data-seo-source="server-rendered"`, `data-react-mode="seo-hydration"`, and `data-react-rendered="hydrated"`.
+
 
 ## What this package includes
 
@@ -137,3 +146,7 @@ Functional areas use shortcodes:
 - `[sixtythree_google_map]`
 
 This avoids unsupported custom-block warnings in the WordPress editor while keeping the approved public front page design unchanged.
+
+## v63 homepage recovery
+
+The public homepage is locked back to the approved premium headless/static template. `front-page.php` no longer renders the assigned WordPress page content inside the public homepage, and `home.php` includes a safety fallback so the site root cannot fall back to the generic posts archive when Reading settings route through `home.php`. Editable builder content remains available through the separate imported **63.lv Builder Sections** page.

@@ -4,7 +4,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.6.2');
+define('SIXTYTHREE_THEME_VERSION', '1.6.7');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
@@ -310,7 +310,20 @@ function sixtythree_scripts() {
     }
 
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.1.14', true);
-    wp_enqueue_script('sixtythree-theme', get_template_directory_uri() . $js_asset, array('swiper'), $js_ver, true);
+
+    $theme_script_deps = array('swiper');
+    if (is_front_page() || (is_home() && !get_option('page_for_posts') && !is_paged())) {
+        $react_home_file = get_template_directory() . '/assets/js/63lv-react-home.min.js';
+        $react_home_ver = file_exists($react_home_file) ? filemtime($react_home_file) : $ver;
+        wp_enqueue_script('sixtythree-react', 'https://unpkg.com/react@18/umd/react.production.min.js', array(), '18.2.0', true);
+        wp_enqueue_script('sixtythree-react-dom', 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', array('sixtythree-react'), '18.2.0', true);
+        wp_enqueue_script('sixtythree-react-home', get_template_directory_uri() . '/assets/js/63lv-react-home.min.js', array('sixtythree-react', 'sixtythree-react-dom'), $react_home_ver, true);
+        // Important: the legacy UI script binds click/input listeners to real DOM nodes.
+        // React enhances the server-rendered SEO HTML without replacing it, then bind the
+        // Ajax search, mobile menu, galleries/lightboxes and booking JS after that.
+        $theme_script_deps[] = 'sixtythree-react-home';
+    }
+    wp_enqueue_script('sixtythree-theme', get_template_directory_uri() . $js_asset, $theme_script_deps, $js_ver, true);
 
     $wpbb_compat_file = get_template_directory() . '/assets/js/wpbb-compat.js';
     $wpbb_compat_ver = file_exists($wpbb_compat_file) ? filemtime($wpbb_compat_file) : $ver;
@@ -345,6 +358,218 @@ function sixtythree_scripts() {
     ));
 }
 add_action('wp_enqueue_scripts', 'sixtythree_scripts');
+
+/**
+ * Remove broken WP BBuilder asset URLs when the plugin points to missing files.
+ * Missing assets are served by WordPress as HTML/404, which causes strict MIME
+ * errors and can stop the rest of the homepage JavaScript from running.
+ */
+function sixtythree_asset_url_to_path($url) {
+    if (!is_string($url) || $url === '') { return ''; }
+    $site_url = site_url('/');
+    $content_url = content_url('/');
+    if (strpos($url, $content_url) === 0) {
+        return WP_CONTENT_DIR . '/' . ltrim(substr($url, strlen($content_url)), '/');
+    }
+    if (strpos($url, $site_url) === 0) {
+        return ABSPATH . ltrim(substr($url, strlen($site_url)), '/');
+    }
+    $parts = wp_parse_url($url);
+    if (empty($parts['path'])) { return ''; }
+    $content_path = wp_parse_url($content_url, PHP_URL_PATH);
+    if ($content_path && strpos($parts['path'], $content_path) === 0) {
+        return WP_CONTENT_DIR . '/' . ltrim(substr($parts['path'], strlen($content_path)), '/');
+    }
+    return ABSPATH . ltrim($parts['path'], '/');
+}
+
+function sixtythree_dequeue_missing_bbuilder_assets() {
+    $broken = array('wp-bbuilder-master/assets/shared.css', 'wp-bbuilder-master/assets/cookie-consent.js', 'wp-bbuilder-master/assets/form.js');
+
+    global $wp_styles, $wp_scripts;
+    if ($wp_styles && !empty($wp_styles->registered)) {
+        foreach ($wp_styles->registered as $handle => $style) {
+            $src = isset($style->src) ? (string) $style->src : '';
+            foreach ($broken as $needle) {
+                if (strpos($src, $needle) !== false) {
+                    $path = sixtythree_asset_url_to_path($src);
+                    if (!$path || !file_exists($path)) {
+                        wp_dequeue_style($handle);
+                        wp_deregister_style($handle);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($wp_scripts && !empty($wp_scripts->registered)) {
+        foreach ($wp_scripts->registered as $handle => $script) {
+            $src = isset($script->src) ? (string) $script->src : '';
+            foreach ($broken as $needle) {
+                if (strpos($src, $needle) !== false) {
+                    $path = sixtythree_asset_url_to_path($src);
+                    if (!$path || !file_exists($path)) {
+                        wp_dequeue_script($handle);
+                        wp_deregister_script($handle);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'sixtythree_dequeue_missing_bbuilder_assets', 999);
+
+/**
+ * Basic WP-Rocket-style cache: frontend static page cache + object/transient
+ * helpers. It is intentionally bypassed for logged-in users, wp-admin, AJAX,
+ * REST, POST requests, previews and query-string URLs.
+ */
+function sixtythree_cache_dir() {
+    return trailingslashit(WP_CONTENT_DIR) . 'cache/sixtythree-theme';
+}
+
+function sixtythree_cache_enabled() {
+    return (bool) get_option('sixtythree_cache_enabled', 1);
+}
+
+function sixtythree_cache_ttl() {
+    $ttl = (int) get_option('sixtythree_cache_ttl', 12 * HOUR_IN_SECONDS);
+    return max(300, $ttl);
+}
+
+function sixtythree_cache_can_cache_request() {
+    if (!sixtythree_cache_enabled()) { return false; }
+    if (is_admin() || is_user_logged_in()) { return false; }
+    if (defined('DOING_AJAX') && DOING_AJAX) { return false; }
+    if (defined('REST_REQUEST') && REST_REQUEST) { return false; }
+    if (strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') { return false; }
+    if (!empty($_GET)) { return false; }
+    if (is_preview() || is_404() || is_search() || is_feed()) { return false; }
+    return true;
+}
+
+function sixtythree_cache_key() {
+    $host = sanitize_key($_SERVER['HTTP_HOST'] ?? 'site');
+    $uri = $_SERVER['REQUEST_URI'] ?? '/';
+    return $host . '-' . md5($uri . '|' . sixtythree_current_lang());
+}
+
+function sixtythree_cache_file() {
+    return sixtythree_cache_dir() . '/' . sixtythree_cache_key() . '.html';
+}
+
+function sixtythree_page_cache_start() {
+    if (!sixtythree_cache_can_cache_request()) { return; }
+    $file = sixtythree_cache_file();
+    if (is_readable($file) && (time() - filemtime($file)) < sixtythree_cache_ttl()) {
+        header('X-63LV-Cache: HIT');
+        header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
+        readfile($file);
+        exit;
+    }
+    if (!is_dir(sixtythree_cache_dir())) {
+        wp_mkdir_p(sixtythree_cache_dir());
+    }
+    header('X-63LV-Cache: MISS');
+    ob_start('sixtythree_page_cache_store');
+}
+add_action('template_redirect', 'sixtythree_page_cache_start', 0);
+
+function sixtythree_page_cache_store($html) {
+    if (!sixtythree_cache_can_cache_request()) { return $html; }
+    if (!is_string($html) || stripos($html, '<html') === false) { return $html; }
+    if (http_response_code() && http_response_code() >= 400) { return $html; }
+    $dir = sixtythree_cache_dir();
+    if (!is_dir($dir)) { wp_mkdir_p($dir); }
+    if (is_dir($dir) && is_writable($dir)) {
+        $tmp = sixtythree_cache_file() . '.tmp';
+        file_put_contents($tmp, $html, LOCK_EX);
+        @rename($tmp, sixtythree_cache_file());
+    }
+    return $html;
+}
+
+function sixtythree_cache_purge() {
+    $dir = sixtythree_cache_dir();
+    if (!is_dir($dir)) { return; }
+    foreach (glob($dir . '/*.html') ?: array() as $file) {
+        @unlink($file);
+    }
+    wp_cache_flush();
+    delete_transient('sixtythree_frontpage_markup');
+}
+add_action('save_post', 'sixtythree_cache_purge');
+add_action('deleted_post', 'sixtythree_cache_purge');
+add_action('switch_theme', 'sixtythree_cache_purge');
+add_action('customize_save_after', 'sixtythree_cache_purge');
+
+function sixtythree_cache_admin_menu() {
+    add_theme_page('63.lv Cache', '63.lv Cache', 'manage_options', 'sixtythree-cache', 'sixtythree_cache_admin_page');
+}
+add_action('admin_menu', 'sixtythree_cache_admin_menu');
+
+function sixtythree_cache_admin_page() {
+    if (!current_user_can('manage_options')) { return; }
+    if (isset($_POST['sixtythree_cache_action']) && check_admin_referer('sixtythree_cache_settings')) {
+        if ($_POST['sixtythree_cache_action'] === 'purge') {
+            sixtythree_cache_purge();
+            echo '<div class="notice notice-success"><p>63.lv cache cleared.</p></div>';
+        } elseif ($_POST['sixtythree_cache_action'] === 'save') {
+            update_option('sixtythree_cache_enabled', empty($_POST['sixtythree_cache_enabled']) ? 0 : 1);
+            update_option('sixtythree_cache_ttl', max(300, (int) ($_POST['sixtythree_cache_ttl'] ?? 43200)));
+            sixtythree_cache_purge();
+            echo '<div class="notice notice-success"><p>63.lv cache settings saved and cache cleared.</p></div>';
+        }
+    }
+    $enabled = sixtythree_cache_enabled();
+    $ttl = sixtythree_cache_ttl();
+    echo '<div class="wrap"><h1>63.lv Cache</h1><p>Basic page cache and object-cache flush tools for this theme.</p><form method="post">';
+    wp_nonce_field('sixtythree_cache_settings');
+    echo '<input type="hidden" name="sixtythree_cache_action" value="save">';
+    echo '<table class="form-table"><tr><th scope="row">Enable page cache</th><td><label><input type="checkbox" name="sixtythree_cache_enabled" value="1" ' . checked($enabled, true, false) . '> Cache public logged-out HTML pages</label></td></tr>';
+    echo '<tr><th scope="row">Cache TTL seconds</th><td><input type="number" min="300" step="300" name="sixtythree_cache_ttl" value="' . esc_attr($ttl) . '"></td></tr></table>';
+    submit_button('Save cache settings');
+    echo '</form><form method="post" style="margin-top:1rem">';
+    wp_nonce_field('sixtythree_cache_settings');
+    echo '<input type="hidden" name="sixtythree_cache_action" value="purge">';
+    submit_button('Clear 63.lv cache now', 'secondary');
+    echo '</form></div>';
+}
+
+function sixtythree_cache_admin_bar($bar) {
+    if (!current_user_can('manage_options') || !is_admin_bar_showing()) { return; }
+    $url = wp_nonce_url(admin_url('themes.php?page=sixtythree-cache&sixtythree_clear_cache=1'), 'sixtythree_clear_cache');
+    $bar->add_node(array('id' => 'sixtythree-clear-cache', 'title' => 'Clear 63.lv Cache', 'href' => $url));
+}
+add_action('admin_bar_menu', 'sixtythree_cache_admin_bar', 100);
+
+function sixtythree_cache_admin_action() {
+    if (!current_user_can('manage_options')) { return; }
+    if (!isset($_GET['sixtythree_clear_cache'])) { return; }
+    check_admin_referer('sixtythree_clear_cache');
+    sixtythree_cache_purge();
+    wp_safe_redirect(remove_query_arg(array('sixtythree_clear_cache', '_wpnonce')));
+    exit;
+}
+add_action('admin_init', 'sixtythree_cache_admin_action');
+
+function sixtythree_cache_get($key) {
+    $group = 'sixtythree_theme';
+    $value = wp_cache_get($key, $group);
+    if ($value !== false) { return $value; }
+    $value = get_transient('sixtythree_' . $key);
+    if ($value !== false) { wp_cache_set($key, $value, $group, sixtythree_cache_ttl()); }
+    return $value;
+}
+
+function sixtythree_cache_set($key, $value, $ttl = null) {
+    $group = 'sixtythree_theme';
+    $ttl = $ttl ? (int) $ttl : sixtythree_cache_ttl();
+    wp_cache_set($key, $value, $group, $ttl);
+    set_transient('sixtythree_' . $key, $value, $ttl);
+}
 
 function sixtythree_language_switcher($class = 'lang-switch') {
     $langs = array('lv' => 'LV', 'en' => 'EN', 'ru' => 'RU');
@@ -2355,11 +2580,12 @@ add_action('after_switch_theme', 'sixtythree_migrate_pirts_gallery_without_showe
  */
 function sixtythree_disable_plain_homepage_takeover() {
     remove_theme_mod('sixtythree_use_page_content');
-    if (get_theme_mod('sixtythree_show_page_builder_content', '') === '') {
-        set_theme_mod('sixtythree_show_page_builder_content', '0');
-    }
+    // Always reset the old optional builder injection flag so stale live settings
+    // cannot replace or visually break the headless/static homepage.
+    set_theme_mod('sixtythree_show_page_builder_content', '0');
 }
 add_action('after_switch_theme', 'sixtythree_disable_plain_homepage_takeover', 30);
+add_action('init', 'sixtythree_disable_plain_homepage_takeover', 1);
 
 
 /**

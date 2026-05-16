@@ -1,5 +1,16 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
+
+/*
+ * Safety fallback: if WordPress routes the site root through home.php
+ * (for example when Settings → Reading is set to latest posts), keep the
+ * premium headless homepage visible instead of the generic posts archive.
+ */
+if (is_front_page() || (is_home() && !get_option('page_for_posts') && !is_paged())) {
+    require get_template_directory() . '/front-page.php';
+    return;
+}
+
 get_header();
 ?>
 <main class="section sixtythree-page-content">
