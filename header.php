@@ -12,8 +12,9 @@
   <div class="header-inner">
     <a class="brand brand-image" href="<?php echo esc_url(home_url('/')); ?>">
       <picture class="brand-logo-picture">
-        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.webp'); ?>" type="image/webp">
-        <img class="brand-logo-img" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.png'); ?>" alt="<?php echo esc_attr(get_bloginfo('name') ?: '63.lv Services'); ?>">
+        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services-360.avif'); ?>" type="image/avif">
+        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services-360.webp'); ?>" type="image/webp">
+        <img class="brand-logo-img" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.png'); ?>" width="360" height="128" loading="eager" decoding="async" fetchpriority="high" alt="<?php echo esc_attr(get_bloginfo('name') ?: '63.lv Services'); ?>">
       </picture>
     </a>
     <nav class="desktop-nav" aria-label="<?php esc_attr_e('Galvenā izvēlne', 'sixty-three-lv'); ?>">

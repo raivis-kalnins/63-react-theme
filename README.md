@@ -150,3 +150,16 @@ This avoids unsupported custom-block warnings in the WordPress editor while keep
 ## v63 homepage recovery
 
 The public homepage is locked back to the approved premium headless/static template. `front-page.php` no longer renders the assigned WordPress page content inside the public homepage, and `home.php` includes a safety fallback so the site root cannot fall back to the generic posts archive when Reading settings route through `home.php`. Editable builder content remains available through the separate imported **63.lv Builder Sections** page.
+
+
+## Performance update 1.7.4
+- Theme assets include Apache/LiteSpeed cache headers for one-year immutable caching.
+- hCaptcha is no longer loaded during initial page load; it loads only after contact form interaction/submit.
+- Homepage removed external React/ReactDOM CDN requests and uses the local SEO enhancement script only.
+- Non-critical Bootstrap/WPBB CSS is preloaded asynchronously.
+
+
+## 1.7.8 performance/admin content update
+- Frontend HTML source is safely minified for normal GET page views. Script, style, textarea, and pre blocks are preserved. Admin, Customizer, REST, AJAX, feeds, and POST requests are not minified.
+- The headless homepage remains server-rendered and uses the small local enhancement script; no external React/ReactDOM CDN is added.
+- Added Appearance → 63.lv homepage content for safe admin-side text replacements while keeping the fast headless frontend.

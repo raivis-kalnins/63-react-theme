@@ -19,7 +19,7 @@ $sixtythree_home_markup = sixtythree_frontpage_output(ob_get_clean());
   data-sixtythree-headless="react"
   data-react-home-root="true"
   data-seo-source="server-rendered"
-  class="sixtythree-react-root"
+  class="sixtythree-react-root sixtythree-home"
 >
   <div class="sixtythree-react-home-app" data-react-enhance="true">
     <?php echo $sixtythree_home_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

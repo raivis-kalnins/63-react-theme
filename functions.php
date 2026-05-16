@@ -4,7 +4,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.6.7');
+define('SIXTYTHREE_THEME_VERSION', '1.7.8');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
@@ -52,14 +52,14 @@ function sixtythree_contact_phone() {
 function sixtythree_social_share_defaults() {
     return array(
         'title' => sixtythree_i18n(
-            'Vieta ģimenei, draugiem un svinībām',
-            'A place for family, friends and celebrations',
-            'Место для семьи, друзей и праздников'
+            '63.lv — pirts, telpu noma, web izstrāde un apmācības Rīgā',
+            '63.lv — sauna, room rental, web development and training in Riga',
+            '63.lv — сауна, аренда помещений, веб-разработка и обучение в Риге'
         ),
         'description' => sixtythree_i18n(
-            'Pirts piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.',
-            'Sauna offer for family, friends and small celebrations with price, duration, included services, calendar and quick booking.',
-            'Предложение сауны для семьи, друзей и небольших праздников с ценой, длительностью, включёнными услугами, календарём и быстрой заявкой.'
+            '63.lv Bauskas ielā 63, Rīgā: pirts ģimenei un draugiem, telpu noma, mācības, frizētava, solārijs un WordPress / React web izstrāde.',
+            '63.lv at Bauskas Street 63 in Riga: sauna for family and friends, room rental, training, hairdresser, solarium and WordPress / React web development.',
+            '63.lv на улице Баускас 63 в Риге: сауна для семьи и друзей, аренда помещений, обучение, парикмахерская, солярий и разработка WordPress / React.'
         ),
         'image' => 'https://63.lv/wp-content/uploads/2026/05/pirts-zone-clean-01-replacement.jpg',
         'url' => sixtythree_language_home_url(),
@@ -98,9 +98,9 @@ function sixtythree_pirts_blog_share_meta($blog_id = 0) {
     if ($blog_id < 1 || $blog_id > 3) { return null; }
 
     $fallback_images = array(
-        1 => 'assets/images/63lv/pirts-zone-clean-04.jpg',
-        2 => 'assets/images/63lv/pirts-zone-clean-05.jpg',
-        3 => 'assets/images/63lv/pirts-zone-clean-06.jpg',
+        1 => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        2 => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        3 => 'assets/images/63lv/pirts-zone-clean-06.avif',
     );
 
     $title = function_exists('sixtythree_homepage_text')
@@ -125,14 +125,90 @@ function sixtythree_pirts_blog_share_meta($blog_id = 0) {
     );
 }
 
+function sixtythree_singular_has_empty_content() {
+    if (!is_singular(array('post', 'page')) || is_front_page()) { return false; }
+    $post = get_post();
+    if (!$post || $post->post_status !== 'publish') { return false; }
+    $raw = (string) $post->post_content;
+    if (trim($raw) === '') { return true; }
+    $text = wp_strip_all_tags(strip_shortcodes($raw));
+    $text = html_entity_decode($text, ENT_QUOTES, get_bloginfo('charset'));
+    $text = preg_replace('/\s+/u', ' ', $text);
+    return trim($text) === '' && !has_post_thumbnail($post);
+}
+
+function sixtythree_language_url_for_current_object($lang) {
+    if (function_exists('pll_get_post') && is_singular()) {
+        $translated_id = pll_get_post(get_queried_object_id(), $lang);
+        if ($translated_id) {
+            return get_permalink($translated_id);
+        }
+    }
+    if ((is_front_page() || is_home()) && function_exists('pll_home_url')) {
+        $url = pll_home_url($lang);
+        if ($url) { return $url; }
+    }
+    if (is_singular()) { return get_permalink(); }
+    if (in_array($lang, array('en', 'ru'), true)) { return home_url('/' . $lang . '/'); }
+    return home_url('/');
+}
+
+function sixtythree_build_singular_seo_meta() {
+    if (!is_singular() || is_front_page()) { return null; }
+    $post = get_post();
+    if (!$post) { return null; }
+
+    $title = trim(wp_strip_all_tags(get_the_title($post)));
+    if ($title === '') { $title = sixtythree_social_share_defaults()['title']; }
+
+    $excerpt = trim(wp_strip_all_tags(get_the_excerpt($post)));
+    $content_text = trim(preg_replace('/\s+/u', ' ', wp_strip_all_tags(strip_shortcodes((string) $post->post_content))));
+    $description = $excerpt !== '' ? $excerpt : $content_text;
+    if ($description === '') { $description = sixtythree_social_share_defaults()['description']; }
+    $description = wp_trim_words($description, 28, '…');
+
+    $image = sixtythree_social_share_defaults()['image'];
+    if (has_post_thumbnail($post)) {
+        $thumb = get_the_post_thumbnail_url($post, 'full');
+        if ($thumb) { $image = $thumb; }
+    }
+
+    return array(
+        'title' => $title . ' | 63.lv',
+        'description' => $description,
+        'image' => $image,
+        'url' => get_permalink($post),
+        'type' => is_singular('post') ? 'article' : 'website',
+    );
+}
+
 function sixtythree_social_share_current_meta() {
+    $singular_meta = sixtythree_build_singular_seo_meta();
+    if (is_array($singular_meta)) { return $singular_meta; }
     $blog_meta = sixtythree_pirts_blog_share_meta();
     if (is_array($blog_meta)) { return $blog_meta; }
     return sixtythree_social_share_defaults();
 }
 
+
+function sixtythree_should_noindex_current_view() {
+    if (is_admin()) { return false; }
+    if (is_search() || is_404() || sixtythree_singular_has_empty_content()) { return true; }
+    if (is_archive()) { return true; }
+    if (is_paged() && !is_front_page()) { return true; }
+    return false;
+}
+
+function sixtythree_noindex_title() {
+    if (is_404()) {
+        return sixtythree_i18n('Lapa nav atrasta | 63.lv', 'Page not found | 63.lv', 'Страница не найдена | 63.lv');
+    }
+    return sixtythree_social_share_defaults()['title'];
+}
+
 function sixtythree_social_share_meta() {
     if (is_admin()) { return; }
+    if (sixtythree_should_noindex_current_view()) { return; }
     $defaults = sixtythree_social_share_current_meta();
     $title = $defaults['title'];
     $description = $defaults['description'];
@@ -142,56 +218,59 @@ function sixtythree_social_share_meta() {
     $locale_map = array('lv' => 'lv_LV', 'en' => 'en_US', 'ru' => 'ru_RU');
     $locale = $locale_map[sixtythree_current_lang()] ?? 'lv_LV';
 
-    echo "
-<!-- 63.lv social sharing -->
-";
-    echo '<meta name="description" content="' . esc_attr($description) . '">' . "
-";
-    echo '<meta property="og:locale" content="' . esc_attr($locale) . '">' . "
-";
-    echo '<meta property="og:type" content="' . esc_attr($type) . '">' . "
-";
-    echo '<meta property="og:site_name" content="63.lv">' . "
-";
-    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "
-";
-    echo '<meta property="og:description" content="' . esc_attr($description) . '">' . "
-";
-    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "
-";
-    echo '<meta property="og:image" content="' . esc_url($image) . '">' . "
-";
-    echo '<meta property="og:image:secure_url" content="' . esc_url($image) . '">' . "
-";
-    echo '<meta property="og:image:type" content="image/jpeg">' . "
-";
-    echo '<meta property="og:image:alt" content="' . esc_attr($title . ' - ' . $description) . '">' . "
-";
+    echo "\n<!-- 63.lv SEO and social sharing -->\n";
+    echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
+    echo '<meta property="og:locale" content="' . esc_attr($locale) . '">' . "\n";
+    echo '<meta property="og:type" content="' . esc_attr($type) . '">' . "\n";
+    echo '<meta property="og:site_name" content="63.lv">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr($description) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
+    echo '<meta property="og:image" content="' . esc_url($image) . '">' . "\n";
+    echo '<meta property="og:image:secure_url" content="' . esc_url($image) . '">' . "\n";
+    echo '<meta property="og:image:alt" content="' . esc_attr($title . ' - ' . $description) . '">' . "\n";
     if (($defaults['type'] ?? '') === 'article') {
-        echo '<meta property="article:section" content="Pirts blogs">' . "
-";
-        echo '<meta property="article:tag" content="Pirts">' . "
-";
-        echo '<meta property="article:tag" content="Bauskas 63">' . "
-";
+        echo '<meta property="article:section" content="Pirts blogs">' . "\n";
+        echo '<meta property="article:tag" content="Pirts">' . "\n";
+        echo '<meta property="article:tag" content="Bauskas 63">' . "\n";
     }
-    echo '<meta name="twitter:card" content="summary_large_image">' . "
-";
-    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "
-";
-    echo '<meta name="twitter:description" content="' . esc_attr($description) . '">' . "
-";
-    echo '<meta name="twitter:image" content="' . esc_url($image) . '">' . "
-";
-    echo '<meta name="twitter:image:alt" content="' . esc_attr($title . ' - ' . $description) . '">' . "
-";
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr($description) . '">' . "\n";
+    echo '<meta name="twitter:image" content="' . esc_url($image) . '">' . "\n";
+    echo '<meta name="twitter:image:alt" content="' . esc_attr($title . ' - ' . $description) . '">' . "\n";
 }
 add_action('wp_head', 'sixtythree_social_share_meta', 5);
 
+function sixtythree_canonical_hreflang_meta() {
+    if (is_admin()) { return; }
+    if (sixtythree_should_noindex_current_view()) { return; }
+
+    if (is_singular() && !is_front_page()) {
+        $canonical = get_permalink();
+    } elseif (is_front_page() || is_home()) {
+        $canonical = sixtythree_language_home_url();
+    } else {
+        $canonical = get_pagenum_link(max(1, get_query_var('paged')));
+    }
+
+    echo '<link rel="canonical" href="' . esc_url($canonical) . '">' . "\n";
+
+    $langs = array('lv' => 'lv-LV', 'en' => 'en', 'ru' => 'ru');
+    foreach ($langs as $slug => $hreflang) {
+        $url = sixtythree_language_url_for_current_object($slug);
+        echo '<link rel="alternate" hreflang="' . esc_attr($hreflang) . '" href="' . esc_url($url) . '">' . "\n";
+    }
+    echo '<link rel="alternate" hreflang="x-default" href="' . esc_url(sixtythree_language_url_for_current_object('lv')) . '">' . "\n";
+}
+add_action('wp_head', 'sixtythree_canonical_hreflang_meta', 4);
+
 function sixtythree_filter_document_title($title) {
     if (is_admin()) { return $title; }
-    if (is_front_page() || is_home()) {
-        return sixtythree_social_share_current_meta()['title'];
+    if (is_404()) { return sixtythree_noindex_title(); }
+    $meta = sixtythree_social_share_current_meta();
+    if (is_front_page() || is_home() || (is_singular() && !is_front_page())) {
+        return $meta['title'];
     }
     return $title;
 }
@@ -199,27 +278,48 @@ add_filter('pre_get_document_title', 'sixtythree_filter_document_title', 20);
 
 function sixtythree_filter_document_title_parts($parts) {
     if (is_admin()) { return $parts; }
-    if (is_front_page() || is_home()) {
-        $parts['title'] = sixtythree_social_share_current_meta()['title'];
-        if (isset($parts['tagline'])) {
-            $parts['tagline'] = '';
-        }
-        if (isset($parts['site'])) {
-            $parts['site'] = '63.lv';
-        }
+    if (is_404()) {
+        $parts['title'] = sixtythree_noindex_title();
+        if (isset($parts['tagline'])) { $parts['tagline'] = ''; }
+        if (isset($parts['site'])) { $parts['site'] = '63.lv'; }
+        return $parts;
+    }
+    $meta = sixtythree_social_share_current_meta();
+    if (is_front_page() || is_home() || (is_singular() && !is_front_page())) {
+        $parts['title'] = $meta['title'];
+        if (isset($parts['tagline'])) { $parts['tagline'] = ''; }
+        if (isset($parts['site'])) { $parts['site'] = '63.lv'; }
     }
     return $parts;
 }
 add_filter('document_title_parts', 'sixtythree_filter_document_title_parts', 20);
 
+function sixtythree_robots($robots) {
+    if (sixtythree_should_noindex_current_view()) {
+        unset($robots['index'], $robots['follow']);
+        $robots['noindex'] = true;
+        $robots['nofollow'] = true;
+        $robots['noarchive'] = true;
+    } else {
+        unset($robots['noindex'], $robots['nofollow'], $robots['noarchive']);
+        $robots['index'] = true;
+        $robots['follow'] = true;
+    }
+    $robots['max-image-preview'] = 'large';
+    $robots['max-snippet'] = '-1';
+    $robots['max-video-preview'] = '-1';
+    return $robots;
+}
+add_filter('wp_robots', 'sixtythree_robots', 99);
+
 function sixtythree_localbusiness_schema() {
-    if (is_admin()) { return; }
+    if (is_admin() || sixtythree_should_noindex_current_view()) { return; }
     $schema = array(
         '@context' => 'https://schema.org',
         '@type' => 'LocalBusiness',
         'name' => sixtythree_social_share_defaults()['title'],
         'url' => home_url('/'),
-        'logo' => get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.png',
+        'logo' => get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services-360.avif',
         'image' => sixtythree_social_share_defaults()['image'],
         'description' => sixtythree_social_share_defaults()['description'],
         'telephone' => sixtythree_contact_phone(),
@@ -242,18 +342,97 @@ function sixtythree_localbusiness_schema() {
 }
 add_action('wp_head', 'sixtythree_localbusiness_schema', 6);
 
-/** Keep homepage indexable even when older metadata/plugin output tries to add noindex. */
-function sixtythree_force_index_robots($robots) {
-    if (is_front_page() || is_home()) {
-        unset($robots['noindex'], $robots['nofollow']);
-        $robots['index'] = true;
-        $robots['follow'] = true;
-    }
-    return $robots;
+function sixtythree_text_override_languages() {
+    return array('lv' => 'Latviski', 'en' => 'English', 'ru' => 'Русский');
 }
-add_filter('wp_robots', 'sixtythree_force_index_robots', 99);
 
+function sixtythree_parse_text_override_lines($raw) {
+    $map = array();
+    $lines = preg_split('/\r\n|\r|\n/', (string) $raw);
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === '' || strpos($line, '|') === false) { continue; }
+        list($from, $to) = array_map('trim', explode('|', $line, 2));
+        if ($from === '' || $to === '') { continue; }
+        $map[$from] = $to;
+    }
+    return $map;
+}
 
+function sixtythree_apply_admin_text_overrides($html) {
+    if (!is_string($html) || $html === '') { return $html; }
+    $lang = function_exists('sixtythree_current_lang') ? sixtythree_current_lang() : 'lv';
+    $global = sixtythree_parse_text_override_lines(get_option('sixtythree_text_overrides_all', ''));
+    $localized = sixtythree_parse_text_override_lines(get_option('sixtythree_text_overrides_' . $lang, ''));
+    $map = array_merge($global, $localized);
+    if (empty($map)) { return $html; }
+
+    uksort($map, function($a, $b) { return mb_strlen($b) <=> mb_strlen($a); });
+    foreach ($map as $from => $to) {
+        $html = str_replace($from, $to, $html);
+    }
+    return $html;
+}
+
+function sixtythree_sanitize_text_override_option($value) {
+    $value = wp_unslash((string) $value);
+    $lines = preg_split('/\r\n|\r|\n/', $value);
+    $clean = array();
+    foreach ($lines as $line) {
+        $line = trim(wp_strip_all_tags($line));
+        if ($line !== '') { $clean[] = $line; }
+    }
+    return implode("\n", $clean);
+}
+
+function sixtythree_admin_content_page() {
+    if (!current_user_can('edit_theme_options')) { return; }
+    $saved = false;
+    if (isset($_POST['sixtythree_content_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['sixtythree_content_nonce'])), 'sixtythree_save_content_overrides')) {
+        update_option('sixtythree_text_overrides_all', sixtythree_sanitize_text_override_option($_POST['sixtythree_text_overrides_all'] ?? ''));
+        foreach (sixtythree_text_override_languages() as $code => $label) {
+            update_option('sixtythree_text_overrides_' . $code, sixtythree_sanitize_text_override_option($_POST['sixtythree_text_overrides_' . $code] ?? ''));
+        }
+        if (function_exists('sixtythree_cache_purge')) { sixtythree_cache_purge(); }
+        $saved = true;
+    }
+    ?>
+    <div class="wrap">
+      <h1>63.lv homepage content</h1>
+      <?php if ($saved) : ?><div class="notice notice-success is-dismissible"><p>Content overrides saved and cache cleared.</p></div><?php endif; ?>
+      <p>Use this page for safe frontend text edits without touching the fast headless homepage code. Add one replacement per line using this format:</p>
+      <p><code>Original text|New text</code></p>
+      <p>For structured pirts/gallery/blog fields and images, use <a href="<?php echo esc_url(admin_url('customize.php?autofocus[panel]=sixtythree_homepage_panel')); ?>">Appearance → Customize → 63.lv Homepage</a>.</p>
+      <form method="post">
+        <?php wp_nonce_field('sixtythree_save_content_overrides', 'sixtythree_content_nonce'); ?>
+        <h2>Global replacements</h2>
+        <textarea name="sixtythree_text_overrides_all" rows="8" class="large-text code"><?php echo esc_textarea(get_option('sixtythree_text_overrides_all', '')); ?></textarea>
+        <?php foreach (sixtythree_text_override_languages() as $code => $label) : ?>
+          <h2><?php echo esc_html($label); ?> replacements</h2>
+          <textarea name="sixtythree_text_overrides_<?php echo esc_attr($code); ?>" rows="10" class="large-text code"><?php echo esc_textarea(get_option('sixtythree_text_overrides_' . $code, '')); ?></textarea>
+        <?php endforeach; ?>
+        <?php submit_button('Save homepage content'); ?>
+      </form>
+    </div>
+    <?php
+}
+
+function sixtythree_register_admin_content_page() {
+    add_theme_page('63.lv homepage content', '63.lv homepage content', 'edit_theme_options', 'sixtythree-homepage-content', 'sixtythree_admin_content_page');
+}
+add_action('admin_menu', 'sixtythree_register_admin_content_page');
+
+function sixtythree_admin_bar_content_link($wp_admin_bar) {
+    if (!current_user_can('edit_theme_options') || is_admin()) { return; }
+    $wp_admin_bar->add_node(array(
+        'id' => 'sixtythree-homepage-content',
+        'title' => 'Edit 63.lv content',
+        'href' => admin_url('themes.php?page=sixtythree-homepage-content'),
+    ));
+}
+add_action('admin_bar_menu', 'sixtythree_admin_bar_content_link', 80);
+
+/** Keep homepage indexable even when older metadata/plugin output tries to add noindex. */
 function sixtythree_minify_front_html($html) {
     if (is_admin() || is_feed() || is_customize_preview()) { return $html; }
     $placeholders = array();
@@ -272,8 +451,25 @@ function sixtythree_minify_front_html($html) {
     return $html;
 }
 
+function sixtythree_should_minify_front_html() {
+    if (is_admin() || is_feed() || is_customize_preview()) { return false; }
+    if (defined('REST_REQUEST') && REST_REQUEST) { return false; }
+    if (function_exists('wp_doing_ajax') && wp_doing_ajax()) { return false; }
+    if (function_exists('wp_is_json_request') && wp_is_json_request()) { return false; }
+    $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper((string) $_SERVER['REQUEST_METHOD']) : 'GET';
+    if ($method !== 'GET') { return false; }
+    return true;
+}
+
+function sixtythree_start_safe_html_minifier() {
+    if (!sixtythree_should_minify_front_html()) { return; }
+    ob_start('sixtythree_minify_front_html');
+}
+add_action('template_redirect', 'sixtythree_start_safe_html_minifier', 1);
+
 function sixtythree_frontpage_output($html) {
-    return sixtythree_translate_front_html($html);
+    $html = sixtythree_translate_front_html($html);
+    return sixtythree_minify_front_html($html);
 }
 
 
@@ -281,53 +477,64 @@ function sixtythree_frontpage_output($html) {
 
 function sixtythree_facebook_footer_item() {
     $url = 'https://www.facebook.com/profile.php?id=100068508997510';
+    $label = sixtythree_i18n('Seko mums', 'Follow us', 'Следите за нами');
     ob_start();
     ?>
-    <a class="footer-item footer-social-facebook footer-social-icon-only" href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener" aria-label="Facebook 63.lv">
+    <a class="footer-item footer-social-facebook footer-social-icon-only" href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr($label); ?> Facebook">
       <span class="footer-icon footer-icon-facebook" aria-hidden="true"><svg class="gold-svg-icon" viewBox="0 0 24 24"><path d="M14.25 8.25V6.7c0-.74.5-.91.85-.91h2.17V2.08L14.28 2C10.97 2 10.21 4.48 10.21 6.06v2.19H7.5V12h2.71v10h4.04V12h2.98l.39-3.75h-3.37Z"/></svg></span>
+      <div class="footer-social-text"><b><?php echo esc_html($label); ?></b></div>
     </a>
     <?php
     return ob_get_clean();
 }
 
+
+function sixtythree_is_headless_home() {
+    return !is_admin() && (is_front_page() || (is_home() && !get_option('page_for_posts') && !is_paged()));
+}
+
 function sixtythree_scripts() {
     $ver = SIXTYTHREE_THEME_VERSION;
-    $css_file = get_template_directory() . '/assets/css/63lv-theme.css';
-    $js_file  = get_template_directory() . '/assets/js/63lv-theme.js';
+    $css_file = get_template_directory() . ((defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '/assets/css/63lv-theme.css' : '/assets/css/63lv-theme.min.css');
+    if (!file_exists($css_file)) { $css_file = get_template_directory() . '/assets/css/63lv-theme.css'; }
+    $js_file  = get_template_directory() . ((defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '/assets/js/63lv-theme.js' : '/assets/js/63lv-theme.min.js');
+    if (!file_exists($js_file)) { $js_file = get_template_directory() . '/assets/js/63lv-theme.js'; }
     $css_ver = file_exists($css_file) ? filemtime($css_file) : $ver;
     $js_ver  = file_exists($js_file) ? filemtime($js_file) : $ver;
-    $css_asset = '/assets/css/63lv-theme.css';
-    $js_asset = '/assets/js/63lv-theme.js';
+    $css_asset = (basename($css_file) === '63lv-theme.min.css') ? '/assets/css/63lv-theme.min.css' : '/assets/css/63lv-theme.css';
+    $js_asset = (basename($js_file) === '63lv-theme.min.js') ? '/assets/js/63lv-theme.min.js' : '/assets/js/63lv-theme.js';
 
-    wp_enqueue_style('sixtythree-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap', array(), null);
-    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css', array(), '5.3.3');
-    wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.1.14');
-    wp_enqueue_style('sixtythree-theme', get_template_directory_uri() . $css_asset, array('sixtythree-fonts','bootstrap','swiper'), $css_ver);
+    $is_headless_home = sixtythree_is_headless_home();
+    $theme_style_deps = array();
+    if (!$is_headless_home) {
+        wp_enqueue_style('sixtythree-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap', array(), null);
+        wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css', array(), '5.3.3');
+        $theme_style_deps = array('sixtythree-fonts', 'bootstrap');
+    }
+    wp_enqueue_style('sixtythree-theme', get_template_directory_uri() . $css_asset, $theme_style_deps, $css_ver);
 
     $wpbb_compat_css = get_template_directory() . '/assets/css/wpbb-compat.css';
     if (file_exists($wpbb_compat_css)) {
         wp_enqueue_style('sixtythree-wpbb-compat-style', get_template_directory_uri() . '/assets/css/wpbb-compat.css', array('sixtythree-theme'), filemtime($wpbb_compat_css));
     }
 
-    wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.1.14', true);
-
-    $theme_script_deps = array('swiper');
-    if (is_front_page() || (is_home() && !get_option('page_for_posts') && !is_paged())) {
+    $theme_script_deps = array();
+    if ($is_headless_home) {
         $react_home_file = get_template_directory() . '/assets/js/63lv-react-home.min.js';
         $react_home_ver = file_exists($react_home_file) ? filemtime($react_home_file) : $ver;
-        wp_enqueue_script('sixtythree-react', 'https://unpkg.com/react@18/umd/react.production.min.js', array(), '18.2.0', true);
-        wp_enqueue_script('sixtythree-react-dom', 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', array('sixtythree-react'), '18.2.0', true);
-        wp_enqueue_script('sixtythree-react-home', get_template_directory_uri() . '/assets/js/63lv-react-home.min.js', array('sixtythree-react', 'sixtythree-react-dom'), $react_home_ver, true);
-        // Important: the legacy UI script binds click/input listeners to real DOM nodes.
-        // React enhances the server-rendered SEO HTML without replacing it, then bind the
-        // Ajax search, mobile menu, galleries/lightboxes and booking JS after that.
+        // The homepage is server-rendered for SEO. This small local enhancement script
+        // replaces the previous React/ReactDOM CDN chain, removing ~40 KB of unused JS
+        // and avoiding unpkg as a third-party request on the critical path.
+        wp_enqueue_script('sixtythree-react-home', get_template_directory_uri() . '/assets/js/63lv-react-home.min.js', array(), $react_home_ver, true);
         $theme_script_deps[] = 'sixtythree-react-home';
     }
     wp_enqueue_script('sixtythree-theme', get_template_directory_uri() . $js_asset, $theme_script_deps, $js_ver, true);
 
-    $wpbb_compat_file = get_template_directory() . '/assets/js/wpbb-compat.js';
+    $wpbb_compat_asset = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '/assets/js/wpbb-compat.js' : '/assets/js/wpbb-compat.min.js';
+    $wpbb_compat_file = get_template_directory() . $wpbb_compat_asset;
+    if (!file_exists($wpbb_compat_file)) { $wpbb_compat_file = get_template_directory() . '/assets/js/wpbb-compat.js'; $wpbb_compat_asset = '/assets/js/wpbb-compat.js'; }
     $wpbb_compat_ver = file_exists($wpbb_compat_file) ? filemtime($wpbb_compat_file) : $ver;
-    wp_enqueue_script('sixtythree-wpbb-compat', get_template_directory_uri() . '/assets/js/wpbb-compat.js', array('sixtythree-theme'), $wpbb_compat_ver, true);
+    wp_enqueue_script('sixtythree-wpbb-compat', get_template_directory_uri() . $wpbb_compat_asset, array('sixtythree-theme'), $wpbb_compat_ver, true);
     wp_localize_script('sixtythree-wpbb-compat', 'sixtythreeWpbbCompat', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('wpbb_form_nonce'),
@@ -358,6 +565,99 @@ function sixtythree_scripts() {
     ));
 }
 add_action('wp_enqueue_scripts', 'sixtythree_scripts');
+
+/** Frontend performance hints for PageSpeed: preconnect CDNs/fonts and preload critical logo/hero assets. */
+function sixtythree_resource_hints($urls, $relation_type) {
+    if ($relation_type === 'preconnect') {
+        if (!sixtythree_is_headless_home()) {
+            $urls[] = array('href' => 'https://fonts.googleapis.com', 'crossorigin' => 'anonymous');
+            $urls[] = array('href' => 'https://fonts.gstatic.com', 'crossorigin' => 'anonymous');
+        }
+    }
+    return $urls;
+}
+add_filter('wp_resource_hints', 'sixtythree_resource_hints', 10, 2);
+
+function sixtythree_preload_critical_assets() {
+    if (is_admin()) { return; }
+    $base = get_template_directory_uri();
+    echo '<link rel="preload" as="image" href="' . esc_url($base . '/assets/images/63lv/63lv-logo-services-360.avif') . '" type="image/avif" fetchpriority="high">' . "\n";
+    if (sixtythree_is_headless_home()) {
+        echo '<link rel="preload" as="image" href="' . esc_url($base . '/assets/images/63lv/pirts-ballitem-sauna.avif') . '" fetchpriority="high">' . "\n";
+    }
+}
+add_action('wp_head', 'sixtythree_preload_critical_assets', 1);
+
+function sixtythree_defer_frontend_scripts($tag, $handle, $src) {
+    if (is_admin()) { return $tag; }
+    $defer = array('sixtythree-react-home','sixtythree-theme','sixtythree-wpbb-compat');
+    if (in_array($handle, $defer, true) && strpos($tag, ' defer') === false) {
+        return str_replace(' src=', ' defer src=', $tag);
+    }
+    return $tag;
+}
+add_filter('script_loader_tag', 'sixtythree_defer_frontend_scripts', 10, 3);
+
+
+/**
+ * Keep third-party widgets and non-critical assets out of the first paint.
+ * hCaptcha is loaded by wpbb-compat.js only after real form interaction. This
+ * also catches plugin-enqueued hCaptcha handles so PageSpeed does not see the
+ * heavy API, iframe and hsw.js chain during initial load.
+ */
+function sixtythree_remove_eager_hcaptcha_assets() {
+    // Keep hCaptcha functional by default. The previous aggressive dequeue/strip
+    // could remove the API script on sites where the form plugin owns rendering.
+    // Lazy loading is handled safely in assets/js/wpbb-compat.js instead.
+    if (!apply_filters('sixtythree_dequeue_eager_hcaptcha_assets', false)) { return; }
+    if (is_admin()) { return; }
+    global $wp_scripts;
+    if (!$wp_scripts || empty($wp_scripts->registered)) { return; }
+    foreach ($wp_scripts->registered as $handle => $script) {
+        $src = isset($script->src) ? (string) $script->src : '';
+        $haystack = strtolower($handle . ' ' . $src);
+        if (strpos($haystack, 'hcaptcha') !== false || strpos($haystack, 'h-captcha') !== false || strpos($src, 'js.hcaptcha.com/1/api.js') !== false) {
+            wp_dequeue_script($handle);
+            wp_deregister_script($handle);
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'sixtythree_remove_eager_hcaptcha_assets', 9999);
+add_action('wp_print_scripts', 'sixtythree_remove_eager_hcaptcha_assets', 0);
+
+function sixtythree_strip_eager_hcaptcha_script_tag($tag, $handle, $src) {
+    // Disabled by default for reliability. Enable only if a child theme/plugin
+    // explicitly opts in using the sixtythree_dequeue_eager_hcaptcha_assets filter.
+    if (!apply_filters('sixtythree_dequeue_eager_hcaptcha_assets', false)) { return $tag; }
+    if (is_admin()) { return $tag; }
+    $haystack = strtolower((string) $handle . ' ' . (string) $src . ' ' . (string) $tag);
+    if (strpos($haystack, 'hcaptcha') !== false || strpos($haystack, 'h-captcha') !== false || strpos((string) $src, 'js.hcaptcha.com/1/api.js') !== false) {
+        return '';
+    }
+    return $tag;
+}
+add_filter('script_loader_tag', 'sixtythree_strip_eager_hcaptcha_script_tag', 1, 3);
+
+function sixtythree_async_noncritical_styles($html, $handle, $href, $media) {
+    if (is_admin()) { return $html; }
+    $async = array('bootstrap', 'sixtythree-wpbb-compat-style');
+    if (!in_array($handle, $async, true)) { return $html; }
+    $href = esc_url($href);
+    return '<link rel="preload" href="' . $href . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n" .
+           '<noscript><link rel="stylesheet" href="' . $href . '"></noscript>' . "\n";
+}
+add_filter('style_loader_tag', 'sixtythree_async_noncritical_styles', 10, 4);
+
+function sixtythree_static_asset_cache_headers() {
+    if (is_admin() || headers_sent()) { return; }
+    $uri = isset($_SERVER['REQUEST_URI']) ? (string) $_SERVER['REQUEST_URI'] : '';
+    if (preg_match('#/wp-content/themes/63-react-theme/assets/.+\.(?:css|js|mjs|png|jpe?g|gif|webp|avif|svg|ico|woff2?)($|\?)#i', $uri)) {
+        header('Cache-Control: public, max-age=31536000, immutable');
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + YEAR_IN_SECONDS) . ' GMT');
+    }
+}
+add_action('send_headers', 'sixtythree_static_asset_cache_headers', 0);
+
 
 /**
  * Remove broken WP BBuilder asset URLs when the plugin points to missing files.
@@ -477,6 +777,23 @@ function sixtythree_page_cache_start() {
 }
 add_action('template_redirect', 'sixtythree_page_cache_start', 0);
 
+
+
+function sixtythree_minify_cached_html($html) {
+    if (!is_string($html) || $html === '') { return $html; }
+    // Preserve script/style/textarea/pre blocks.
+    $placeholders = array();
+    $html = preg_replace_callback('#<(script|style|textarea|pre)\b[^>]*>.*?</\1>#is', function($m) use (&$placeholders) {
+        $key = '%%SIXTYTHREE_HTML_BLOCK_' . count($placeholders) . '%%';
+        $placeholders[$key] = $m[0];
+        return $key;
+    }, $html);
+    $html = preg_replace('/<!--(?!\[if).*?-->/s', '', $html);
+    $html = preg_replace('/>\s+</', '><', $html);
+    $html = preg_replace('/\s{2,}/', ' ', $html);
+    foreach ($placeholders as $key => $block) { $html = str_replace($key, $block, $html); }
+    return trim($html);
+}
 function sixtythree_page_cache_store($html) {
     if (!sixtythree_cache_can_cache_request()) { return $html; }
     if (!is_string($html) || stripos($html, '<html') === false) { return $html; }
@@ -484,8 +801,9 @@ function sixtythree_page_cache_store($html) {
     $dir = sixtythree_cache_dir();
     if (!is_dir($dir)) { wp_mkdir_p($dir); }
     if (is_dir($dir) && is_writable($dir)) {
+        $html_to_store = sixtythree_minify_cached_html($html);
         $tmp = sixtythree_cache_file() . '.tmp';
-        file_put_contents($tmp, $html, LOCK_EX);
+        file_put_contents($tmp, $html_to_store, LOCK_EX);
         @rename($tmp, sixtythree_cache_file());
     }
     return $html;
@@ -504,6 +822,14 @@ add_action('save_post', 'sixtythree_cache_purge');
 add_action('deleted_post', 'sixtythree_cache_purge');
 add_action('switch_theme', 'sixtythree_cache_purge');
 add_action('customize_save_after', 'sixtythree_cache_purge');
+
+function sixtythree_cache_purge_on_theme_version_change() {
+    $stored = (string) get_option('sixtythree_cache_theme_version', '');
+    if ($stored === SIXTYTHREE_THEME_VERSION) { return; }
+    sixtythree_cache_purge();
+    update_option('sixtythree_cache_theme_version', SIXTYTHREE_THEME_VERSION, false);
+}
+add_action('init', 'sixtythree_cache_purge_on_theme_version_change', 2);
 
 function sixtythree_cache_admin_menu() {
     add_theme_page('63.lv Cache', '63.lv Cache', 'manage_options', 'sixtythree-cache', 'sixtythree_cache_admin_page');
@@ -1183,7 +1509,7 @@ function sixtythree_front_translation_map() {
 
 function sixtythree_translate_front_html($html) {
     $lang = sixtythree_current_lang();
-    if ($lang === 'lv') { return $html; }
+    if ($lang === 'lv') { return sixtythree_apply_admin_text_overrides($html); }
 
     $map = sixtythree_front_translation_map();
 
@@ -1227,7 +1553,7 @@ function sixtythree_translate_front_html($html) {
     foreach ($map[$lang] as $from => $to) {
         $html = str_replace($from, $to, $html);
     }
-    return $html;
+    return sixtythree_apply_admin_text_overrides($html);
 }
 
 
@@ -1904,11 +2230,10 @@ function sixtythree_filter_hcaptcha_plugin_api_src($src) {
 add_filter('hcap_api_src', 'sixtythree_filter_hcaptcha_plugin_api_src', 20);
 
 function sixtythree_enqueue_hcaptcha_api() {
-    if (!sixtythree_hcaptcha_enabled()) { return; }
-    if (wp_script_is('hcaptcha-api', 'enqueued')) { return; }
-    wp_enqueue_script('hcaptcha-api', sixtythree_hcaptcha_api_url(), array(), null, true);
+    // hCaptcha is loaded lazily by assets/js/wpbb-compat.js when the contact form is near the viewport.
+    // This keeps the external API script out of the initial critical request chain.
+    return;
 }
-add_action('wp_enqueue_scripts', 'sixtythree_enqueue_hcaptcha_api', 30);
 
 function sixtythree_hcaptcha_markup() {
     if (!sixtythree_hcaptcha_enabled()) { return ''; }
@@ -1952,7 +2277,7 @@ function sixtythree_add_hcaptcha_to_form_html($html) {
  * These avoid unsupported custom block warnings while preserving front-end functionality.
  */
 function sixtythree_shortcode_contact_form($atts = array()) {
-    sixtythree_enqueue_hcaptcha_api();
+    // hCaptcha is lazy-loaded client-side when needed.
     $custom_shortcode = trim((string) get_theme_mod('sixtythree_contact_form_shortcode', ''));
     if ($custom_shortcode !== '' && stripos($custom_shortcode, 'sixtythree_contact_form') === false) {
         return sixtythree_add_hcaptcha_to_form_html(do_shortcode($custom_shortcode));
@@ -2342,15 +2667,61 @@ function sixtythree_homepage_defaults() {
 function sixtythree_homepage_image_defaults() {
     return array(
         'pirts_gallery_image_1' => 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg',
-        'pirts_gallery_image_2' => 'assets/images/63lv/pirts-zone-clean-02.jpg',
-        'pirts_gallery_image_3' => 'assets/images/63lv/pirts-zone-clean-03.jpg',
-        'pirts_gallery_image_4' => 'assets/images/63lv/pirts-zone-clean-04.jpg',
-        'pirts_gallery_image_5' => 'assets/images/63lv/pirts-zone-clean-05.jpg',
-        'pirts_gallery_image_6' => 'assets/images/63lv/pirts-zone-clean-06.jpg',
-        'pirts_blog_image_1' => 'assets/images/63lv/pirts-zone-clean-04.jpg',
-        'pirts_blog_image_2' => 'assets/images/63lv/pirts-zone-clean-05.jpg',
-        'pirts_blog_image_3' => 'assets/images/63lv/pirts-zone-clean-06.jpg',
+        'pirts_gallery_image_2' => 'assets/images/63lv/pirts-zone-clean-02.avif',
+        'pirts_gallery_image_3' => 'assets/images/63lv/pirts-zone-clean-03.avif',
+        'pirts_gallery_image_4' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'pirts_gallery_image_5' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'pirts_gallery_image_6' => 'assets/images/63lv/pirts-zone-clean-06.avif',
+        'pirts_blog_image_1' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'pirts_blog_image_2' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'pirts_blog_image_3' => 'assets/images/63lv/pirts-zone-clean-06.avif',
     );
+}
+
+function sixtythree_theme_asset_uri($relative_path, $prefer_avif = false) {
+    $relative_path = ltrim((string) $relative_path, '/');
+    if ($relative_path === '') { return ''; }
+
+    $target = $relative_path;
+    if ($prefer_avif && preg_match('/\.(?:jpe?g|png|webp)$/i', $relative_path)) {
+        $candidate = preg_replace('/\.(?:jpe?g|png|webp)$/i', '.avif', $relative_path);
+        if ($candidate && file_exists(get_template_directory() . '/' . $candidate)) {
+            $target = $candidate;
+        }
+    }
+
+    return get_template_directory_uri() . '/' . $target;
+}
+
+function sixtythree_rewrite_uploaded_theme_image_url($url) {
+    if (!is_string($url) || $url === '') { return $url; }
+
+    $map = array(
+        'pirts-zone-clean-02.jpg' => 'assets/images/63lv/pirts-zone-clean-02.avif',
+        'pirts-zone-clean-03.jpg' => 'assets/images/63lv/pirts-zone-clean-03.avif',
+        'pirts-zone-clean-04.jpg' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'pirts-zone-clean-05.jpg' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'pirts-zone-clean-06.jpg' => 'assets/images/63lv/pirts-zone-clean-06.avif',
+        'pirts-gallery-02.jpg' => 'assets/images/63lv/pirts-gallery-02.avif',
+        'pirts-gallery-03.jpg' => 'assets/images/63lv/pirts-gallery-03.avif',
+        'pirts-gallery-04.jpg' => 'assets/images/63lv/pirts-gallery-04.avif',
+        'pirts-gallery-05.jpg' => 'assets/images/63lv/pirts-gallery-05.avif',
+        'pirts-gallery-06.jpg' => 'assets/images/63lv/pirts-gallery-06.avif',
+        'pirts-gallery-08.jpg' => 'assets/images/63lv/pirts-gallery-08.avif',
+        'pirts-gallery-09.jpg' => 'assets/images/63lv/pirts-gallery-09.avif',
+    );
+
+    $path = wp_parse_url($url, PHP_URL_PATH);
+    $basename = $path ? basename($path) : basename($url);
+    $normalized = preg_replace('/-\d+x\d+(\.[a-z0-9]+)$/i', '$1', $basename);
+    if (isset($map[$basename])) {
+        return sixtythree_theme_asset_uri($map[$basename], false);
+    }
+    if ($normalized && isset($map[$normalized])) {
+        return sixtythree_theme_asset_uri($map[$normalized], false);
+    }
+
+    return $url;
 }
 
 function sixtythree_homepage_text($key, $fallback = '') {
@@ -2364,11 +2735,15 @@ function sixtythree_homepage_media_url($key, $fallback_rel = '') {
     $fallback_rel = $fallback_rel !== '' ? $fallback_rel : ($defaults[$key] ?? '');
     $mod = get_theme_mod('sixtythree_' . $key, 0);
     if (is_numeric($mod) && (int) $mod > 0) {
+        $theme_asset = (string) get_post_meta((int) $mod, '_sixtythree_theme_asset', true);
+        if ($theme_asset) {
+            return sixtythree_theme_asset_uri($theme_asset, true);
+        }
         $url = wp_get_attachment_image_url((int) $mod, 'full');
-        if ($url) { return $url; }
+        if ($url) { return sixtythree_rewrite_uploaded_theme_image_url($url); }
     }
-    if (is_string($mod) && preg_match('#^https?://#i', $mod)) { return $mod; }
-    return get_template_directory_uri() . '/' . ltrim($fallback_rel, '/');
+    if (is_string($mod) && preg_match('#^https?://#i', $mod)) { return sixtythree_rewrite_uploaded_theme_image_url($mod); }
+    return sixtythree_theme_asset_uri($fallback_rel, true);
 }
 
 function sixtythree_import_theme_image_to_media($relative_path) {
@@ -2554,16 +2929,16 @@ add_action('customize_register', 'sixtythree_register_homepage_customizer');
 function sixtythree_migrate_pirts_gallery_without_shower() {
     $replacement_paths = array(
         'sixtythree_pirts_gallery_image_1' => 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg',
-        'sixtythree_pirts_gallery_image_2' => 'assets/images/63lv/pirts-zone-clean-02.jpg',
-        'sixtythree_pirts_gallery_image_3' => 'assets/images/63lv/pirts-zone-clean-03.jpg',
-        'sixtythree_pirts_gallery_image_4' => 'assets/images/63lv/pirts-zone-clean-04.jpg',
-        'sixtythree_pirts_gallery_image_5' => 'assets/images/63lv/pirts-zone-clean-05.jpg',
-        'sixtythree_pirts_gallery_image_6' => 'assets/images/63lv/pirts-zone-clean-06.jpg',
+        'sixtythree_pirts_gallery_image_2' => 'assets/images/63lv/pirts-zone-clean-02.avif',
+        'sixtythree_pirts_gallery_image_3' => 'assets/images/63lv/pirts-zone-clean-03.avif',
+        'sixtythree_pirts_gallery_image_4' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'sixtythree_pirts_gallery_image_5' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'sixtythree_pirts_gallery_image_6' => 'assets/images/63lv/pirts-zone-clean-06.avif',
     );
     foreach ($replacement_paths as $mod_key => $path) {
         $current = (int) get_theme_mod($mod_key, 0);
         $asset = $current ? get_post_meta($current, '_sixtythree_theme_asset', true) : '';
-        if (!$current || $asset === 'assets/images/63lv/pirts-zone-clean-01.jpg' || $asset === 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg' || $mod_key === 'sixtythree_pirts_gallery_image_1') {
+        if (!$current || $asset === 'assets/images/63lv/pirts-zone-clean-01.jpg' || $asset === 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg' || preg_match('#assets/images/63lv/pirts-zone-clean-0[2-6]\.(?:jpe?g|avif)$#', $asset) || $mod_key === 'sixtythree_pirts_gallery_image_1') {
             $new_id = sixtythree_import_theme_image_to_media($path);
             if ($new_id) { set_theme_mod($mod_key, $new_id); }
         }
@@ -2612,6 +2987,38 @@ function sixtythree_upgrade_v12_assets() {
 add_action('after_switch_theme', 'sixtythree_upgrade_v12_assets', 40);
 add_action('admin_init', 'sixtythree_upgrade_v12_assets');
 
+function sixtythree_upgrade_v176_avif_assets() {
+    $stored = get_option('sixtythree_theme_migration_version_avif', '0');
+    if (version_compare((string) $stored, '1.7.6', '>=')) {
+        return;
+    }
+
+    $asset_map = array(
+        'sixtythree_pirts_gallery_image_2' => 'assets/images/63lv/pirts-zone-clean-02.avif',
+        'sixtythree_pirts_gallery_image_3' => 'assets/images/63lv/pirts-zone-clean-03.avif',
+        'sixtythree_pirts_gallery_image_4' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'sixtythree_pirts_gallery_image_5' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'sixtythree_pirts_gallery_image_6' => 'assets/images/63lv/pirts-zone-clean-06.avif',
+        'sixtythree_pirts_blog_image_1' => 'assets/images/63lv/pirts-zone-clean-04.avif',
+        'sixtythree_pirts_blog_image_2' => 'assets/images/63lv/pirts-zone-clean-05.avif',
+        'sixtythree_pirts_blog_image_3' => 'assets/images/63lv/pirts-zone-clean-06.avif',
+    );
+
+    foreach ($asset_map as $mod_key => $relative_path) {
+        $current = (int) get_theme_mod($mod_key, 0);
+        $asset = $current ? (string) get_post_meta($current, '_sixtythree_theme_asset', true) : '';
+        if (!$current || !$asset || preg_match('#assets/images/63lv/pirts-zone-clean-0[2-6]\.(?:jpe?g|avif)$#', $asset)) {
+            $new_id = sixtythree_import_theme_image_to_media($relative_path);
+            if ($new_id) {
+                set_theme_mod($mod_key, $new_id);
+            }
+        }
+    }
+
+    update_option('sixtythree_theme_migration_version_avif', '1.7.6');
+}
+add_action('after_switch_theme', 'sixtythree_upgrade_v176_avif_assets', 50);
+add_action('admin_init', 'sixtythree_upgrade_v176_avif_assets');
 
 
 /**

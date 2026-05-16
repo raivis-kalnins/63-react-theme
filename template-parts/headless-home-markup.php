@@ -2,8 +2,9 @@
     <div class="header-inner">
       <a class="brand brand-image" href="<?php echo esc_url(home_url('/')); ?>">
       <picture class="brand-logo-picture">
-        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.webp'); ?>" type="image/webp">
-        <img class="brand-logo-img" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.png'); ?>" alt="<?php echo esc_attr(get_bloginfo('name') ?: '63.lv Services'); ?>">
+        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services-360.avif'); ?>" type="image/avif">
+        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services-360.webp'); ?>" type="image/webp">
+        <img class="brand-logo-img" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/63lv-logo-services.png'); ?>" width="360" height="128" loading="eager" decoding="async" fetchpriority="high" alt="<?php echo esc_attr(get_bloginfo('name') ?: '63.lv Services'); ?>">
       </picture>
     </a>
 
@@ -81,10 +82,10 @@
         </div>
       </div>
       <div class="hero-panels">
-        <div class="panel"><div class="icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></div><h3>Lieliska vieta</h3><p>Bauskas iela 63, Rīga — ērta piekļuve no ielas un pagalma puses.</p></div>
-        <div class="panel"><div class="icon">⚿</div><h3>Elastīgi risinājumi</h3><p>Privātpersonām, uzņēmumiem, telpu nomai, kursiem un ikdienas pakalpojumiem.</p></div>
-        <div class="panel"><div class="icon">☷</div><h3>Pieredze kopš 2003</h3><p>Uzticams lokāls centrs ar plašu pakalpojumu klāstu vienā adresē.</p></div>
-        <div class="panel"><div class="icon">♡</div><h3>Personiska pieeja</h3><p>Palīdzam piemeklēt atbilstošāko risinājumu jūsu vajadzībām un idejām.</p></div>
+        <div class="panel"><div class="icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></div><h2 class="panel-title">Lieliska vieta</h2><p>Bauskas iela 63, Rīga — ērta piekļuve no ielas un pagalma puses.</p></div>
+        <div class="panel"><div class="icon">⚿</div><h2 class="panel-title">Elastīgi risinājumi</h2><p>Privātpersonām, uzņēmumiem, telpu nomai, kursiem un ikdienas pakalpojumiem.</p></div>
+        <div class="panel"><div class="icon">☷</div><h2 class="panel-title">Pieredze kopš 2003</h2><p>Uzticams lokāls centrs ar plašu pakalpojumu klāstu vienā adresē.</p></div>
+        <div class="panel"><div class="icon">♡</div><h2 class="panel-title">Personiska pieeja</h2><p>Palīdzam piemeklēt atbilstošāko risinājumu jūsu vajadzībām un idejām.</p></div>
       </div>
     </section>
 
@@ -127,10 +128,10 @@
           </div>
         </article>
         <div class="slider-controls">
-          <button class="dot active" type="button"></button>
-          <button class="dot" type="button"></button>
-          <button class="dot" type="button"></button>
-          <button class="dot" type="button"></button>
+          <button class="dot active" type="button" aria-label="Rādīt 1. slaidu"></button>
+          <button class="dot" type="button" aria-label="Rādīt 2. slaidu"></button>
+          <button class="dot" type="button" aria-label="Rādīt 3. slaidu"></button>
+          <button class="dot" type="button" aria-label="Rādīt 4. slaidu"></button>
         </div>
       </section>
     </div>
@@ -145,10 +146,10 @@
       </div>
 
       <div class="services">
-        <article class="service-card"><h3>Pirts ballītēm</h3><ul><li>Ģimenēm un draugiem</li><li>Līdz ~15 personām</li><li>Darba dienās no 16:00</li><li>€84 vai €14/h</li></ul><a href="#">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>Pirts ballītēm</h3><ul><li>Ģimenēm un draugiem</li><li>Līdz ~15 personām</li><li>Darba dienās no 16:00</li><li>€84 vai €14/h</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
         <article class="service-card"><h3>Web izstrāde un uzturēšana</h3><ul><li>Business Startup no €550</li><li>WordPress & WooCommerce</li><li>SEO, hostings, optimizācija</li><li>Headless ReactJS risinājumi</li></ul><a href="#web">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>E-apmācības un kursi</h3><ul><li>Individuāli €15/h</li><li>Grupas 3–5 pers. €50/h</li><li>Zoom & Skype</li><li>Biroja darbi, kopēšana, printēšana</li></ul><a href="#">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Vertikālais solārijs</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>E-apmācības un kursi</h3><ul><li>Individuāli €15/h</li><li>Grupas 3–5 pers. €50/h</li><li>Zoom & Skype</li><li>Biroja darbi, kopēšana, printēšana</li></ul><a href="#learning">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Vertikālais solārijs</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
       </div>
 
     </section>
@@ -264,7 +265,7 @@
                 <div class="kicker"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_kicker')); ?></div>
                 <h4><?php echo esc_html(sixtythree_homepage_text('pirts_blog_heading')); ?></h4>
               </div>
-              <a class="btn btn-outline" href="#"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
+              <a class="btn btn-outline" href="#cta"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
             </div>
             <div class="blog-grid">
               <?php for ($i = 1; $i <= 3; $i++) :
@@ -276,9 +277,9 @@
                 $url_key = 'pirts_blog_' . $i . '_url';
                 $full_key = 'pirts_blog_' . $i . '_full';
                 $fallbacks = array(
-                  1 => 'assets/images/63lv/pirts-zone-clean-04.jpg',
-                  2 => 'assets/images/63lv/pirts-zone-clean-05.jpg',
-                  3 => 'assets/images/63lv/pirts-zone-clean-06.jpg',
+                  1 => 'assets/images/63lv/pirts-zone-clean-04.avif',
+                  2 => 'assets/images/63lv/pirts-zone-clean-05.avif',
+                  3 => 'assets/images/63lv/pirts-zone-clean-06.avif',
                 );
                 $full_content = sixtythree_homepage_text($full_key, sixtythree_homepage_text($text_key));
               ?>
@@ -295,7 +296,7 @@
                   <span class="blog-date"><?php echo esc_html(sixtythree_homepage_text($date_key)); ?></span>
                   <h5><?php echo esc_html(sixtythree_homepage_text($title_key)); ?></h5>
                   <p><?php echo esc_html(sixtythree_homepage_text($text_key)); ?></p>
-                  <a href="#" class="blog-open-modal"><?php echo esc_html(sixtythree_homepage_text($link_key)); ?></a>
+                  <a href="#pirts-blog" class="blog-open-modal"><?php echo esc_html(sixtythree_homepage_text($link_key)); ?></a>
                 </div>
               </article>
               <?php endfor; ?>
@@ -365,9 +366,9 @@
         <div class="story-top">
           <div class="story-image">
             <div class="story-visual-slide art active" data-story="0"></div>
-            <div class="story-visual-slide" data-story="1" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-3.jpg'); ?>')"></div>
-            <div class="story-visual-slide" data-story="2" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-4.jpg'); ?>')"></div>
-            <div class="story-visual-slide" data-story="3" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-5.jpg'); ?>')"></div>
+            <div class="story-visual-slide" data-story="1" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-3.jpg', true)); ?>')"></div>
+            <div class="story-visual-slide" data-story="2" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-4.jpg', true)); ?>')"></div>
+            <div class="story-visual-slide" data-story="3" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-5.jpg', true)); ?>')"></div>
 
             <div class="rent-badge">
               <small>Iznoma</small>
@@ -377,10 +378,10 @@
             </div>
 
             <div class="story-slider-nav" aria-label="Telpu attēli">
-              <button class="story-dot active" type="button" data-story-target="0" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.jpg'); ?>')" aria-label="Ēkas art vizuālis"></button>
-              <button class="story-dot" type="button" data-story-target="1" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-3.jpg'); ?>')" aria-label="Interjers 1"></button>
-              <button class="story-dot" type="button" data-story-target="2" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-4.jpg'); ?>')" aria-label="Interjers 2"></button>
-              <button class="story-dot" type="button" data-story-target="3" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-5.jpg'); ?>')" aria-label="Interjers 3"></button>
+              <button class="story-dot active" type="button" data-story-target="0" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.avif'); ?>')" aria-label="Ēkas art vizuālis"></button>
+              <button class="story-dot" type="button" data-story-target="1" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-3.jpg', true)); ?>')" aria-label="Interjers 1"></button>
+              <button class="story-dot" type="button" data-story-target="2" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-4.jpg', true)); ?>')" aria-label="Interjers 2"></button>
+              <button class="story-dot" type="button" data-story-target="3" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-5.jpg', true)); ?>')" aria-label="Interjers 3"></button>
             </div>
           </div>
           <div class="story-copy">
@@ -601,19 +602,22 @@
         <h3 id="blogLightboxTitle"></h3>
         <p class="blog-lightbox-summary" id="blogLightboxSummary"></p>
         <div class="blog-lightbox-text" id="blogLightboxText"></div>
-        <div class="blog-lightbox-share" aria-label="Dalīties ar rakstu">
-          <button class="blog-share-btn" id="blogShareFacebook" type="button" aria-label="Dalīties Facebook">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2.4V4.2A29 29 0 0 0 13 4c-3.4 0-5.7 2.1-5.7 5.9V13H3.5v4.2h3.8V24H12v-6.8h3.8l.6-4.2H12V10.3c0-1.2.3-2.3 2-2.3Z"/></svg>
+        <div class="blog-lightbox-share" aria-label="<?php echo esc_attr(sixtythree_i18n('Dalīties ar rakstu', 'Share this article', 'Поделиться статьёй')); ?>">
+          <button class="blog-share-btn blog-share-facebook" id="blogShareFacebook" type="button" aria-label="<?php echo esc_attr(sixtythree_i18n('Dalīties Facebook', 'Share on Facebook', 'Поделиться в Facebook')); ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.2 8.7h2.6V5h-3.1c-3.7 0-5.5 2.2-5.5 5.3v2.1H5.4v4h2.8V23h4.1v-6.6h3.3l.6-4h-3.9v-1.8c0-1.1.3-1.9 1.9-1.9Z"/></svg>
           </button>
-          <button class="blog-share-btn" id="blogShareLinkedin" type="button" aria-label="Dalīties LinkedIn">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4V24h-4V8Zm7.5 0h3.8v2.2h.1c.5-1 1.9-2.6 4-2.6 4.3 0 5.1 2.8 5.1 6.5V24h-4v-8.8c0-2.1 0-4.8-2.9-4.8s-3.3 2.3-3.3 4.6v9H8V8Z"/></svg>
+          <button class="blog-share-btn blog-share-linkedin" id="blogShareLinkedin" type="button" aria-label="<?php echo esc_attr(sixtythree_i18n('Dalīties LinkedIn', 'Share on LinkedIn', 'Поделиться в LinkedIn')); ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.4 20.5H2.6V8.9h3.8v11.6ZM4.5 7.3a2.2 2.2 0 1 1 0-4.4 2.2 2.2 0 0 1 0 4.4Zm17 13.2h-3.8v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.8H9.8V8.9h3.6v1.6h.1c.5-.9 1.7-1.9 3.6-1.9 3.8 0 4.5 2.5 4.5 5.8v6.1Z"/></svg>
+          </button>
+          <button class="blog-share-btn blog-share-x" id="blogShareX" type="button" aria-label="<?php echo esc_attr(sixtythree_i18n('Dalīties X', 'Share on X', 'Поделиться в X')); ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.4 10.2 22.7 1h-2l-7.2 8.1L7.8 1H1.2l8.7 12.4L1.2 23h2l7.6-8.6 6.1 8.6h6.6l-9.1-12.8Zm-2.7 3-1-.1L3.7 2.5h3.1l14.3 19h-3.2l-6.2-8.3Z"/></svg>
           </button>
           <button class="blog-share-btn blog-share-copy" id="blogShareCopy" type="button" aria-label="<?php echo esc_attr(sixtythree_i18n('Kopēt saiti', 'Copy link', 'Скопировать ссылку')); ?>">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H5a2 2 0 0 0-2 2v13h2V3h11V1Zm3 4H9a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H9V7h10v14Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M16 1H5a2 2 0 0 0-2 2v13h2V3h11V1Zm3 4H9a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H9V7h10v14Z"/></svg>
             <span class="sr-only"><?php echo esc_html(sixtythree_i18n('Kopēt saiti', 'Copy link', 'Скопировать ссылку')); ?></span>
           </button>
         </div>
-        <a class="btn btn-outline blog-lightbox-link" id="blogLightboxLink" href="#" target="_self" rel="noopener"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
+        <a class="btn btn-outline blog-lightbox-link" id="blogLightboxLink" href="#cta" target="_self" rel="noopener"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
       </div>
     </div>
   </div>
@@ -640,9 +644,9 @@
           <div class="fact"><i>♨</i><div><span>Apkure pēc gāzes patēriņa</span></div></div>
           <div class="fact"><i>↯</i><div><span>Elektrība pēc skaitītāja</span></div></div>
         </aside>
-        <img class="plan" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-6.jpg'); ?>" alt="105 m² telpu plānojums Bauskas ielā 63" />
+        <picture><source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-6.avif'); ?>" type="image/avif"><img class="plan" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-6.jpg'); ?>" alt="105 m² telpu plānojums Bauskas ielā 63" loading="lazy" decoding="async" /></picture>
         <aside>
-          <img class="modal-photo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.jpg'); ?>" alt="Bauskas 63 ēkas foto" />
+          <picture><source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.avif'); ?>" type="image/avif"><img class="modal-photo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.jpg'); ?>" alt="Bauskas 63 ēkas foto" loading="lazy" decoding="async" /></picture>
           <ul class="checks">
             <li>Vitrīnas logi un ieeja no Bauskas ielas</li>
             <li>Atsevišķa ieeja no pagalma puses</li>
