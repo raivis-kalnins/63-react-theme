@@ -122,8 +122,8 @@ function sixtythree_demo_form_block($lang = 'lv') {
     $submit = array('lv'=>'Nosūtīt pieteikumu','en'=>'Send request','ru'=>'Отправить заявку');
 
     $attrs = array(
-        'showTitle' => true,
-        'formTitle' => $title[$lang] ?? $title['lv'],
+        'showTitle' => false,
+        'formTitle' => '',
         'recipient' => 'hello@63.lv',
         'emailSubject' => $subject[$lang] ?? $subject['lv'],
         'successMessage' => $success[$lang] ?? $success['lv'],
@@ -229,7 +229,7 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <h2 class="wp-block-heading">Vieta ģimenei, draugiem un svinībām</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Skaidrs pirts ballītes piedāvājums ar cenu, ilgumu, iekļautajiem pakalpojumiem, pieejamības kalendāru un ātru pieteikšanos.</p>
+<p>Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.</p>
 <!-- /wp:paragraph -->
 <!-- wp:list {"className":"sixtythree-feature-list"} -->
 <ul class="wp-block-list sixtythree-feature-list">
@@ -287,7 +287,7 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- wp:column {"width":"45%"} -->
 <div class="wp-block-column" style="flex-basis:45%">
 <!-- wp:paragraph -->
-<p>Kompakta un skaidra cenu sadaļa ar 63.lv aktuālajām solārija cenām. Pieejams pēc iepriekšējas pieteikšanās.</p>
+<p>Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -400,6 +400,12 @@ WPBLOCKS;
 function sixtythree_run_demo_import() {
     sixtythree_demo_languages();
     sixtythree_demo_enable_wpbb_blocks();
+    if (function_exists('sixtythree_import_editable_media_defaults')) {
+        sixtythree_import_editable_media_defaults();
+    }
+    if (function_exists('sixtythree_migrate_pirts_gallery_without_shower')) {
+        sixtythree_migrate_pirts_gallery_without_shower();
+    }
 
     $pages = array(
         'lv' => array('title'=>'Sākumlapa','slug'=>'sakumlapa'),
@@ -459,7 +465,7 @@ function sixtythree_run_demo_import() {
         ),
     );
 
-    foreach ($posts as $translations) {
+    foreach ($posts as $post_index => $translations) {
         $translation_ids = array();
         foreach (array('lv','en','ru') as $lang) {
             $title = $translations[$lang]['title'];
@@ -486,6 +492,11 @@ function sixtythree_run_demo_import() {
             if ($id && !is_wp_error($id)) {
                 if (function_exists('pll_set_post_language')) { pll_set_post_language($id, $lang); }
                 $translation_ids[$lang] = $id;
+                $image_key = 'sixtythree_pirts_blog_image_' . (int) ($post_index + 1);
+                $thumb_id = (int) get_theme_mod($image_key, 0);
+                if ($thumb_id > 0) {
+                    set_post_thumbnail($id, $thumb_id);
+                }
             }
         }
         if (function_exists('pll_save_post_translations') && count($translation_ids) > 1) {

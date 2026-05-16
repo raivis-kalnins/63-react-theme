@@ -4,9 +4,15 @@
  */
 if (!defined('ABSPATH')) { exit; }
 get_header();
+$sixtythree_page_content = '';
+if (have_posts()) {
+    ob_start();
+    while (have_posts()) { the_post(); the_content(); }
+    $sixtythree_page_content = trim(ob_get_clean());
+}
 ob_start();
 ?>
-<main id="sixtythree-headless-root" data-sixtythree-headless="react" class="sixtythree-home">
+<div id="sixtythree-headless-root" data-sixtythree-headless="react" class="sixtythree-home">
 
   <header class="site-header">
     <div class="header-inner">
@@ -27,9 +33,18 @@ ob_start();
 
       <div class="header-tools">
         <?php sixtythree_language_switcher("lang-switch"); ?>
-        <button class="icon-btn desktop-search" id="openSearchDesktop" type="button" aria-label="Atvērt meklēšanu">
-          <span class="search-icon"></span>
-        </button>
+        <div class="site-search-wrap">
+          <button class="icon-btn desktop-search" id="openSearchDesktop" type="button" aria-label="Atvērt meklēšanu" aria-expanded="false" aria-controls="siteSearchPanel">
+            <span class="search-icon"></span>
+          </button>
+          <form class="site-search-panel" id="siteSearchPanel" role="search" autocomplete="off">
+            <div class="site-search-row">
+              <input class="site-search-input" id="siteSearchInput" type="search" placeholder="Meklēt šajā lapā..." aria-label="Meklēt šajā lapā">
+              <button class="site-search-submit" type="submit">Meklēt</button>
+            </div>
+            <div class="site-search-results" id="siteSearchResults" aria-live="polite"></div>
+          </form>
+        </div>
         <button class="icon-btn mobile-toggle" id="openMenu" type="button" aria-label="Atvērt izvēlni">
           <span class="hamburger"><span></span></span>
         </button>
@@ -51,7 +66,14 @@ ob_start();
       </div>
       <button class="icon-btn" id="closeMenu" type="button" aria-label="Aizvērt izvēlni">×</button>
     </div>
-    <button class="btn btn-outline" id="openSearchMobile" type="button">Meklēt</button>
+    <button class="btn btn-outline" id="openSearchMobile" type="button" aria-expanded="false" aria-controls="mobileSiteSearchPanel">Meklēt</button>
+    <form class="site-search-panel mobile-search-panel" id="mobileSiteSearchPanel" role="search" autocomplete="off">
+      <div class="site-search-row">
+        <input class="site-search-input" id="mobileSiteSearchInput" type="search" placeholder="Meklēt šajā lapā..." aria-label="Meklēt šajā lapā">
+        <button class="site-search-submit" type="submit">Meklēt</button>
+      </div>
+      <div class="site-search-results" id="mobileSiteSearchResults" aria-live="polite"></div>
+    </form>
     <?php sixtythree_language_switcher("mobile-lang"); ?>
     <nav>
       <a href="#pakalpojumi">Pakalpojumi</a>
@@ -62,35 +84,13 @@ ob_start();
     </nav>
   </aside>
 
-  <div class="search-modal" id="searchModal">
-    <div class="search-dialog">
-      <div class="search-head">
-        <div>
-          <div class="kicker">Meklēt</div>
-          <h3 style="font-size:40px;">Ko vēlaties atrast?</h3>
-        </div>
-        <button class="icon-btn" id="closeSearch" type="button" aria-label="Aizvērt meklēšanu">×</button>
-      </div>
-      <input class="search-box" type="text" placeholder="Meklēt pakalpojumus, telpas, kursus vai kontaktus..." />
-      <div class="search-tags">
-        <span>Pirts ballītēm</span>
-        <span>Telpu noma</span>
-        <span>WordPress</span>
-        <span>WooCommerce</span>
-        <span>Manikīrs</span>
-        <span>Kursi</span>
-        <span>Bauskas 63</span>
-      </div>
-    </div>
-  </div>
-
   <main>
     <section class="hero">
       <div class="hero-copy">
         <div class="kicker">Services · Bauskas 63</div>
         <h1>Telpas, zināšanas un pakalpojumi vienuviet</h1>
         <div class="gold-rule"></div>
-        <p>SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus uz vietas Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē. Priekšskatā izmantota gaiša, zeltaina un klasiskā-modernā vizuālā valoda.</p>
+        <p>SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, pirts zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.</p>
         <div class="hero-actions">
           <a class="btn" href="#pakalpojumi">Mūsu pakalpojumi →</a>
           <a class="btn btn-outline" href="#cta">Sazināties</a>
@@ -107,7 +107,7 @@ ob_start();
     <div class="slider-wrap">
       <section class="slider" aria-label="Pakalpojumu slider">
         <article class="slide active">
-          <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1400&q=80')"></div>
+          <div class="photo photo-sauna" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/pirts-ballitem-sauna.avif'); ?>')"></div>
           <div class="copy">
             <div class="kicker">Pirts ballītēm</div>
             <h2>Atpūta ģimenei un draugiem</h2>
@@ -125,7 +125,7 @@ ob_start();
           </div>
         </article>
         <article class="slide">
-          <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80')"></div>
+          <div class="photo photo-learning" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/learning-books-globe.svg'); ?>')"></div>
           <div class="copy">
             <div class="kicker">Mācību centrs</div>
             <h2>Tālmācības un klātienes kursi</h2>
@@ -134,7 +134,7 @@ ob_start();
           </div>
         </article>
         <article class="slide">
-          <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80')"></div>
+          <div class="photo photo-hairdress-chair" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/hairdress-one-chair.svg'); ?>')"></div>
           <div class="copy">
             <div class="kicker">Ikdienas pakalpojumi</div>
             <h2>Skaistumam un ērtībai</h2>
@@ -157,7 +157,7 @@ ob_start();
           <div class="kicker">Pakalpojumi</div>
           <h2>Viss svarīgākais vienā vietā</h2>
         </div>
-        <p>Saturs ir balstīts uz 63.lv pakalpojumu virzieniem — pirts, web izstrāde, apmācības un ikdienas servisi — bet vizuāli pārnests uz premium, māksliniecisku priekšskatījumu.</p>
+        <p>Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.</p>
       </div>
 
       <div class="services">
@@ -167,14 +167,6 @@ ob_start();
         <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Vertikālais solārijs</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#">UZZINĀT VAIRĀK →</a></article>
       </div>
 
-      <div class="mini-gallery">
-        <div class="tile" style="background-image:url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1400&q=80')"><span>Pirts</span></div>
-        <div class="tile" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80')"><span>Web</span></div>
-        <div class="tile" style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80')"><span>Apmācības</span></div>
-        <div class="tile" style="background-image:url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80')"><span>Skaistums</span></div>
-        <div class="tile" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80')"><span>Birojs</span></div>
-        <div class="tile" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.jpg'); ?>')"><span>Bauskas 63</span></div>
-      </div>
     </section>
 
     
@@ -184,83 +176,73 @@ ob_start();
         <div class="bath-content pirts-v21">
           <div class="pirts-v21-main">
             <div class="bath-copy-panel">
-              <div class="kicker">Bauskas 63 · pirts zona</div>
-              <h3>Vieta ģimenei, draugiem un svinībām</h3>
-              <p>Skaidrs pirts ballītes piedāvājums ar cenu, ilgumu, iekļautajiem pakalpojumiem, pieejamības kalendāru un ātru pieteikšanos.</p>
+              <div class="kicker"><?php echo esc_html(sixtythree_homepage_text('pirts_kicker')); ?></div>
+              <h3><?php echo esc_html(sixtythree_homepage_text('pirts_heading')); ?></h3>
+              <p><?php echo esc_html(sixtythree_homepage_text('pirts_intro')); ?></p>
 
-              <div class="bath-offer-badge"><span class="star">★</span> Standarta piedāvājums</div>
+              <div class="bath-offer-badge"><span class="star">★</span> <?php echo esc_html(sixtythree_homepage_text('pirts_badge')); ?></div>
 
               <div class="bath-grid">
-                <div class="bath-item"><b>€90 / akcijā €84</b><span>Cena par standarta pirts ballītes piedāvājumu.</span></div>
-                <div class="bath-item"><b>6 stundas</b><span>Optimāls ilgums atpūtai un svinībām.</span></div>
-                <div class="bath-item"><b>Līdz 15 personām</b><span>Ieteicamais viesu skaits ģimenēm un draugiem.</span></div>
-                <div class="bath-item"><b>2 dienas iepriekš</b><span>Pieteikšanās savlaicīgi, drošības nauda 50%.</span></div>
+                <div class="bath-item"><b><?php echo esc_html(sixtythree_homepage_text('pirts_price_title')); ?></b><span><?php echo esc_html(sixtythree_homepage_text('pirts_price_body')); ?></span></div>
+                <div class="bath-item"><b><?php echo esc_html(sixtythree_homepage_text('pirts_hours_title')); ?></b><span><?php echo esc_html(sixtythree_homepage_text('pirts_hours_body')); ?></span></div>
+                <div class="bath-item"><b><?php echo esc_html(sixtythree_homepage_text('pirts_people_title')); ?></b><span><?php echo esc_html(sixtythree_homepage_text('pirts_people_body')); ?></span></div>
+                <div class="bath-item"><b><?php echo esc_html(sixtythree_homepage_text('pirts_notice_title')); ?></b><span><?php echo esc_html(sixtythree_homepage_text('pirts_notice_body')); ?></span></div>
               </div>
 
               <div class="bath-meta">
                 <div class="bath-meta-row">
                   <i class="bath-meta-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3.3 2"/></svg></i>
-                  <div><b>Pieejams</b><span>Darba dienās no 16:00, brīvdienās pēc vienošanās.</span></div>
+                  <div><b><?php echo esc_html(sixtythree_homepage_text('pirts_available_title')); ?></b><span><?php echo esc_html(sixtythree_homepage_text('pirts_available_body')); ?></span></div>
                 </div>
                 <div class="bath-meta-row">
                   <i class="bath-meta-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></i>
-                  <div><b>Saziņai</b><span><?php echo esc_html(sixtythree_contact_phone()); ?> · rezervācijām un pieejamībai.</span></div>
+                  <div><b><?php echo esc_html(sixtythree_homepage_text('pirts_contact_title')); ?></b><span><?php echo esc_html(sixtythree_contact_phone()); ?> · rezervācijām un pieejamībai.</span></div>
                 </div>
               </div>
 
               <div class="bath-package">
-                <h4>Kas iekļauts pirts ballītes paketē</h4>
+                <h4><?php echo esc_html(sixtythree_homepage_text('pirts_package_heading')); ?></h4>
                 <div class="bath-package-grid">
-                  <div class="bath-package-item"><span class="dot">✓</span><span>Sauna un slotiņas.</span></div>
-                  <div class="bath-package-item"><span class="dot">✓</span><span>Zāle ar galdiem kopīgai atpūtai.</span></div>
-                  <div class="bath-package-item"><span class="dot">✓</span><span>Atpūtas telpas mierīgai pauzei.</span></div>
-                  <div class="bath-package-item"><span class="dot">✓</span><span>Virtuve uzkodu sagatavošanai.</span></div>
-                  <div class="bath-package-item"><span class="dot">i</span><span>Baseins šobrīd restaurācijas procesā.</span></div>
-                  <div class="bath-package-item"><span class="dot">⌂</span><span>Bauskas iela 63, Rīga.</span></div>
+                  <div class="bath-package-item"><span class="dot">✓</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_1')); ?></span></div>
+                  <div class="bath-package-item"><span class="dot">✓</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_2')); ?></span></div>
+                  <div class="bath-package-item"><span class="dot">✓</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_3')); ?></span></div>
+                  <div class="bath-package-item"><span class="dot">✓</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_4')); ?></span></div>
+                  <div class="bath-package-item"><span class="dot">i</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_5')); ?></span></div>
+                  <div class="bath-package-item"><span class="dot">⌂</span><span><?php echo esc_html(sixtythree_homepage_text('pirts_package_6')); ?></span></div>
                 </div>
-              </div>
-
-              <div class="bath-contact-strip">
-                <div class="bath-contact-pill"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span> Bauskas iela 63, Rīga</div>
-                <div class="bath-contact-pill"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></span> <?php echo esc_html(sixtythree_contact_phone()); ?></div>
-              </div>
-
-              <div class="actions">
-                <a class="btn" href="#cta">Pieteikt pirts laiku →</a>
-                <a class="btn btn-outline" href="#pakalpojumi">Visi pakalpojumi</a>
               </div>
             </div>
 
             <div class="pirts-v21-side">
               <div class="clean-native-gallery" aria-label="63.lv pirts galerija">
                 <div class="clean-gallery-stage">
-                  <div class="clean-gallery-slide active" data-pirts="0" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-zale-deju.jpg')"></div>
-                  <div class="clean-gallery-slide" data-pirts="1" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-sauna.jpg')"></div>
-                  <div class="clean-gallery-slide" data-pirts="2" style="background-image:url('https://63.lv/wp-content/uploads/2024/01/WhatsApp-Image-2023-12-17-at-14.01.03_0318d865.jpg')"></div>
-                  <div class="clean-gallery-slide" data-pirts="3" style="background-image:url('https://63.lv/wp-content/uploads/2024/01/WhatsApp-Image-2023-12-18-at-10.18.47_123a6be8.jpg')"></div>
-                  <div class="clean-gallery-slide" data-pirts="4" style="background-image:url('https://63.lv/wp-content/uploads/2024/03/IMG-20240310-WA0014.jpg')"></div>
-                  <div class="clean-gallery-slide" data-pirts="5" style="background-image:url('https://63.lv/wp-content/uploads/2023/11/biljards-min.jpg')"></div>
+                  <div class="clean-gallery-slide active" data-pirts="0" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_1', 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg')); ?>')"></div>
+                  <div class="clean-gallery-slide" data-pirts="1" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_2', 'assets/images/63lv/pirts-zone-clean-02.jpg')); ?>')"></div>
+                  <div class="clean-gallery-slide" data-pirts="2" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_3', 'assets/images/63lv/pirts-zone-clean-03.jpg')); ?>')"></div>
+                  <div class="clean-gallery-slide" data-pirts="3" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_4', 'assets/images/63lv/pirts-zone-clean-04.jpg')); ?>')"></div>
+                  <div class="clean-gallery-slide" data-pirts="4" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_5', 'assets/images/63lv/pirts-zone-clean-05.jpg')); ?>')"></div>
+                  <div class="clean-gallery-slide" data-pirts="5" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_6', 'assets/images/63lv/pirts-zone-clean-06.jpg')); ?>')"></div>
                 </div>
                 <div class="clean-gallery-thumbs">
-                  <button class="clean-gallery-thumb active" type="button" data-pirts-target="0" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-zale-deju.jpg')" aria-label="Pirts galerijas attēls 1"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="1" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-sauna.jpg')" aria-label="Pirts galerijas attēls 2"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="2" style="background-image:url('https://63.lv/wp-content/uploads/2024/01/WhatsApp-Image-2023-12-17-at-14.01.03_0318d865.jpg')" aria-label="Pirts galerijas attēls 3"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="3" style="background-image:url('https://63.lv/wp-content/uploads/2024/01/WhatsApp-Image-2023-12-18-at-10.18.47_123a6be8.jpg')" aria-label="Pirts galerijas attēls 4"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="4" style="background-image:url('https://63.lv/wp-content/uploads/2024/03/IMG-20240310-WA0014.jpg')" aria-label="Pirts galerijas attēls 5"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="5" style="background-image:url('https://63.lv/wp-content/uploads/2023/11/biljards-min.jpg')" aria-label="Pirts galerijas attēls 6"></button>
+                  <button class="clean-gallery-thumb active" type="button" data-pirts-target="0" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_1', 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg')); ?>')" aria-label="Pirts galerijas attēls 1"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="1" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_2', 'assets/images/63lv/pirts-zone-clean-02.jpg')); ?>')" aria-label="Pirts galerijas attēls 2"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="2" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_3', 'assets/images/63lv/pirts-zone-clean-03.jpg')); ?>')" aria-label="Pirts galerijas attēls 3"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="3" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_4', 'assets/images/63lv/pirts-zone-clean-04.jpg')); ?>')" aria-label="Pirts galerijas attēls 4"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="4" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_5', 'assets/images/63lv/pirts-zone-clean-05.jpg')); ?>')" aria-label="Pirts galerijas attēls 5"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="5" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_6', 'assets/images/63lv/pirts-zone-clean-06.jpg')); ?>')" aria-label="Pirts galerijas attēls 6"></button>
                 </div>
               </div>
 
-              <div class="booking-card">
+              <div class="booking-card" data-booking-month="<?php echo esc_attr(sixtythree_booking_value('booking_heading')); ?>">
                 <div class="booking-head">
                   <div>
-                    <div class="kicker">Pieejamība</div>
-                    <h4>Maija rezervācijas</h4>
+                    <div class="kicker"><?php echo esc_html(sixtythree_booking_value('booking_kicker')); ?></div>
+                    <h4><?php echo esc_html(sixtythree_booking_value('booking_heading')); ?></h4>
                   </div>
                   <div class="booking-legend">
-                    <span class="legend-dot">Pieejams</span>
-                    <span class="legend-dot booked">Aizņemts</span>
-                    <span class="legend-dot selected">Izvēlēts</span>
+                    <span class="legend-dot"><?php echo esc_html(sixtythree_booking_value('booking_legend_available')); ?></span>
+                    <span class="legend-dot booked"><?php echo esc_html(sixtythree_booking_value('booking_legend_booked')); ?></span>
+                    <span class="legend-dot selected"><?php echo esc_html(sixtythree_booking_value('booking_legend_selected')); ?></span>
                   </div>
                 </div>
                 <div class="calendar-grid">
@@ -268,36 +250,25 @@ ob_start();
                     <span>P</span><span>O</span><span>T</span><span>C</span><span>P</span><span>S</span><span>Sv</span>
                   </div>
                   <div class="calendar-dates">
-                    <div class="cal-date booked"><span>12</span><small>aizņemts</small></div>
-                    <div class="cal-date available"><span>13</span><small>16:00+</small></div>
-                    <div class="cal-date available"><span>14</span><small>18:00+</small></div>
-                    <div class="cal-date booked"><span>15</span><small>aizņemts</small></div>
-                    <div class="cal-date selected"><span>16</span><small>brīvs</small></div>
-                    <div class="cal-date booked"><span>17</span><small>aizņemts</small></div>
-                    <div class="cal-date available"><span>18</span><small>diena</small></div>
-                    <div class="cal-date available"><span>19</span><small>16:00+</small></div>
-                    <div class="cal-date booked"><span>20</span><small>aizņemts</small></div>
-                    <div class="cal-date available"><span>21</span><small>18:00+</small></div>
-                    <div class="cal-date available"><span>22</span><small>16:00+</small></div>
-                    <div class="cal-date booked"><span>23</span><small>aizņemts</small></div>
-                    <div class="cal-date available"><span>24</span><small>diena</small></div>
-                    <div class="cal-date available"><span>25</span><small>diena</small></div>
+                    <?php foreach (sixtythree_booking_days() as $day) : ?>
+                      <div class="cal-date <?php echo esc_attr($day[2]); ?>"><span><?php echo esc_html($day[0]); ?></span><small><?php echo esc_html($day[1]); ?></small></div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
                 <div class="booking-actions">
-                  <a class="btn" href="#cta">Pieteikt izvēlēto laiku →</a>
-                  <a class="btn btn-outline" href="tel:+37129837694">Zvanīt</a>
+                  <a class="btn" href="#cta"><?php echo esc_html(sixtythree_booking_value('booking_button')); ?></a>
+                  <a class="btn btn-outline" href="tel:+37129837694"><?php echo esc_html(sixtythree_booking_value('booking_call_button')); ?></a>
                 </div>
               </div>
             
               <div class="pirts-side-actions">
                 <div class="bath-contact-strip">
-                <div class="bath-contact-pill"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span> Bauskas iela 63, Rīga</div>
+                <div class="bath-contact-pill"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span> <?php echo esc_html(sixtythree_i18n('Bauskas iela 63, Rīga', 'Bauskas Street 63, Riga', 'Улица Баускас 63, Рига')); ?></div>
                 <div class="bath-contact-pill"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></span> <?php echo esc_html(sixtythree_contact_phone()); ?></div>
               </div>
                 <div class="actions">
-                <a class="btn" href="#cta">Pieteikt pirts laiku →</a>
-                <a class="btn btn-outline" href="#pakalpojumi">Visi pakalpojumi</a>
+                <a class="btn" href="#cta"><?php echo esc_html(sixtythree_homepage_text('pirts_cta_primary')); ?></a>
+                <a class="btn btn-outline" href="#pakalpojumi"><?php echo esc_html(sixtythree_homepage_text('pirts_cta_secondary')); ?></a>
               </div>
               </div>
 </div>
@@ -306,39 +277,44 @@ ob_start();
           <div class="pirts-news">
             <div class="news-head">
               <div>
-                <div class="kicker">Pirts blogs</div>
-                <h4>Jaunākie raksti</h4>
+                <div class="kicker"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_kicker')); ?></div>
+                <h4><?php echo esc_html(sixtythree_homepage_text('pirts_blog_heading')); ?></h4>
               </div>
-              <a class="btn btn-outline" href="#">Blogs →</a>
+              <a class="btn btn-outline" href="#"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
             </div>
             <div class="blog-grid">
-              <article class="blog-card">
-                <div class="blog-img" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-sauna.jpg')"></div>
+              <?php for ($i = 1; $i <= 3; $i++) :
+                $img_key = 'pirts_blog_image_' . $i;
+                $title_key = 'pirts_blog_' . $i . '_title';
+                $date_key = 'pirts_blog_' . $i . '_date';
+                $text_key = 'pirts_blog_' . $i . '_text';
+                $link_key = 'pirts_blog_' . $i . '_link';
+                $url_key = 'pirts_blog_' . $i . '_url';
+                $full_key = 'pirts_blog_' . $i . '_full';
+                $fallbacks = array(
+                  1 => 'assets/images/63lv/pirts-zone-clean-04.jpg',
+                  2 => 'assets/images/63lv/pirts-zone-clean-05.jpg',
+                  3 => 'assets/images/63lv/pirts-zone-clean-06.jpg',
+                );
+                $full_content = sixtythree_homepage_text($full_key, sixtythree_homepage_text($text_key));
+              ?>
+              <article class="blog-card is-clickable" tabindex="0" role="button"
+                       data-blog-id="pirts-blog-<?php echo esc_attr($i); ?>"
+                       data-blog-title="<?php echo esc_attr(sixtythree_homepage_text($title_key)); ?>"
+                       data-blog-date="<?php echo esc_attr(sixtythree_homepage_text($date_key)); ?>"
+                       data-blog-summary="<?php echo esc_attr(sixtythree_homepage_text($text_key)); ?>"
+                       data-blog-content="<?php echo esc_attr($full_content); ?>"
+                       data-blog-image="<?php echo esc_url(sixtythree_homepage_media_url($img_key, $fallbacks[$i])); ?>"
+                       data-blog-url="<?php echo esc_url(sixtythree_homepage_text($url_key)); ?>">
+                <div class="blog-img" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url($img_key, $fallbacks[$i])); ?>')"></div>
                 <div class="blog-body">
-                  <span class="blog-date">Jaunumi</span>
-                  <h5>Kā sagatavoties pirts vakaram?</h5>
-                  <p>Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.</p>
-                  <a href="#">Lasīt vairāk →</a>
+                  <span class="blog-date"><?php echo esc_html(sixtythree_homepage_text($date_key)); ?></span>
+                  <h5><?php echo esc_html(sixtythree_homepage_text($title_key)); ?></h5>
+                  <p><?php echo esc_html(sixtythree_homepage_text($text_key)); ?></p>
+                  <a href="#" class="blog-open-modal"><?php echo esc_html(sixtythree_homepage_text($link_key)); ?></a>
                 </div>
               </article>
-              <article class="blog-card">
-                <div class="blog-img" style="background-image:url('https://63.lv/wp-content/uploads/2023/12/pirts-zale-deju.jpg')"></div>
-                <div class="blog-body">
-                  <span class="blog-date">Padomi</span>
-                  <h5>Pirts ballīte līdz 15 personām</h5>
-                  <p>Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.</p>
-                  <a href="#">Lasīt vairāk →</a>
-                </div>
-              </article>
-              <article class="blog-card">
-                <div class="blog-img" style="background-image:url('https://63.lv/wp-content/uploads/2023/11/biljards-min.jpg')"></div>
-                <div class="blog-body">
-                  <span class="blog-date">Idejas</span>
-                  <h5>Ko iekļaut pasākuma plānā?</h5>
-                  <p>Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.</p>
-                  <a href="#">Lasīt vairāk →</a>
-                </div>
-              </article>
+              <?php endfor; ?>
             </div>
           </div>
         </div>
@@ -351,7 +327,7 @@ ob_start();
           <div class="solarium-copy">
             <div class="kicker">Skaistumam</div>
             <h2>Vertikālais solārijs — cenas</h2>
-            <p>Kompakta un skaidra cenu sadaļa ar 63.lv aktuālajām solārija cenām. Pieejams pēc iepriekšējas pieteikšanās, saziņai <b><?php echo esc_html(sixtythree_contact_phone()); ?></b>.</p>
+            <p>Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos. Pieejams pēc iepriekšējas vienošanās, saziņai <b><?php echo esc_html(sixtythree_contact_phone()); ?></b>.</p>
 
             <div class="solarium-price-grid">
               <div class="solarium-price-item">
@@ -427,7 +403,7 @@ ob_start();
             <div class="kicker">Bauskas 63, Rīga</div>
             <h2>Vieta, kur darbi notiek un idejas aug</h2>
             <div class="gold-rule"></div>
-            <p>Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā. Kreisais lielais vizuālis darbojas kā slideris — sākumā art-stila ēkas skats, pēc tam reālie iekšskati no telpām.</p>
+            <p>Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā.</p>
             <div class="story-points">
               <div class="story-point">Vitrīnas logi un ieeja no Bauskas ielas.</div>
               <div class="story-point">Atsevišķa ieeja no pagalma puses.</div>
@@ -444,7 +420,7 @@ ob_start();
         <div class="web-intro">
           <div class="kicker">Web Development</div>
           <h2>WordPress un full stack izstrāde</h2>
-          <p>Šī sadaļa ir strukturēta ar digitālās aģentūras noskaņu — skaidrs pakalpojumu piedāvājums, tehnoloģiju fokuss un spēcīgs CTA virziens projekta pieteikšanai.</p>
+          <p>Izstrādājam WordPress, WooCommerce un headless ReactJS risinājumus uzņēmumiem, kuriem svarīgs ātrums, pārskatāma administrēšana un labs rezultāts meklētājos.</p>
           <p>No klasiskām WordPress lapām līdz headless ReactJS projektiem — veidojam risinājumus, kas ir vizuāli kvalitatīvi, ērti pārvaldāmi un orientēti uz biznesa rezultātu. Papildus: AI theme/plugin development, hostings, atbalsts un uzturēšana.</p>
           <div class="web-badges">
             <span>WordPress Themes</span>
@@ -565,12 +541,20 @@ ob_start();
         </div>
       </div>
     </section>
+
+    <?php if (get_theme_mod('sixtythree_show_page_builder_content', '0') === '1' && $sixtythree_page_content !== '') : ?>
+    <section id="editable-page-content" class="sixtythree-editable-section">
+      <div class="sixtythree-editable-wrap">
+        <?php echo $sixtythree_page_content; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 <section id="cta" class="cta-section">
       <div class="cta-wrap">
         <div class="cta-copy">
           <div class="kicker">Pieteikums un kontakti</div>
           <h2>Pastāstiet par savu ideju vai vajadzību</h2>
-          <p>Varam palīdzēt ar telpu nomu, web izstrādi, apmācībām un citiem pakalpojumiem Bauskas ielā 63. Šī sadaļa ir veidota kā spēcīgs CTA bloks ar kontaktiem un formu.</p>
+          <p>Varam palīdzēt ar telpu nomu, web izstrādi, apmācībām un citiem pakalpojumiem Bauskas ielā 63. Sazinieties ar mums, lai pārrunātu pieejamību vai projekta vajadzības.</p>
           <div class="contact-list">
             <div class="contact-item"><div class="mini"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4.5 7 7.5 6 7.5-6"/></svg></div><div><b>Epasts</b><span><?php echo esc_html(sixtythree_contact_email()); ?><br>Atbildēsim 1 darba dienas laikā.</span></div></div>
             <div class="contact-item"><div class="mini"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></div><div><b>Tālrunis</b><span><?php echo esc_html(sixtythree_contact_phone()); ?><br>Zvaniet vai rakstiet par pieejamību.</span></div></div>
@@ -581,34 +565,7 @@ ob_start();
         <div class="cta-form sixtythree-bbuilder-form">
           <div class="kicker">Saziņas forma</div>
           <h3>Pieteikt konsultāciju</h3>
-          <p class="lead">Forma izmanto WP BBuilder Dynamic Form bloku, ja spraudnis ir aktīvs. Bez BBuilder redzams tēmas fallback.</p>
-          <?php
-          $sixtythree_fields = array(
-              array('type'=>'text','name'=>'name','label'=>sixtythree_i18n('Vārds','Name','Имя'),'placeholder'=>sixtythree_i18n('Vārds','Name','Имя'),'required'=>true,'width'=>6),
-              array('type'=>'text','name'=>'company','label'=>sixtythree_i18n('Uzņēmums / projekts','Company / project','Компания / проект'),'placeholder'=>sixtythree_i18n('Uzņēmums / projekts','Company / project','Компания / проект'),'required'=>false,'width'=>6),
-              array('type'=>'email','name'=>'email','label'=>sixtythree_i18n('Epasts','Email','Эл. почта'),'placeholder'=>sixtythree_i18n('Epasts','Email','Эл. почта'),'required'=>true,'width'=>6),
-              array('type'=>'phone','name'=>'phone','label'=>sixtythree_i18n('Tālrunis','Phone','Телефон'),'placeholder'=>sixtythree_i18n('Tālrunis','Phone','Телефон'),'required'=>false,'width'=>6),
-              array('type'=>'select','name'=>'service','label'=>sixtythree_i18n('Interesējošais pakalpojums','Service of interest','Интересующая услуга'),'options'=>sixtythree_i18n("Telpu noma\nPirts zona\nWeb izstrāde\nSolārijs\nCiti pakalpojumi","Space rental\nSauna zone\nWeb development\nSolarium\nOther services","Аренда помещений\nЗона сауны\nВеб-разработка\nСолярий\nДругие услуги"),'required'=>false,'width'=>12),
-              array('type'=>'textarea','name'=>'message','label'=>sixtythree_i18n('Ziņa','Message','Сообщение'),'placeholder'=>sixtythree_i18n('Pastāstiet īsi par savu vajadzību...','Tell us briefly what you need...','Кратко опишите вашу потребность...'),'required'=>true,'width'=>12),
-          );
-          $sixtythree_form_attrs = array(
-              'showTitle' => false,
-              'formTitle' => 'Pieteikt konsultāciju',
-              'recipient' => sixtythree_contact_email(),
-              'emailSubject' => '63.lv pieteikums',
-              'successMessage' => 'Paldies! Sazināsimies ar jums.',
-              'submitText' => 'Nosūtīt pieteikumu',
-              'buttonClass' => 'btn',
-              'formClass' => 'wpbb-form',
-              'fieldsJson' => wp_json_encode($sixtythree_fields),
-          );
-          $sixtythree_form_block = '<!-- wp:wpbb/dynamic-form ' . wp_json_encode($sixtythree_form_attrs) . ' /-->';
-          if (function_exists('do_blocks') && WP_Block_Type_Registry::get_instance()->is_registered('wpbb/dynamic-form')) {
-              echo do_blocks($sixtythree_form_block);
-          } else {
-              sixtythree_fallback_contact_form();
-          }
-          ?>
+          <?php echo do_shortcode('[sixtythree_contact_form]'); ?>
         </div>
       </div>
     </section>
@@ -623,11 +580,11 @@ ob_start();
         </iframe>
 
         <div class="map-box">
-          <div class="kicker">Atrašanās vieta</div>
-          <h3>Bauskas iela 63, Rīga</h3>
-          <p>Pilna platuma karte ar pelēku, elegantu vizuālo stilu un pārklātu adreses bloku. Vēlāk to var aizstāt ar pielāgotu Google Maps vai Leaflet risinājumu WordPress / headless vidē.</p>
+          <div class="kicker"><?php echo esc_html(sixtythree_i18n('Atrašanās vieta', 'Location', 'Местоположение')); ?></div>
+          <h3><?php echo esc_html(sixtythree_i18n('Bauskas iela 63, Rīga', 'Bauskas Street 63, Riga', 'Улица Баускас 63, Рига')); ?></h3>
+          <p><?php echo esc_html(sixtythree_i18n('Mūs atradīsiet Bauskas ielā 63, Rīgā — ar ērtu piekļuvi no ielas un pagalma puses.', 'You can find us at Bauskas Street 63, Riga — with convenient access from both the street and courtyard side.', 'Вы найдёте нас на улице Баускас 63, в Риге — с удобным доступом как со стороны улицы, так и со двора.')); ?></p>
           <div class="address-pills">
-            <div class="address-pill"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="address-pill-text">Bauskas iela 63, Rīga</span></div>
+            <div class="address-pill"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="address-pill-text"><?php echo esc_html(sixtythree_i18n('Bauskas iela 63, Rīga', 'Bauskas Street 63, Riga', 'Улица Баускас 63, Рига')); ?></span></div>
             <div class="address-pill"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg><span class="address-pill-text"><?php echo esc_html(sixtythree_contact_phone()); ?></span></div>
             <div class="address-pill"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4.5 7 7.5 6 7.5-6"/></svg><span class="address-pill-text"><?php echo esc_html(sixtythree_contact_email()); ?></span></div>
           </div>
@@ -640,8 +597,9 @@ ob_start();
   <footer>
     <div class="footer-item"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4.5 7 7.5 6 7.5-6"/></svg></span><div><b><?php echo esc_html(sixtythree_contact_email()); ?></b></div></div>
     <div class="footer-item"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></span><div><b><?php echo esc_html(sixtythree_contact_phone()); ?></b></div></div>
-    <div class="footer-item"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span><div><b>Bauskas 63, Rīga</b></div></div>
-    <a class="btn" href="mailto:<?php echo esc_attr(sixtythree_contact_email()); ?>">Sazināties →</a>
+    <div class="footer-item"><span class="footer-icon"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.15 7-12a7 7 0 0 0-14 0c0 5.85 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span><div><b><?php echo esc_html(sixtythree_i18n('Bauskas 63, Rīga', 'Bauskas 63, Riga', 'Баускас 63, Рига')); ?></b></div></div>
+    <?php echo sixtythree_facebook_footer_item(); ?>
+    <a class="btn" href="mailto:<?php echo esc_attr(sixtythree_contact_email()); ?>"><?php echo esc_html(sixtythree_i18n('Sazināties →', 'Contact →', 'Связаться →')); ?></a>
   </footer>
 
 
@@ -653,6 +611,32 @@ ob_start();
       <div class="pirts-lightbox-nav">
         <button id="pirtsLightboxPrev" type="button" aria-label="Iepriekšējais attēls">‹</button>
         <button id="pirtsLightboxNext" type="button" aria-label="Nākamais attēls">›</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="blog-lightbox" id="blogLightbox" aria-hidden="true">
+    <div class="blog-lightbox-inner">
+      <button class="blog-lightbox-close" id="blogLightboxClose" type="button" aria-label="<?php echo esc_attr(sixtythree_homepage_text('pirts_blog_modal_close')); ?>">×</button>
+      <div class="blog-lightbox-media" id="blogLightboxMedia"></div>
+      <div class="blog-lightbox-content">
+        <span class="blog-lightbox-date" id="blogLightboxDate"></span>
+        <h3 id="blogLightboxTitle"></h3>
+        <p class="blog-lightbox-summary" id="blogLightboxSummary"></p>
+        <div class="blog-lightbox-text" id="blogLightboxText"></div>
+        <div class="blog-lightbox-share" aria-label="Dalīties ar rakstu">
+          <button class="blog-share-btn" id="blogShareFacebook" type="button" aria-label="Dalīties Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2.4V4.2A29 29 0 0 0 13 4c-3.4 0-5.7 2.1-5.7 5.9V13H3.5v4.2h3.8V24H12v-6.8h3.8l.6-4.2H12V10.3c0-1.2.3-2.3 2-2.3Z"/></svg>
+          </button>
+          <button class="blog-share-btn" id="blogShareLinkedin" type="button" aria-label="Dalīties LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4V24h-4V8Zm7.5 0h3.8v2.2h.1c.5-1 1.9-2.6 4-2.6 4.3 0 5.1 2.8 5.1 6.5V24h-4v-8.8c0-2.1 0-4.8-2.9-4.8s-3.3 2.3-3.3 4.6v9H8V8Z"/></svg>
+          </button>
+          <button class="blog-share-btn blog-share-copy" id="blogShareCopy" type="button" aria-label="<?php echo esc_attr(sixtythree_i18n('Kopēt saiti', 'Copy link', 'Скопировать ссылку')); ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H5a2 2 0 0 0-2 2v13h2V3h11V1Zm3 4H9a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H9V7h10v14Z"/></svg>
+            <span class="sr-only"><?php echo esc_html(sixtythree_i18n('Kopēt saiti', 'Copy link', 'Скопировать ссылку')); ?></span>
+          </button>
+        </div>
+        <a class="btn btn-outline blog-lightbox-link" id="blogLightboxLink" href="#" target="_self" rel="noopener"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
       </div>
     </div>
   </div>
@@ -699,6 +683,6 @@ ob_start();
   </div>
 
   
-</main>
-<?php echo sixtythree_translate_front_html(ob_get_clean()); ?>
+</div>
+<?php echo sixtythree_frontpage_output(ob_get_clean()); ?>
 <?php get_footer(); ?>
