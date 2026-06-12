@@ -4,7 +4,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.7.8');
+define('SIXTYTHREE_THEME_VERSION', '1.7.9');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
@@ -2613,6 +2613,52 @@ function sixtythree_booking_settings_page() {
  */
 function sixtythree_homepage_defaults() {
     return array(
+        // Editable rental/about section fields. These are read per current language.
+        'rent_badge_kicker_lv' => 'Iznoma',
+        'rent_badge_kicker_en' => 'For rent',
+        'rent_badge_kicker_ru' => 'Аренда',
+        'rent_badge_title_lv' => 'Telpas biznesam',
+        'rent_badge_title_en' => 'Space for business',
+        'rent_badge_title_ru' => 'Помещения для бизнеса',
+        'rent_badge_meta_lv' => '105 m² · Bauskas 63',
+        'rent_badge_meta_en' => '105 m² · Bauskas 63',
+        'rent_badge_meta_ru' => '105 м² · Баускас 63',
+        'rent_button_text_lv' => 'Atvērt piedāvājumu',
+        'rent_button_text_en' => 'Open offer',
+        'rent_button_text_ru' => 'Открыть предложение',
+        'rent_story_kicker_lv' => 'Bauskas 63, Rīga',
+        'rent_story_kicker_en' => 'Bauskas 63, Riga',
+        'rent_story_kicker_ru' => 'Баускас 63, Рига',
+        'rent_story_heading_lv' => 'Vieta, kur darbi notiek un idejas aug',
+        'rent_story_heading_en' => 'A place where work happens and ideas grow',
+        'rent_story_heading_ru' => 'Место, где работа идёт и идеи растут',
+        'rent_story_intro_lv' => 'Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā.',
+        'rent_story_intro_en' => 'Modern premises, a personal approach and quality services — supporting your daily work and business since 2003.',
+        'rent_story_intro_ru' => 'Современные помещения, индивидуальный подход и качественные услуги — поддерживаем вашу работу и бизнес с 2003 года.',
+        'rent_story_point_1_lv' => 'Vitrīnas logi un ieeja no Bauskas ielas.',
+        'rent_story_point_1_en' => 'Shopfront windows and entrance from Bauskas Street.',
+        'rent_story_point_1_ru' => 'Витринные окна и вход со стороны улицы Баускас.',
+        'rent_story_point_2_lv' => 'Atsevišķa ieeja no pagalma puses.',
+        'rent_story_point_2_en' => 'Separate entrance from the courtyard side.',
+        'rent_story_point_2_ru' => 'Отдельный вход со стороны двора.',
+        'rent_story_point_3_lv' => 'Svaigs remonts un pieejams uzreiz.',
+        'rent_story_point_3_en' => 'Fresh renovation and available immediately.',
+        'rent_story_point_3_ru' => 'Свежий ремонт и доступно сразу.',
+        'rent_story_point_4_lv' => 'Piemērots birojam, veikalam, salonam u.c.',
+        'rent_story_point_4_en' => 'Suitable for an office, shop, salon and more.',
+        'rent_story_point_4_ru' => 'Подходит для офиса, магазина, салона и др.',
+        'rent_modal_title_lv' => 'Telpa nomai Bauskas ielā 63',
+        'rent_modal_title_en' => 'Space for rent at Bauskas Street 63',
+        'rent_modal_title_ru' => 'Помещение в аренду на ул. Баускас 63',
+        'rent_modal_subtitle_lv' => '105 m² · piedāvājums atveras šajā logā',
+        'rent_modal_subtitle_en' => '105 m² · offer opens in this window',
+        'rent_modal_subtitle_ru' => '105 м² · предложение открывается в этом окне',
+        'rent_modal_alt_lv' => '105 m² telpu nomas piedāvājums Bauskas ielā 63',
+        'rent_modal_alt_en' => '105 m² rental offer at Bauskas Street 63',
+        'rent_modal_alt_ru' => 'Предложение аренды 105 м² на ул. Баускас 63',
+        'rent_modal_close_label_lv' => 'Aizvērt',
+        'rent_modal_close_label_en' => 'Close',
+        'rent_modal_close_label_ru' => 'Закрыть',
         'pirts_kicker' => 'Bauskas 63 · pirts zona',
         'pirts_heading' => 'Vieta ģimenei, draugiem un svinībām',
         'pirts_intro' => 'Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.',
@@ -2675,6 +2721,7 @@ function sixtythree_homepage_image_defaults() {
         'pirts_blog_image_1' => 'assets/images/63lv/pirts-zone-clean-04.avif',
         'pirts_blog_image_2' => 'assets/images/63lv/pirts-zone-clean-05.avif',
         'pirts_blog_image_3' => 'assets/images/63lv/pirts-zone-clean-06.avif',
+        'rent_offer_image' => 'assets/images/63lv/piedavajums-580.avif',
     );
 }
 
@@ -2728,6 +2775,21 @@ function sixtythree_homepage_text($key, $fallback = '') {
     $defaults = sixtythree_homepage_defaults();
     $default = array_key_exists($key, $defaults) ? $defaults[$key] : $fallback;
     return get_theme_mod('sixtythree_' . $key, $default);
+}
+
+function sixtythree_homepage_text_i18n($key, $fallback = '') {
+    $lang = function_exists('sixtythree_current_lang') ? sixtythree_current_lang() : 'lv';
+    if (!in_array($lang, array('lv', 'en', 'ru'), true)) { $lang = 'lv'; }
+    $defaults = sixtythree_homepage_defaults();
+    $localized_key = $key . '_' . $lang;
+    $default = $defaults[$localized_key] ?? ($defaults[$key] ?? $fallback);
+    $value = get_theme_mod('sixtythree_' . $localized_key, $default);
+    if ($value !== '') { return $value; }
+    if ($lang !== 'lv') {
+        $lv_value = get_theme_mod('sixtythree_' . $key . '_lv', $defaults[$key . '_lv'] ?? $fallback);
+        if ($lv_value !== '') { return $lv_value; }
+    }
+    return $fallback;
 }
 
 function sixtythree_homepage_media_url($key, $fallback_rel = '') {
@@ -2806,6 +2868,7 @@ function sixtythree_register_homepage_customizer($wp_customize) {
 
     $sections = array(
         'sixtythree_pirts_content' => __('Pirts zone content', 'sixty-three-lv'),
+        'sixtythree_rent_content' => __('Rental / about section', 'sixty-three-lv'),
         'sixtythree_pirts_gallery' => __('Pirts zone gallery', 'sixty-three-lv'),
         'sixtythree_pirts_blog' => __('Pirts blog cards', 'sixty-three-lv'),
         'sixtythree_pirts_booking' => __('Pirts booking calendar', 'sixty-three-lv'),
@@ -2838,9 +2901,34 @@ function sixtythree_register_homepage_customizer($wp_customize) {
         ));
     }
 
+    $rent_text_keys = array(
+        'rent_badge_kicker','rent_badge_title','rent_badge_meta','rent_button_text',
+        'rent_story_kicker','rent_story_heading','rent_story_intro',
+        'rent_story_point_1','rent_story_point_2','rent_story_point_3','rent_story_point_4',
+        'rent_modal_title','rent_modal_subtitle','rent_modal_alt','rent_modal_close_label',
+    );
+    $rent_languages = sixtythree_text_override_languages();
+    $priority = 10;
+    foreach ($rent_languages as $lang_code => $lang_label) {
+        foreach ($rent_text_keys as $key) {
+            $localized_key = $key . '_' . $lang_code;
+            $wp_customize->add_setting('sixtythree_' . $localized_key, array(
+                'default' => $defaults[$localized_key] ?? '',
+                'sanitize_callback' => (strpos($key, 'intro') !== false || strpos($key, 'point_') !== false || strpos($key, 'subtitle') !== false || strpos($key, 'alt') !== false) ? 'sanitize_textarea_field' : 'sanitize_text_field',
+                'transport' => 'refresh',
+            ));
+            $wp_customize->add_control('sixtythree_' . $localized_key, array(
+                'label' => $lang_label . ' — ' . ucwords(str_replace('_', ' ', $key)),
+                'section' => 'sixtythree_rent_content',
+                'type' => (strpos($key, 'intro') !== false || strpos($key, 'point_') !== false || strpos($key, 'subtitle') !== false || strpos($key, 'alt') !== false) ? 'textarea' : 'text',
+                'priority' => $priority++,
+            ));
+        }
+    }
+
     $image_defaults = sixtythree_homepage_image_defaults();
     foreach ($image_defaults as $key => $relative_path) {
-        $section = strpos($key, 'blog') !== false ? 'sixtythree_pirts_blog' : 'sixtythree_pirts_gallery';
+        $section = $key === 'rent_offer_image' ? 'sixtythree_rent_content' : (strpos($key, 'blog') !== false ? 'sixtythree_pirts_blog' : 'sixtythree_pirts_gallery');
         $wp_customize->add_setting('sixtythree_' . $key, array(
             'default' => 0,
             'sanitize_callback' => 'absint',

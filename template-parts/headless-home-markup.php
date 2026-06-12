@@ -371,10 +371,10 @@
             <div class="story-visual-slide" data-story="3" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-5.jpg', true)); ?>')"></div>
 
             <div class="rent-badge">
-              <small>Iznoma</small>
-              <strong>Telpas biznesam</strong>
-              <em>105 m² · Bauskas 63</em>
-              <button id="openRent" type="button">Atvērt piedāvājumu</button>
+              <small><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_kicker')); ?></small>
+              <strong><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_title')); ?></strong>
+              <em><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_meta')); ?></em>
+              <button id="openRent" type="button" data-rent-offer-url="<?php echo esc_url(sixtythree_homepage_media_url('rent_offer_image', 'assets/images/63lv/piedavajums-580.avif')); ?>"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_button_text')); ?></button>
             </div>
 
             <div class="story-slider-nav" aria-label="Telpu attēli">
@@ -385,15 +385,15 @@
             </div>
           </div>
           <div class="story-copy">
-            <div class="kicker">Bauskas 63, Rīga</div>
-            <h2>Vieta, kur darbi notiek un idejas aug</h2>
+            <div class="kicker"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_kicker')); ?></div>
+            <h2><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_heading')); ?></h2>
             <div class="gold-rule"></div>
-            <p>Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā.</p>
+            <p><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_intro')); ?></p>
             <div class="story-points">
-              <div class="story-point">Vitrīnas logi un ieeja no Bauskas ielas.</div>
-              <div class="story-point">Atsevišķa ieeja no pagalma puses.</div>
-              <div class="story-point">Svaigs remonts un pieejams uzreiz.</div>
-              <div class="story-point">Piemērots birojam, veikalam, salonam u.c.</div>
+              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_1')); ?></div>
+              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_2')); ?></div>
+              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_3')); ?></div>
+              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_4')); ?></div>
             </div>
           </div>
         </div>
@@ -622,43 +622,17 @@
     </div>
   </div>
 
-  <div class="modal-backdrop" id="rentModal">
-    <section class="modal" role="dialog" aria-modal="true" aria-label="Telpa nomai Bauskas ielā 63">
-      <div class="modal-head">
+  <div class="modal-backdrop rent-offer-backdrop" id="rentModal" aria-hidden="true">
+    <section class="modal rent-offer-modal" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_title')); ?>">
+      <div class="modal-head rent-offer-head">
         <div>
-          <h2>Telpa nomai Bauskas ielā 63, Rīgā</h2>
-          <p>⌖ Bauskas iela 63, Rīga · pieejamas uzreiz</p>
+          <h2><?php echo esc_html(sixtythree_homepage_text_i18n('rent_modal_title')); ?></h2>
+          <p><?php echo esc_html(sixtythree_homepage_text_i18n('rent_modal_subtitle')); ?></p>
         </div>
-        <button class="close" id="closeRent" type="button" aria-label="Aizvērt">×</button>
+        <button class="close" id="closeRent" type="button" aria-label="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_close_label')); ?>">×</button>
       </div>
-      <div class="modal-grid">
-        <aside>
-          <div class="fact"><i>□</i><div><strong>105 m²</strong><span>Telpas biznesam</span></div></div>
-          <div class="fact"><i>№</i><div><strong>1230</strong><span>Lietošanas veids</span></div></div>
-          <div class="fact"><i>⚿</i><div><strong>Uzreiz</strong><span>Pieejamas</span></div></div>
-          <div class="prices">
-            <div><span>Noma</span><b>370 €/mēn</b></div>
-            <div><span>Koplietošana</span><b>40 €/mēn</b></div>
-            <div><span>Drošības nauda</span><b>740 €</b></div>
-          </div>
-          <div class="fact"><i>♨</i><div><span>Apkure pēc gāzes patēriņa</span></div></div>
-          <div class="fact"><i>↯</i><div><span>Elektrība pēc skaitītāja</span></div></div>
-        </aside>
-        <picture><source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-6.avif'); ?>" type="image/avif"><img class="plan" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-6.jpg'); ?>" alt="105 m² telpu plānojums Bauskas ielā 63" loading="lazy" decoding="async" /></picture>
-        <aside>
-          <picture><source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.avif'); ?>" type="image/avif"><img class="modal-photo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.jpg'); ?>" alt="Bauskas 63 ēkas foto" loading="lazy" decoding="async" /></picture>
-          <ul class="checks">
-            <li>Vitrīnas logi un ieeja no Bauskas ielas</li>
-            <li>Atsevišķa ieeja no pagalma puses</li>
-            <li>Svaigs remonts</li>
-            <li>Atrašanās vieta ar aktīvu plūsmu, ērta piekļuve</li>
-            <li>Piemērots birojam, veikalam, salonam u.c.</li>
-          </ul>
-          <div class="modal-actions">
-            <a class="btn" href="mailto:<?php echo esc_attr(sixtythree_contact_email()); ?>?subject=Telpa%20nomai%20105m2%20Bauskas%2063">Pieteikt apskati</a>
-            <a class="btn btn-outline" href="#cta">Sazināties →</a>
-          </div>
-        </aside>
+      <div class="rent-offer-image-wrap">
+        <img id="rentOfferImage" class="rent-offer-image" src="<?php echo esc_url(sixtythree_homepage_media_url('rent_offer_image', 'assets/images/63lv/piedavajums-580.avif')); ?>" alt="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_alt')); ?>" loading="lazy" decoding="async" />
       </div>
     </section>
   </div>
