@@ -15,12 +15,39 @@
     setInterval(() => showSlide((current + 1) % slides.length), 5200);
   }
 
-  // Rent modal
+  // Rent offer image modal
   const rentModal = document.getElementById('rentModal');
   const openRent = document.getElementById('openRent');
   const closeRent = document.getElementById('closeRent');
-  if (openRent && rentModal) openRent.addEventListener('click', () => rentModal.classList.add('open'));
-  if (closeRent && rentModal) closeRent.addEventListener('click', () => rentModal.classList.remove('open'));
+  const rentOfferImage = document.getElementById('rentOfferImage');
+  const rentOfferUrl = openRent ? openRent.dataset.rentOfferUrl : '';
+
+  function openRentModal(event) {
+    if (event) event.preventDefault();
+    if (!rentModal) return;
+    if (rentOfferImage && rentOfferUrl) rentOfferImage.src = rentOfferUrl;
+    rentModal.classList.add('open');
+    rentModal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-is-open');
+  }
+
+  function closeRentModal() {
+    if (!rentModal) return;
+    rentModal.classList.remove('open');
+    rentModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('modal-is-open');
+  }
+
+  if (openRent && rentModal) openRent.addEventListener('click', openRentModal);
+  if (closeRent && rentModal) closeRent.addEventListener('click', closeRentModal);
+  if (rentModal) {
+    rentModal.addEventListener('click', (event) => {
+      if (event.target === rentModal) closeRentModal();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && rentModal.classList.contains('open')) closeRentModal();
+    });
+  }
 
   // Story big-image slider
   const storySlides = [...document.querySelectorAll('.story-visual-slide')];

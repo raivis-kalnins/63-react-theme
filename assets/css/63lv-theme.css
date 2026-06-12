@@ -8397,3 +8397,72 @@ a.btn-outline {
     min-height:48px;
   }
 }
+
+/* Rent offer image modal */
+html.modal-is-open,
+html.modal-is-open body {
+  overflow: hidden;
+}
+.rent-offer-backdrop {
+  padding: clamp(12px, 2vw, 28px);
+}
+.rent-offer-modal {
+  width: min(1120px, 96vw);
+  max-height: 94vh;
+  padding: clamp(14px, 2.5vw, 28px);
+  overflow: auto;
+}
+.rent-offer-head {
+  align-items: center;
+  margin-bottom: 14px;
+}
+.rent-offer-head h2 {
+  font-size: clamp(24px, 4vw, 42px);
+}
+.rent-offer-image-wrap {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(83, 53, 16, .12);
+}
+.rent-offer-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 767px) {
+  .rent-offer-modal {
+    width: 98vw;
+    max-height: 96vh;
+    border-radius: 22px;
+  }
+  .rent-offer-head {
+    gap: 12px;
+  }
+  .rent-offer-head p {
+    display: none;
+  }
+  .rent-offer-image-wrap {
+    border-radius: 16px;
+  }
+}
+
+/* Fix: keep the mobile search button text gold for contrast */
+#openSearchMobile.btn.btn-outline,
+#openSearchMobile.btn.btn-outline:hover,
+#openSearchMobile.btn.btn-outline:focus,
+#openSearchMobile.btn.btn-outline[aria-expanded="true"] {
+  color: var(--gold) !important;
+}
+
+/* Mobile menu stacking fix: keep offcanvas above sticky header */
+.overlay.open {
+  z-index: 19998 !important;
+}
+.offcanvas {
+  z-index: 19999 !important;
+}
+.search-modal.open {
+  z-index: 20000 !important;
+}
