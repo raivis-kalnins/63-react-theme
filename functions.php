@@ -4,14 +4,14 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.7.9');
+define('SIXTYTHREE_THEME_VERSION', '1.8.1');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
     add_theme_support('custom-logo', array('height'=>96,'width'=>220,'flex-height'=>true,'flex-width'=>true));
-    add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script'));
+    add_theme_support('html5', array('search-form','gallery','caption','style','script'));
     add_theme_support('align-wide');
     add_theme_support('responsive-embeds');
     register_nav_menus(array(
@@ -20,6 +20,47 @@ function sixtythree_setup() {
     ));
 }
 add_action('after_setup_theme', 'sixtythree_setup');
+
+
+/**
+ * Disable WordPress comments and trackbacks site-wide without changing stored posts.
+ */
+function sixtythree_disable_comments_support() {
+    foreach (get_post_types(array(), 'names') as $post_type) {
+        if (post_type_supports($post_type, 'comments')) {
+            remove_post_type_support($post_type, 'comments');
+        }
+        if (post_type_supports($post_type, 'trackbacks')) {
+            remove_post_type_support($post_type, 'trackbacks');
+        }
+    }
+}
+add_action('admin_init', 'sixtythree_disable_comments_support');
+
+add_filter('comments_open', '__return_false', 20, 2);
+add_filter('pings_open', '__return_false', 20, 2);
+add_filter('comments_array', '__return_empty_array', 10, 2);
+add_filter('feed_links_show_comments_feed', '__return_false');
+
+function sixtythree_hide_comments_admin_menu() {
+    remove_menu_page('edit-comments.php');
+    remove_submenu_page('options-general.php', 'options-discussion.php');
+}
+add_action('admin_menu', 'sixtythree_hide_comments_admin_menu', 999);
+
+function sixtythree_hide_comments_admin_bar($wp_admin_bar) {
+    $wp_admin_bar->remove_node('comments');
+}
+add_action('admin_bar_menu', 'sixtythree_hide_comments_admin_bar', 999);
+
+function sixtythree_redirect_comments_admin_page() {
+    global $pagenow;
+    if ($pagenow === 'edit-comments.php') {
+        wp_safe_redirect(admin_url());
+        exit;
+    }
+}
+add_action('admin_init', 'sixtythree_redirect_comments_admin_page');
 
 function sixtythree_current_lang() {
     if (function_exists('pll_current_language')) {
@@ -57,9 +98,9 @@ function sixtythree_social_share_defaults() {
             '63.lv — сауна, аренда помещений, веб-разработка и обучение в Риге'
         ),
         'description' => sixtythree_i18n(
-            '63.lv Bauskas ielā 63, Rīgā: pirts ģimenei un draugiem, telpu noma, mācības, frizētava, solārijs un WordPress / React web izstrāde.',
-            '63.lv at Bauskas Street 63 in Riga: sauna for family and friends, room rental, training, hairdresser, solarium and WordPress / React web development.',
-            '63.lv на улице Баускас 63 в Риге: сауна для семьи и друзей, аренда помещений, обучение, парикмахерская, солярий и разработка WordPress / React.'
+            '63.lv Bauskas ielā 63, Rīgā: pirts ģimenei un draugiem, telpu noma, mācības, frizētava, solārijs, ForAirsoft airsoft veikals un WordPress / React web izstrāde.',
+            '63.lv at Bauskas Street 63 in Riga: sauna for family and friends, room rental, training, hairdresser, solarium, the ForAirsoft airsoft shop and WordPress / React web development.',
+            '63.lv на улице Баускас 63 в Риге: сауна для семьи и друзей, аренда помещений, обучение, парикмахерская, солярий, магазин ForAirsoft и разработка WordPress / React.'
         ),
         'image' => 'https://63.lv/wp-content/uploads/2026/05/pirts-zone-clean-01-replacement.jpg',
         'url' => sixtythree_language_home_url(),
@@ -335,7 +376,8 @@ function sixtythree_localbusiness_schema() {
             array('@type' => 'Offer', 'name' => 'Pirts zona'),
             array('@type' => 'Offer', 'name' => 'Telpu noma'),
             array('@type' => 'Offer', 'name' => 'Web izstrāde'),
-            array('@type' => 'Offer', 'name' => 'Apmācības')
+            array('@type' => 'Offer', 'name' => 'Apmācības'),
+            array('@type' => 'Offer', 'name' => 'ForAirsoft airsoft veikals un serviss')
         )
     );
     echo "\n<script type=\"application/ld+json\">" . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
@@ -1051,8 +1093,8 @@ function sixtythree_ajax_search() {
             'title' => 'Pakalpojumi',
             'url' => home_url('/#pakalpojumi'),
             'type' => 'Lapa',
-            'excerpt' => 'Pirts ballītēm, web izstrāde, e-apmācības, skaistumkopšana un citi 63.lv pakalpojumi.',
-            'keywords' => 'pakalpojumi pirts ballītes web izstrāde wordpress kursi solārijs frizētava manikīrs šūšana',
+            'excerpt' => 'Pirts ballītēm, web izstrāde, e-apmācības, skaistumkopšana, ForAirsoft un citi 63.lv pakalpojumi.',
+            'keywords' => 'pakalpojumi pirts ballītes web izstrāde wordpress kursi solārijs frizētava manikīrs šūšana forairsoft airsoft veikals serviss',
         ),
         array(
             'title' => function_exists('sixtythree_homepage_text') ? sixtythree_homepage_text('pirts_kicker', 'Bauskas 63 · pirts zona') : 'Bauskas 63 · pirts zona',
@@ -1067,6 +1109,13 @@ function sixtythree_ajax_search() {
             'type' => 'Lapa',
             'excerpt' => 'Solārija cenas un skaistuma pakalpojumu informācija.',
             'keywords' => 'solārijs cenas skaistums frizētava manikīrs pedikīrs',
+        ),
+        array(
+            'title' => 'ForAirsoft — airsoft veikals un serviss',
+            'url' => home_url('/#forairsoft'),
+            'type' => 'Lapa',
+            'excerpt' => 'Airsoft veikals un repliku serviss Bauskas ielā 63 ar ekipējumu, rezerves daļām, remontu un uzlabojumiem.',
+            'keywords' => 'forairsoft airsoft veikals replikas taktiskais ekipējums serviss remonts rezerves daļas uzlabojumi bauskas 63',
         ),
         array(
             'title' => 'Web izstrāde',
@@ -1595,6 +1644,27 @@ function sixtythree_front_translation_extra_map() {
             'Frizētava IEVA' => 'Hairdresser IEVA',
             'Manikīrs & pedikīrs' => 'Manicure & pedicure',
             'Šūšanas un remonta darbi' => 'Tailoring and repair work',
+            'Airsoft veikals un serviss' => 'Airsoft shop and service',
+            'Replikas un taktiskais ekipējums' => 'Replicas and tactical gear',
+            'Rezerves daļas un uzlabojumi' => 'Spare parts and upgrades',
+            'Tajā pašā Bauskas 63 ēkā' => 'In the same Bauskas 63 building',
+            'Bauskas 63 · Airsoft' => 'Bauskas 63 · Airsoft',
+            'ForAirsoft — airsoft veikals un serviss' => 'ForAirsoft — airsoft shop and service',
+            'Airsoft veikals ar 10+ gadu pieredzi nozarē. Piedāvā replikas, taktisko ekipējumu un rezerves daļas remontam un uzlabojumiem, kā arī repliku apkopes, remonta un individuālas pielāgošanas servisu.' => 'An airsoft shop with 10+ years of industry experience. It offers replicas, tactical gear and spare parts for repairs and upgrades, as well as maintenance, repair and custom replica setup services.',
+            'Adrese' => 'Address',
+            'Darba laiks' => 'Opening hours',
+            'Otr.–Piekt.' => 'Tue–Fri',
+            'Sest.' => 'Sat',
+            'Sv.–Pirm.' => 'Sun–Mon',
+            'slēgts' => 'closed',
+            'E-pasts' => 'Email',
+            'Tālruņi' => 'Phones',
+            'Apmeklēt ForAirsoft.com ↗' => 'Visit ForAirsoft.com ↗',
+            'ForAirsoft kontakti ↗' => 'ForAirsoft contacts ↗',
+            'Bauskas iela 63, k1, Rīga, LV-1004' => 'Bauskas Street 63, building 1, Riga, LV-1004',
+            'ForAirsoft veikals Bauskas ielā 63' => 'ForAirsoft shop at Bauskas Street 63',
+            'ForAirsoft veikala izkārtne Bauskas ielā 63' => 'ForAirsoft shop sign at Bauskas Street 63',
+            'ForAirsoft fiziskā veikala interjers' => 'ForAirsoft physical store interior',
             'Pirts' => 'Sauna',
             'Apmācības' => 'Training',
             '€90 / akcijā €84' => '€90 / promo €84',
@@ -1679,6 +1749,27 @@ function sixtythree_front_translation_extra_map() {
             'Frizētava IEVA' => 'Парикмахерская IEVA',
             'Manikīrs & pedikīrs' => 'Маникюр и педикюр',
             'Šūšanas un remonta darbi' => 'Швейные и ремонтные работы',
+            'Airsoft veikals un serviss' => 'Магазин и сервис airsoft',
+            'Replikas un taktiskais ekipējums' => 'Реплики и тактическое снаряжение',
+            'Rezerves daļas un uzlabojumi' => 'Запчасти и улучшения',
+            'Tajā pašā Bauskas 63 ēkā' => 'В том же здании Bauskas 63',
+            'Bauskas 63 · Airsoft' => 'Bauskas 63 · Airsoft',
+            'ForAirsoft — airsoft veikals un serviss' => 'ForAirsoft — магазин и сервис airsoft',
+            'Airsoft veikals ar 10+ gadu pieredzi nozarē. Piedāvā replikas, taktisko ekipējumu un rezerves daļas remontam un uzlabojumiem, kā arī repliku apkopes, remonta un individuālas pielāgošanas servisu.' => 'Магазин airsoft с опытом более 10 лет. Здесь есть реплики, тактическое снаряжение и запчасти для ремонта и улучшений, а также обслуживание, ремонт и индивидуальная настройка реплик.',
+            'Adrese' => 'Адрес',
+            'Darba laiks' => 'Часы работы',
+            'Otr.–Piekt.' => 'Вт–Пт',
+            'Sest.' => 'Сб',
+            'Sv.–Pirm.' => 'Вс–Пн',
+            'slēgts' => 'закрыто',
+            'E-pasts' => 'Эл. почта',
+            'Tālruņi' => 'Телефоны',
+            'Apmeklēt ForAirsoft.com ↗' => 'Посетить ForAirsoft.com ↗',
+            'ForAirsoft kontakti ↗' => 'Контакты ForAirsoft ↗',
+            'Bauskas iela 63, k1, Rīga, LV-1004' => 'ул. Баускас 63, корпус 1, Рига, LV-1004',
+            'ForAirsoft veikals Bauskas ielā 63' => 'Магазин ForAirsoft на ул. Баускас 63',
+            'ForAirsoft veikala izkārtne Bauskas ielā 63' => 'Вывеска магазина ForAirsoft на ул. Баускас 63',
+            'ForAirsoft fiziskā veikala interjers' => 'Интерьер физического магазина ForAirsoft',
             'Pirts' => 'Сауна',
             'Apmācības' => 'Обучение',
             '€90 / akcijā €84' => '€90 / акция €84',
@@ -2613,52 +2704,6 @@ function sixtythree_booking_settings_page() {
  */
 function sixtythree_homepage_defaults() {
     return array(
-        // Editable rental/about section fields. These are read per current language.
-        'rent_badge_kicker_lv' => 'Iznoma',
-        'rent_badge_kicker_en' => 'For rent',
-        'rent_badge_kicker_ru' => 'Аренда',
-        'rent_badge_title_lv' => 'Telpas biznesam',
-        'rent_badge_title_en' => 'Space for business',
-        'rent_badge_title_ru' => 'Помещения для бизнеса',
-        'rent_badge_meta_lv' => '105 m² · Bauskas 63',
-        'rent_badge_meta_en' => '105 m² · Bauskas 63',
-        'rent_badge_meta_ru' => '105 м² · Баускас 63',
-        'rent_button_text_lv' => 'Atvērt piedāvājumu',
-        'rent_button_text_en' => 'Open offer',
-        'rent_button_text_ru' => 'Открыть предложение',
-        'rent_story_kicker_lv' => 'Bauskas 63, Rīga',
-        'rent_story_kicker_en' => 'Bauskas 63, Riga',
-        'rent_story_kicker_ru' => 'Баускас 63, Рига',
-        'rent_story_heading_lv' => 'Vieta, kur darbi notiek un idejas aug',
-        'rent_story_heading_en' => 'A place where work happens and ideas grow',
-        'rent_story_heading_ru' => 'Место, где работа идёт и идеи растут',
-        'rent_story_intro_lv' => 'Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā.',
-        'rent_story_intro_en' => 'Modern premises, a personal approach and quality services — supporting your daily work and business since 2003.',
-        'rent_story_intro_ru' => 'Современные помещения, индивидуальный подход и качественные услуги — поддерживаем вашу работу и бизнес с 2003 года.',
-        'rent_story_point_1_lv' => 'Vitrīnas logi un ieeja no Bauskas ielas.',
-        'rent_story_point_1_en' => 'Shopfront windows and entrance from Bauskas Street.',
-        'rent_story_point_1_ru' => 'Витринные окна и вход со стороны улицы Баускас.',
-        'rent_story_point_2_lv' => 'Atsevišķa ieeja no pagalma puses.',
-        'rent_story_point_2_en' => 'Separate entrance from the courtyard side.',
-        'rent_story_point_2_ru' => 'Отдельный вход со стороны двора.',
-        'rent_story_point_3_lv' => 'Svaigs remonts un pieejams uzreiz.',
-        'rent_story_point_3_en' => 'Fresh renovation and available immediately.',
-        'rent_story_point_3_ru' => 'Свежий ремонт и доступно сразу.',
-        'rent_story_point_4_lv' => 'Piemērots birojam, veikalam, salonam u.c.',
-        'rent_story_point_4_en' => 'Suitable for an office, shop, salon and more.',
-        'rent_story_point_4_ru' => 'Подходит для офиса, магазина, салона и др.',
-        'rent_modal_title_lv' => 'Telpa nomai Bauskas ielā 63',
-        'rent_modal_title_en' => 'Space for rent at Bauskas Street 63',
-        'rent_modal_title_ru' => 'Помещение в аренду на ул. Баускас 63',
-        'rent_modal_subtitle_lv' => '105 m² · piedāvājums atveras šajā logā',
-        'rent_modal_subtitle_en' => '105 m² · offer opens in this window',
-        'rent_modal_subtitle_ru' => '105 м² · предложение открывается в этом окне',
-        'rent_modal_alt_lv' => '105 m² telpu nomas piedāvājums Bauskas ielā 63',
-        'rent_modal_alt_en' => '105 m² rental offer at Bauskas Street 63',
-        'rent_modal_alt_ru' => 'Предложение аренды 105 м² на ул. Баускас 63',
-        'rent_modal_close_label_lv' => 'Aizvērt',
-        'rent_modal_close_label_en' => 'Close',
-        'rent_modal_close_label_ru' => 'Закрыть',
         'pirts_kicker' => 'Bauskas 63 · pirts zona',
         'pirts_heading' => 'Vieta ģimenei, draugiem un svinībām',
         'pirts_intro' => 'Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.',
@@ -2721,7 +2766,6 @@ function sixtythree_homepage_image_defaults() {
         'pirts_blog_image_1' => 'assets/images/63lv/pirts-zone-clean-04.avif',
         'pirts_blog_image_2' => 'assets/images/63lv/pirts-zone-clean-05.avif',
         'pirts_blog_image_3' => 'assets/images/63lv/pirts-zone-clean-06.avif',
-        'rent_offer_image' => 'assets/images/63lv/piedavajums-580.avif',
     );
 }
 
@@ -2868,7 +2912,6 @@ function sixtythree_register_homepage_customizer($wp_customize) {
 
     $sections = array(
         'sixtythree_pirts_content' => __('Pirts zone content', 'sixty-three-lv'),
-        'sixtythree_rent_content' => __('Rental / about section', 'sixty-three-lv'),
         'sixtythree_pirts_gallery' => __('Pirts zone gallery', 'sixty-three-lv'),
         'sixtythree_pirts_blog' => __('Pirts blog cards', 'sixty-three-lv'),
         'sixtythree_pirts_booking' => __('Pirts booking calendar', 'sixty-three-lv'),
@@ -2901,34 +2944,9 @@ function sixtythree_register_homepage_customizer($wp_customize) {
         ));
     }
 
-    $rent_text_keys = array(
-        'rent_badge_kicker','rent_badge_title','rent_badge_meta','rent_button_text',
-        'rent_story_kicker','rent_story_heading','rent_story_intro',
-        'rent_story_point_1','rent_story_point_2','rent_story_point_3','rent_story_point_4',
-        'rent_modal_title','rent_modal_subtitle','rent_modal_alt','rent_modal_close_label',
-    );
-    $rent_languages = sixtythree_text_override_languages();
-    $priority = 10;
-    foreach ($rent_languages as $lang_code => $lang_label) {
-        foreach ($rent_text_keys as $key) {
-            $localized_key = $key . '_' . $lang_code;
-            $wp_customize->add_setting('sixtythree_' . $localized_key, array(
-                'default' => $defaults[$localized_key] ?? '',
-                'sanitize_callback' => (strpos($key, 'intro') !== false || strpos($key, 'point_') !== false || strpos($key, 'subtitle') !== false || strpos($key, 'alt') !== false) ? 'sanitize_textarea_field' : 'sanitize_text_field',
-                'transport' => 'refresh',
-            ));
-            $wp_customize->add_control('sixtythree_' . $localized_key, array(
-                'label' => $lang_label . ' — ' . ucwords(str_replace('_', ' ', $key)),
-                'section' => 'sixtythree_rent_content',
-                'type' => (strpos($key, 'intro') !== false || strpos($key, 'point_') !== false || strpos($key, 'subtitle') !== false || strpos($key, 'alt') !== false) ? 'textarea' : 'text',
-                'priority' => $priority++,
-            ));
-        }
-    }
-
     $image_defaults = sixtythree_homepage_image_defaults();
     foreach ($image_defaults as $key => $relative_path) {
-        $section = $key === 'rent_offer_image' ? 'sixtythree_rent_content' : (strpos($key, 'blog') !== false ? 'sixtythree_pirts_blog' : 'sixtythree_pirts_gallery');
+        $section = strpos($key, 'blog') !== false ? 'sixtythree_pirts_blog' : 'sixtythree_pirts_gallery';
         $wp_customize->add_setting('sixtythree_' . $key, array(
             'default' => 0,
             'sanitize_callback' => 'absint',

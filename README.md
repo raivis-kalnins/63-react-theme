@@ -1,9 +1,18 @@
 # 63.lv React Theme
 
-**Version:** 1.6.7  
+**Version:** 1.8.0  
 **Theme:** WordPress / headless React-style homepage for 63.lv  
 **Requires PHP:** 7.4+  
 **Recommended plugins:** WP BBuilder, Polylang
+
+
+## 1.8.0 ForAirsoft service update
+
+- Added a new **ForAirsoft** service card immediately after **Citi pakalpojumi / Other services**.
+- Added a dedicated ForAirsoft section with Bauskas iela 63, k1 address, opening hours, email and both phone numbers.
+- Added links back to ForAirsoft.com and the ForAirsoft contact page.
+- Added the supplied ForAirsoft sign and physical-store photos.
+- Added LV / EN / RU translations for the new section, Ajax search keywords and LocalBusiness offer metadata.
 
 ## v1.6.7 SEO + minified React enhancement + JS/cache fix
 

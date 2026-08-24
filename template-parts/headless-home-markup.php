@@ -10,7 +10,6 @@
 
       <nav class="desktop-nav">
         <a class="nav-pill" href="#pakalpojumi">Pakalpojumi</a>
-        <a class="nav-pill" href="#par">Par mums</a>
         <a class="nav-pill" href="#web">Web izstrāde</a>
         <a class="nav-pill" href="#cta">Kontakti</a>
         <a class="nav-pill" href="#map">Atrašanās vieta</a>
@@ -62,7 +61,6 @@
     <?php sixtythree_language_switcher("mobile-lang"); ?>
     <nav>
       <a href="#pakalpojumi">Pakalpojumi</a>
-      <a href="#par">Par mums</a>
       <a href="#web">Web izstrāde</a>
       <a href="#cta">Kontakti</a>
       <a href="#map">Atrašanās vieta</a>
@@ -150,8 +148,55 @@
         <article class="service-card"><h3>Web izstrāde un uzturēšana</h3><ul><li>Business Startup no €550</li><li>WordPress & WooCommerce</li><li>SEO, hostings, optimizācija</li><li>Headless ReactJS risinājumi</li></ul><a href="#web">UZZINĀT VAIRĀK →</a></article>
         <article class="service-card"><h3>E-apmācības un kursi</h3><ul><li>Individuāli €15/h</li><li>Grupas 3–5 pers. €50/h</li><li>Zoom & Skype</li><li>Biroja darbi, kopēšana, printēšana</li></ul><a href="#learning">UZZINĀT VAIRĀK →</a></article>
         <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Vertikālais solārijs</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card service-card--forairsoft"><h3>ForAirsoft</h3><ul><li>Airsoft veikals un serviss</li><li>Replikas un taktiskais ekipējums</li><li>Rezerves daļas un uzlabojumi</li><li>Bauskas 63 · k1</li></ul><a href="#forairsoft">UZZINĀT VAIRĀK →</a></article>
       </div>
 
+    </section>
+
+    <section id="forairsoft" class="section forairsoft-section" aria-labelledby="forairsoft-title">
+      <div class="forairsoft-shell">
+        <div class="forairsoft-media" aria-label="ForAirsoft veikals Bauskas ielā 63">
+          <figure class="forairsoft-sign-photo">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/forairsoft-sign.jpg'); ?>" width="832" height="864" loading="lazy" decoding="async" alt="ForAirsoft veikala izkārtne Bauskas ielā 63">
+          </figure>
+          <figure class="forairsoft-shop-photo">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/forairsoft-shop.jpg'); ?>" width="300" height="225" loading="lazy" decoding="async" alt="ForAirsoft fiziskā veikala interjers">
+          </figure>
+        </div>
+
+        <div class="forairsoft-copy">
+          <div class="forairsoft-eyebrow"><span class="forairsoft-dot" aria-hidden="true"></span><span>Tajā pašā Bauskas 63 ēkā</span></div>
+          <div class="kicker">Bauskas 63 · Airsoft</div>
+          <h2 id="forairsoft-title">ForAirsoft — airsoft veikals un serviss</h2>
+          <p class="forairsoft-lead">Airsoft veikals ar 10+ gadu pieredzi nozarē. Piedāvā replikas, taktisko ekipējumu un rezerves daļas remontam un uzlabojumiem, kā arī repliku apkopes, remonta un individuālas pielāgošanas servisu.</p>
+
+          <div class="forairsoft-info-grid">
+            <div class="forairsoft-info-card">
+              <span class="forairsoft-info-label">Adrese</span>
+              <strong>Bauskas iela 63, k1, Rīga, LV-1004</strong>
+            </div>
+            <div class="forairsoft-info-card">
+              <span class="forairsoft-info-label">Darba laiks</span>
+              <strong>Otr.–Piekt. 10:00–19:00</strong>
+              <span>Sest. 11:00–15:00 · Sv.–Pirm. slēgts</span>
+            </div>
+            <div class="forairsoft-info-card">
+              <span class="forairsoft-info-label">E-pasts</span>
+              <a href="mailto:info@forairsoft.com">info@forairsoft.com</a>
+            </div>
+            <div class="forairsoft-info-card">
+              <span class="forairsoft-info-label">Tālruņi</span>
+              <a href="tel:+37122329800">+371 22329800</a>
+              <a href="tel:+37129415744">+371 29415744</a>
+            </div>
+          </div>
+
+          <div class="forairsoft-actions">
+            <a class="btn forairsoft-primary" href="https://forairsoft.com/" target="_blank" rel="noopener">Apmeklēt ForAirsoft.com ↗</a>
+            <a class="forairsoft-secondary" href="https://forairsoft.com/pages/contact" target="_blank" rel="noopener">ForAirsoft kontakti ↗</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     
@@ -352,48 +397,6 @@
                 <h3>Iedegumam un labsajūtai</h3>
                 <p>Mūsdienīgs, kompakts un vizuāli izcelts piedāvājums ar skaidri nolasāmām cenām.</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-
-    <section id="par" class="story-section">
-      <div class="story-card">
-        <div class="story-top">
-          <div class="story-image">
-            <div class="story-visual-slide art active" data-story="0"></div>
-            <div class="story-visual-slide" data-story="1" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-3.jpg', true)); ?>')"></div>
-            <div class="story-visual-slide" data-story="2" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-4.jpg', true)); ?>')"></div>
-            <div class="story-visual-slide" data-story="3" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-5.jpg', true)); ?>')"></div>
-
-            <div class="rent-badge">
-              <small><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_kicker')); ?></small>
-              <strong><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_title')); ?></strong>
-              <em><?php echo esc_html(sixtythree_homepage_text_i18n('rent_badge_meta')); ?></em>
-              <button id="openRent" type="button" data-rent-offer-url="<?php echo esc_url(sixtythree_homepage_media_url('rent_offer_image', 'assets/images/63lv/piedavajums-580.avif')); ?>"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_button_text')); ?></button>
-            </div>
-
-            <div class="story-slider-nav" aria-label="Telpu attēli">
-              <button class="story-dot active" type="button" data-story-target="0" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/generated-1.avif'); ?>')" aria-label="Ēkas art vizuālis"></button>
-              <button class="story-dot" type="button" data-story-target="1" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-3.jpg', true)); ?>')" aria-label="Interjers 1"></button>
-              <button class="story-dot" type="button" data-story-target="2" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-4.jpg', true)); ?>')" aria-label="Interjers 2"></button>
-              <button class="story-dot" type="button" data-story-target="3" style="background-image:url('<?php echo esc_url(sixtythree_theme_asset_uri('assets/images/63lv/generated-5.jpg', true)); ?>')" aria-label="Interjers 3"></button>
-            </div>
-          </div>
-          <div class="story-copy">
-            <div class="kicker"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_kicker')); ?></div>
-            <h2><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_heading')); ?></h2>
-            <div class="gold-rule"></div>
-            <p><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_intro')); ?></p>
-            <div class="story-points">
-              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_1')); ?></div>
-              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_2')); ?></div>
-              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_3')); ?></div>
-              <div class="story-point"><?php echo esc_html(sixtythree_homepage_text_i18n('rent_story_point_4')); ?></div>
             </div>
           </div>
         </div>
@@ -620,19 +623,4 @@
         <a class="btn btn-outline blog-lightbox-link" id="blogLightboxLink" href="#cta" target="_self" rel="noopener"><?php echo esc_html(sixtythree_homepage_text('pirts_blog_button')); ?></a>
       </div>
     </div>
-  </div>
-
-  <div class="modal-backdrop rent-offer-backdrop" id="rentModal" aria-hidden="true">
-    <section class="modal rent-offer-modal" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_title')); ?>">
-      <div class="modal-head rent-offer-head">
-        <div>
-          <h2><?php echo esc_html(sixtythree_homepage_text_i18n('rent_modal_title')); ?></h2>
-          <p><?php echo esc_html(sixtythree_homepage_text_i18n('rent_modal_subtitle')); ?></p>
-        </div>
-        <button class="close" id="closeRent" type="button" aria-label="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_close_label')); ?>">×</button>
-      </div>
-      <div class="rent-offer-image-wrap">
-        <img id="rentOfferImage" class="rent-offer-image" src="<?php echo esc_url(sixtythree_homepage_media_url('rent_offer_image', 'assets/images/63lv/piedavajums-580.avif')); ?>" alt="<?php echo esc_attr(sixtythree_homepage_text_i18n('rent_modal_alt')); ?>" loading="lazy" decoding="async" />
-      </div>
-    </section>
   </div>

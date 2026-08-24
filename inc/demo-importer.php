@@ -173,6 +173,7 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- wp:list-item --><li>Web izstrāde un uzturēšana</li><!-- /wp:list-item -->
 <!-- wp:list-item --><li>Vertikālais solārijs</li><!-- /wp:list-item -->
 <!-- wp:list-item --><li>Telpu noma Bauskas 63</li><!-- /wp:list-item -->
+<!-- wp:list-item --><li>ForAirsoft airsoft veikals</li><!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
 </div>
@@ -206,6 +207,9 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Telpu noma</h3><!-- /wp:heading --><!-- wp:paragraph --><p>105 m² biznesa telpas Bauskas ielā 63, Rīgā.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
+<!-- /wp:column -->
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">ForAirsoft</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Airsoft veikals un repliku serviss Bauskas ielā 63, k1. Replikas, taktiskais ekipējums, rezerves daļas, remonts un uzlabojumi.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
 <!-- /wp:column -->
 </div>
 <!-- /wp:columns -->

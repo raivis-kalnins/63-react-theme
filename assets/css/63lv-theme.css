@@ -8466,3 +8466,208 @@ html.modal-is-open body {
 .search-modal.open {
   z-index: 20000 !important;
 }
+
+/* ForAirsoft service at Bauskas 63 */
+.sixtythree-home .services {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+.sixtythree-home .service-card--forairsoft {
+  border-color: rgba(157, 195, 34, .42) !important;
+  background: linear-gradient(155deg, rgba(247, 250, 236, .98), rgba(255, 253, 249, .94)) !important;
+  box-shadow: 0 18px 42px rgba(80, 104, 19, .08) !important;
+}
+.sixtythree-home .service-card--forairsoft h3::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: #a8cf2a;
+}
+.sixtythree-home .service-card--forairsoft a {
+  color: #617b0f !important;
+}
+.sixtythree-home .forairsoft-section {
+  padding-top: 18px !important;
+}
+.sixtythree-home .forairsoft-shell {
+  display: grid;
+  grid-template-columns: minmax(320px, .88fr) minmax(0, 1.12fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  padding: clamp(24px, 4vw, 54px);
+  border-radius: 30px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(168, 207, 42, .16), transparent 28%),
+    linear-gradient(140deg, #11150f, #1b2118 70%, #10130e);
+  color: #fff;
+  box-shadow: 0 30px 70px rgba(35, 44, 24, .18);
+}
+.sixtythree-home .forairsoft-media {
+  position: relative;
+  padding: 0 16% 58px 0;
+}
+.sixtythree-home .forairsoft-media figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #20251d;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, .28);
+}
+.sixtythree-home .forairsoft-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.sixtythree-home .forairsoft-sign-photo img {
+  aspect-ratio: 832 / 864;
+  object-fit: cover;
+}
+.sixtythree-home .forairsoft-shop-photo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 52%;
+  border: 7px solid #171c14;
+}
+.sixtythree-home .forairsoft-shop-photo img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.sixtythree-home .forairsoft-copy .kicker {
+  color: #b5db31 !important;
+  margin-bottom: 12px;
+}
+.sixtythree-home .forairsoft-copy h2 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(36px, 4.4vw, 62px) !important;
+  line-height: .98;
+  color: #fff;
+}
+.sixtythree-home .forairsoft-lead {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, .76);
+  font-size: 16px;
+  line-height: 1.75;
+}
+.sixtythree-home .forairsoft-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  border: 1px solid rgba(181, 219, 49, .28);
+  border-radius: 999px;
+  color: #e5f4b2;
+  background: rgba(181, 219, 49, .08);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+.sixtythree-home .forairsoft-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #b5db31;
+  box-shadow: 0 0 0 5px rgba(181, 219, 49, .11);
+}
+.sixtythree-home .forairsoft-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+.sixtythree-home .forairsoft-info-card {
+  min-height: 112px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, .11);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .055);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.sixtythree-home .forairsoft-info-label {
+  color: #b5db31;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.sixtythree-home .forairsoft-info-card strong,
+.sixtythree-home .forairsoft-info-card a,
+.sixtythree-home .forairsoft-info-card span:not(.forairsoft-info-label) {
+  color: #fff;
+  line-height: 1.45;
+}
+.sixtythree-home .forairsoft-info-card a {
+  text-decoration: none;
+}
+.sixtythree-home .forairsoft-info-card a:hover {
+  color: #c8e66d;
+}
+.sixtythree-home .forairsoft-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 28px;
+}
+.sixtythree-home .forairsoft-primary {
+  background: #b5db31 !important;
+  color: #11150f !important;
+  border-color: #b5db31 !important;
+}
+.sixtythree-home .forairsoft-primary:hover {
+  transform: translateY(-1px);
+  background: #c3e54f !important;
+}
+.sixtythree-home .forairsoft-secondary {
+  color: #e8f6bd;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .03em;
+  text-decoration: none;
+}
+.sixtythree-home .forairsoft-secondary:hover {
+  color: #fff;
+}
+@media (max-width: 1199.98px) {
+  .sixtythree-home .services {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .sixtythree-home .forairsoft-shell {
+    grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr);
+  }
+}
+@media (max-width: 767.98px) {
+  .sixtythree-home .services {
+    grid-template-columns: 1fr !important;
+  }
+  .sixtythree-home .forairsoft-section {
+    padding-top: 6px !important;
+  }
+  .sixtythree-home .forairsoft-shell {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    border-radius: 24px;
+  }
+  .sixtythree-home .forairsoft-media {
+    padding: 0 12% 46px 0;
+  }
+  .sixtythree-home .forairsoft-copy h2 {
+    font-size: clamp(34px, 10vw, 46px) !important;
+  }
+  .sixtythree-home .forairsoft-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .sixtythree-home .forairsoft-info-card {
+    min-height: 0;
+  }
+}
