@@ -409,7 +409,17 @@
           <div class="kicker">Web Development</div>
           <h2>WordPress un full stack izstrāde</h2>
           <p>Izstrādājam WordPress, WooCommerce un headless ReactJS risinājumus uzņēmumiem, kuriem svarīgs ātrums, pārskatāma administrēšana un labs rezultāts meklētājos.</p>
-          <p>No klasiskām WordPress lapām līdz headless ReactJS projektiem — veidojam risinājumus, kas ir vizuāli kvalitatīvi, ērti pārvaldāmi un orientēti uz biznesa rezultātu. Papildus: AI theme/plugin development, hostings, atbalsts un uzturēšana.</p>
+          <p><?php echo esc_html(sixtythree_i18n(
+            'No Figma vai Adobe XD dizaina līdz WordPress, PHP un React izstrādei — veidojam responsīvu priekšpusi, REST API, datubāzu un integrāciju loģiku. Pārņemam un labojam arī esošas WordPress vietnes, migrējam novecojušus risinājumus, ieviešam AI funkcijas un nodrošinām hostingu, rezerves kopijas, drošību un veiktspējas uzraudzību.',
+            'From Figma or Adobe XD designs to WordPress, PHP and React development — we build responsive front ends, REST APIs, database logic and integrations. We also take over and fix existing WordPress sites, migrate older systems, add practical AI features, and provide hosting, backups, security and performance monitoring.',
+            'От дизайна в Figma или Adobe XD до разработки на WordPress, PHP и React — создаём адаптивный интерфейс, REST API, логику баз данных и интеграции. Также берём на поддержку и исправляем существующие сайты WordPress, переносим устаревшие решения, внедряем практические AI-функции и обеспечиваем хостинг, резервные копии, безопасность и контроль производительности.'
+          )); ?></p>
+          <div class="web-delivery-points" aria-label="<?php echo esc_attr(sixtythree_i18n('Web izstrādes iespējas', 'Web development capabilities', 'Возможности веб-разработки')); ?>">
+            <span><?php echo esc_html(sixtythree_i18n('Dizains → izstrāde', 'Design → development', 'Дизайн → разработка')); ?></span>
+            <span><?php echo esc_html(sixtythree_i18n('Web un mobilās lietotnes', 'Web & mobile apps', 'Веб- и мобильные приложения')); ?></span>
+            <span><?php echo esc_html(sixtythree_i18n('Migrācijas un remonts', 'Migrations & fixes', 'Миграции и исправления')); ?></span>
+            <span><?php echo esc_html(sixtythree_i18n('AI un automatizācija', 'AI & automation', 'AI и автоматизация')); ?></span>
+          </div>
           <div class="web-badges">
             <span>WordPress Themes</span>
             <span>WooCommerce</span>
@@ -477,9 +487,161 @@
         </article>
       </div>
 
+      <?php
+      $sixtythree_portfolio_projects = array(
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'SEO & Performance test',
+          'description' => array(
+            'SEO un veiktspējas rīks ātrām vietņu pārbaudēm un praktiskai optimizācijai.',
+            'SEO and performance toolkit for quick website checks and practical optimisation.',
+            'Инструмент SEO и производительности для быстрых проверок сайтов и практической оптимизации.'
+          ),
+          'url' => 'https://seo.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://seo.63.lv',
+        ),
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'Radio 63',
+          'description' => array(
+            'Mobilajām ierīcēm pielāgots interneta radio ar staciju vadību un bezsaistes audio rezerves režīmu.',
+            'Mobile-first internet radio with station controls and an offline audio fallback.',
+            'Мобильное интернет-радио с управлением станциями и резервным офлайн-аудио.'
+          ),
+          'url' => 'https://radio.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://radio.63.lv',
+        ),
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'Language Bridge',
+          'description' => array(
+            'Interaktīva valodu apguves lietotne vārdu krājumam, frāzēm un daudzvalodu mācību plūsmām.',
+            'Interactive language-learning app for vocabulary, phrases and multilingual study workflows.',
+            'Интерактивное приложение для изучения языков, словаря, фраз и многоязычных учебных сценариев.'
+          ),
+          'url' => 'https://language.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://language.63.lv',
+        ),
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'Book Reader',
+          'description' => array(
+            'Pārlūkā darbināma lasīšanas lietotne ar tīru, mobilajām ierīcēm ērtu saskarni.',
+            'Browser-based reading app with a clean, mobile-friendly interface.',
+            'Приложение для чтения в браузере с чистым и удобным мобильным интерфейсом.'
+          ),
+          'url' => 'https://book.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://book.63.lv',
+        ),
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'Music Writer',
+          'description' => array(
+            'Interaktīva nošu rakstīšanas un komponēšanas lietotne muzikālu ideju veidošanai un atskaņošanai pārlūkā.',
+            'Interactive music-notation and composition app for creating, editing and playing musical ideas in the browser.',
+            'Интерактивное приложение для нотной записи и композиции с созданием, редактированием и воспроизведением музыки в браузере.'
+          ),
+          'url' => 'https://music-writer.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://music-writer.63.lv',
+        ),
+        array(
+          'group' => 'apps',
+          'type' => array('Lietotne', 'App', 'Приложение'),
+          'title' => 'Music 63',
+          'description' => array(
+            'Mūzikai paredzēta responsīva tīmekļa lietotne 63.lv digitālajā ekosistēmā.',
+            'Responsive music-focused web application within the 63.lv digital ecosystem.',
+            'Адаптивное музыкальное веб-приложение в цифровой экосистеме 63.lv.'
+          ),
+          'url' => 'https://music.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://music.63.lv',
+        ),
+        array(
+          'group' => 'websites',
+          'type' => array('Mājaslapa', 'Website', 'Сайт'),
+          'title' => 'Labas Lietas',
+          'description' => array(
+            'E-komercijas vietne instrumentiem, dārza tehnikai, darbnīcu precēm un rezerves daļām ar meklēšanu un katalogu.',
+            'E-commerce website for tools, garden equipment, workshop products and spare parts with search and catalogue flows.',
+            'Интернет-магазин инструментов, садовой техники, товаров для мастерской и запчастей с поиском и каталогом.'
+          ),
+          'url' => 'https://labaslietas.63.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://labaslietas.63.lv',
+        ),
+        array(
+          'group' => 'websites',
+          'type' => array('Mājaslapa', 'Website', 'Сайт'),
+          'title' => 'Maride.lv',
+          'description' => array(
+            'E-komercijas vietne profesionāliem instrumentiem, dārza tehnikai un darbnīcu aprīkojumam.',
+            'E-commerce website for professional tools, garden machinery and workshop equipment.',
+            'Интернет-магазин профессиональных инструментов, садовой техники и оборудования для мастерской.'
+          ),
+          'url' => 'https://maride.lv',
+          'image' => get_template_directory_uri() . '/assets/images/63lv/portfolio-maride.jpg',
+        ),
+        array(
+          'group' => 'websites',
+          'type' => array('Mājaslapa', 'Website', 'Сайт'),
+          'title' => 'GG Garage',
+          'description' => array(
+            'Uzņēmuma vietne dārza un celtniecības tehnikas remontam, diagnostikai un DAEWOO garantijas servisam Ogrē.',
+            'Business website for garden and construction machinery repair, diagnostics and DAEWOO warranty service in Ogre.',
+            'Сайт компании по ремонту и диагностике садовой и строительной техники и гарантийному сервису DAEWOO в Огре.'
+          ),
+          'url' => 'https://gggarage.lv',
+          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://gggarage.lv',
+        ),
+      );
+      ?>
+      <div class="web-portfolio">
+        <div class="web-portfolio-head">
+          <div>
+            <div class="kicker"><?php echo esc_html(sixtythree_i18n('Portfolio', 'Portfolio', 'Портфолио')); ?></div>
+            <h2><?php echo esc_html(sixtythree_i18n('Lietotnes un mājaslapas', 'Apps & websites', 'Приложения и сайты')); ?></h2>
+          </div>
+          <p><?php echo esc_html(sixtythree_i18n(
+            'Atlasīti 63.lv un DigitalPulse izstrādes darbi — no specializētām pārlūka lietotnēm līdz e-komercijai un uzņēmumu mājaslapām.',
+            'Selected 63.lv and DigitalPulse development work — from specialist browser apps to e-commerce and business websites.',
+            'Избранные проекты 63.lv и DigitalPulse — от специализированных браузерных приложений до интернет-магазинов и сайтов компаний.'
+          )); ?></p>
+        </div>
+
+        <?php foreach (array('apps', 'websites') as $portfolio_group) : ?>
+          <div class="web-portfolio-group">
+            <div class="web-portfolio-group-title">
+              <span><?php echo esc_html($portfolio_group === 'apps'
+                ? sixtythree_i18n('Lietotnes', 'Apps', 'Приложения')
+                : sixtythree_i18n('Mājaslapas', 'Websites', 'Сайты')); ?></span>
+            </div>
+            <div class="web-portfolio-grid">
+              <?php foreach ($sixtythree_portfolio_projects as $portfolio_project) : ?>
+                <?php if ($portfolio_project['group'] !== $portfolio_group) { continue; } ?>
+                <a class="web-project-card" href="<?php echo esc_url($portfolio_project['url']); ?>" target="_blank" rel="noopener">
+                  <span class="web-project-media">
+                    <img src="<?php echo esc_url($portfolio_project['image']); ?>" alt="<?php echo esc_attr($portfolio_project['title']); ?>" loading="lazy" decoding="async">
+                  </span>
+                  <span class="web-project-body">
+                    <span class="web-project-meta"><?php echo esc_html(sixtythree_i18n($portfolio_project['type'][0], $portfolio_project['type'][1], $portfolio_project['type'][2])); ?></span>
+                    <strong><?php echo esc_html($portfolio_project['title']); ?></strong>
+                    <span class="web-project-description"><?php echo esc_html(sixtythree_i18n($portfolio_project['description'][0], $portfolio_project['description'][1], $portfolio_project['description'][2])); ?></span>
+                    <span class="web-project-open"><?php echo esc_html(sixtythree_i18n('Atvērt projektu', 'Open project', 'Открыть проект')); ?> ↗</span>
+                  </span>
+                </a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+
       <div class="portfolio-row">
-        <a class="portfolio-btn" href="https://digitalpulse.click" target="_blank" rel="noopener">Apskatīt portfolio <span>↗</span></a>
-        <a class="btn btn-outline" href="#cta">Pieteikt web projektu</a>
+        <a class="portfolio-btn" href="https://digitalpulse.click" target="_blank" rel="noopener"><?php echo esc_html(sixtythree_i18n('Skatīt pilnu DigitalPulse portfolio', 'View full DigitalPulse portfolio', 'Смотреть полное портфолио DigitalPulse')); ?> <span>↗</span></a>
+        <a class="btn btn-outline" href="#cta"><?php echo esc_html(sixtythree_i18n('Pieteikt web projektu', 'Start a web project', 'Обсудить веб-проект')); ?></a>
       </div>
     </section>
 
