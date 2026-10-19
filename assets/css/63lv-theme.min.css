@@ -8626,3 +8626,423 @@ html.modal-is-open body {
   .sixtythree-home .web-project-media { aspect-ratio:16/9; }
 }
 
+
+
+/* v1.8.3 - DigitalPulse gallery, updated price cards and shadow-free contact form */
+#sixtythree-headless-root.sixtythree-home .cta-wrap {
+  background: #fffdf9 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+#sixtythree-headless-root.sixtythree-home .cta-copy {
+  background: #fffdf9 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+#sixtythree-headless-root.sixtythree-home .cta-form,
+#sixtythree-headless-root.sixtythree-home .cta-form .wpbb-form,
+#sixtythree-headless-root.sixtythree-home .cta-form .wpbb-dynamic-form-wrap {
+  background: #fff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+#sixtythree-headless-root.sixtythree-home .cta-form button[type="submit"],
+#sixtythree-headless-root.sixtythree-home .cta-form input[type="submit"] {
+  box-shadow: none !important;
+}
+
+/* All-apps gallery sourced from the DigitalPulse gallery; standard 63.lv layout widths. */
+#sixtythree-headless-root.sixtythree-home .dp-apps-section {
+  padding: 12px 0 58px !important;
+  scroll-margin-top: 112px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-shell {
+  padding: clamp(22px, 3.4vw, 38px);
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: #fbf6ed;
+  min-width: 0;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .68fr);
+  align-items: end;
+  gap: 26px;
+  padding-bottom: 24px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-head .kicker {
+  margin-bottom: 12px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-head h2 {
+  max-width: 840px;
+  font-size: clamp(37px, 4vw, 60px);
+  font-weight: 500;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-head-aside p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.72;
+  color: var(--muted);
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-count {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d9ba8b;
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  color: #8a571f;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+  align-items: stretch;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid #e5d9c9;
+  border-radius: 23px;
+  background: #fff;
+  color: #241d17;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(74, 48, 18, .055);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:hover,
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #c78b3a;
+  box-shadow: 0 12px 32px rgba(74, 48, 18, .12);
+}
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:focus-visible {
+  outline: 3px solid rgba(199,139,58,.38);
+  outline-offset: 2px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-preview {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid #eee1cf;
+  background: linear-gradient(135deg, #e5d1af, #f6f0e5 53%, #dbdfd5);
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform .25s ease;
+}
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:hover .dp-app-preview img {
+  transform: scale(1.025);
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-external {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  border: 1px solid rgba(255,255,255,.48);
+  background: rgba(29,23,18,.86);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 18px 20px 20px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-eyebrow,
+#sixtythree-headless-root.sixtythree-home .dp-app-custom-kicker {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  color: #956423;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-body strong {
+  display: block;
+  margin-top: 2px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(25px, 2.15vw, 31px);
+  font-weight: 700;
+  line-height: 1.06;
+  overflow-wrap: anywhere;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-description {
+  display: block;
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #72675b;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-open {
+  display: block;
+  margin-top: 13px;
+  padding-top: 13px;
+  width: 100%;
+  border-top: 1px solid #eee7db;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: .055em;
+  color: #77511b;
+  text-transform: uppercase;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-open span {
+  margin-left: 5px;
+  font-size: 15px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 26px 23px;
+  background: linear-gradient(145deg, #1e201b 5%, #3b2a1c 62%, #70491c 100%);
+  border-color: #4b3823;
+  color: #fff;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-custom-icon {
+  display: grid;
+  place-items: center;
+  width: 59px;
+  height: 59px;
+  border: 1px solid rgba(255,235,203,.32);
+  background: rgba(255,255,255,.075);
+  border-radius: 20px;
+  color: #f3cd8e;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 300;
+  margin-bottom: auto;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom .dp-app-custom-kicker {
+  margin-top: 28px;
+  color: #e7c08c;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom h3 {
+  margin: 12px 0 7px;
+  font-size: clamp(34px, 3.15vw, 43px);
+  line-height: .98;
+  color: #fff;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom p {
+  margin: 0 0 22px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255,255,255,.78);
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-custom-btn {
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  white-space: normal !important;
+  box-shadow: none;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #e2d6c6;
+  font-size: 12px;
+  font-weight: 700;
+  color: #786b5e;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-footer a {
+  color: #8d5a22;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-pricing-section {
+  scroll-margin-top: 112px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-pricing-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-card {
+  min-height: 218px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-card h3 {
+  font-size: clamp(23px, 2.1vw, 30px);
+  line-height: 1.09;
+  overflow-wrap: anywhere;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-card .dp-price-teaser {
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-card .price-value {
+  margin-top: auto;
+  font-size: 28px;
+  white-space: nowrap;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details {
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid #eae0d4;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 20px;
+  color: #825b2a;
+  font-size: 12px;
+  font-weight: 800;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details summary::-webkit-details-marker {
+  display: none;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: .8;
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details[open] summary::after {
+  content: "-";
+}
+#sixtythree-headless-root.sixtythree-home .dp-price-details p {
+  margin: 11px 0 0;
+  color: #6a6158;
+  font-size: 12px;
+  line-height: 1.65;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-section {
+  padding: 2px 20px 24px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 2px 13px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-heading h3 {
+  font-size: 30px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-heading p {
+  margin: 0;
+  font-size: 12px;
+  color: #75695d;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #e6d8c4;
+  background: #fff;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-card > strong {
+  font-size: 13px;
+  line-height: 1.45;
+  min-height: 2.8em;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-price {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 12px 0 8px;
+  color: #30241a;
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -.035em;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-price small {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #766451;
+}
+#sixtythree-headless-root.sixtythree-home .dp-care-detail {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #706355;
+}
+#sixtythree-headless-root.sixtythree-home .dp-pricing-foot {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e9ddcc;
+  padding: 19px 22px 23px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-pricing-foot p {
+  margin: 0;
+  color: #716457;
+  font-size: 13px;
+  line-height: 1.55;
+}
+#sixtythree-headless-root.sixtythree-home .dp-pricing-foot .btn {
+  flex: none;
+  white-space: normal !important;
+}
+@media (max-width: 1199.98px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #sixtythree-headless-root.sixtythree-home .dp-pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #sixtythree-headless-root.sixtythree-home .dp-care-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 767.98px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-section { padding: 8px 0 38px !important; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-shell { padding: 22px 15px; border-radius: 23px; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-head { grid-template-columns: 1fr; gap: 11px; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-head h2 { font-size: clamp(32px, 9vw, 42px); }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: 1fr; gap: 14px; }
+  #sixtythree-headless-root.sixtythree-home .dp-app-card-custom { min-height: 350px; }
+  #sixtythree-headless-root.sixtythree-home .dp-pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 13px; }
+  #sixtythree-headless-root.sixtythree-home .dp-care-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #sixtythree-headless-root.sixtythree-home .dp-price-card { min-height: 0; padding: 14px; }
+  #sixtythree-headless-root.sixtythree-home .dp-price-card .price-value { font-size: 24px; }
+  #sixtythree-headless-root.sixtythree-home .dp-care-section { padding: 6px 13px 20px; }
+  #sixtythree-headless-root.sixtythree-home .dp-care-heading { display: block; }
+  #sixtythree-headless-root.sixtythree-home .dp-care-heading p { margin-top: 5px; }
+}
+@media (max-width: 475px) {
+  #sixtythree-headless-root.sixtythree-home .dp-pricing-grid { grid-template-columns: 1fr; }
+  #sixtythree-headless-root.sixtythree-home .dp-care-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sixtythree-headless-root.sixtythree-home .dp-app-card,
+  #sixtythree-headless-root.sixtythree-home .dp-app-preview img { transition: none; }
+}
+
+/* Four specialised web-service cards including LPCMS. */
+#sixtythree-headless-root.sixtythree-home .web-extra { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1199.98px) { #sixtythree-headless-root.sixtythree-home .web-extra { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767.98px) { #sixtythree-headless-root.sixtythree-home .web-extra { grid-template-columns: 1fr; } }

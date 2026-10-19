@@ -1,0 +1,263 @@
+/* v1.8.4: DigitalPulse gallery and global scroll-to-top controls. */
+#sixtythree-headless-root.sixtythree-home .dp-apps-section {
+  width: var(--container, min(1440px, 96vw));
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 38px 0 64px !important;
+  scroll-margin-top: 108px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-shell {
+  min-width: 0;
+  padding: clamp(18px, 2.2vw, 30px);
+  background: #fcfaf8;
+  background-image: none;
+  border: 1px solid #f1e8e3;
+  border-radius: 25px;
+  box-shadow: none;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 0 28px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-intro {
+  min-width: 0;
+  flex: 1 1 620px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-intro .kicker {
+  margin: 0 0 13px;
+  font-size: 12px;
+  letter-spacing: .11em;
+  font-weight: 600;
+  color: #f45127;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-intro h2 {
+  max-width: 900px;
+  margin: 0 0 10px;
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(27px, 3.1vw, 44px);
+  letter-spacing: -.042em;
+  line-height: 1.13;
+  color: #17243a;
+  overflow-wrap: anywhere;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-intro p {
+  max-width: 960px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+  color: #66758b;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-count {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  margin: 0;
+  padding: 9px 13px;
+  border: 1px solid #ffe1d6;
+  border-radius: 40px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(35, 41, 62, .025);
+  font: 600 12px/1.2 Inter, system-ui, sans-serif;
+  color: #e9532d;
+  white-space: nowrap;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-count svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-card,
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  min-width: 0;
+  min-height: 184px;
+  height: auto;
+  margin: 0;
+  padding: 17px 15px 15px;
+  overflow: hidden;
+  border: 1px solid #e3e6eb;
+  border-radius: 19px;
+  background: #fff;
+  background-image: none;
+  color: #13223b;
+  text-decoration: none;
+  box-shadow: 0 9px 26px rgba(25, 31, 47, .045);
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:hover,
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #c8d9ec;
+  box-shadow: 0 14px 30px rgba(25, 31, 47, .1);
+}
+#sixtythree-headless-root.sixtythree-home a.dp-app-card:focus-visible {
+  outline: 3px solid #8baacb;
+  outline-offset: 3px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  min-height: 43px;
+  flex: 0 0 43px;
+  margin: 0 0 15px;
+  border-radius: 14px;
+  color: #ef5b3b;
+  background: #fff0eb;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-icon--violet { color: #8751dd; background: #f3eafd; }
+#sixtythree-headless-root.sixtythree-home .dp-app-icon--teal { color: #078b96; background: #e9f7f7; }
+#sixtythree-headless-root.sixtythree-home .dp-app-icon--peach { color: #be622f; background: #fff0e9; }
+#sixtythree-headless-root.sixtythree-home .dp-app-icon--blue { color: #3765df; background: #eaf0ff; }
+#sixtythree-headless-root.sixtythree-home .dp-app-external {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  border-radius: 7px;
+  background: #f5f7fa;
+  color: #93a6ca;
+  font: 400 17px/1 Inter, system-ui, sans-serif;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-body strong,
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom .dp-app-body strong {
+  display: block;
+  margin: 0;
+  min-height: 18px;
+  font: 600 13px/1.36 Inter, system-ui, sans-serif;
+  letter-spacing: -.015em;
+  color: #14243d;
+  overflow-wrap: anywhere;
+}
+#sixtythree-headless-root.sixtythree-home .dp-app-description,
+#sixtythree-headless-root.sixtythree-home .dp-app-card-custom .dp-app-description {
+  display: -webkit-box;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  font: 400 11.5px/1.48 Inter, system-ui, sans-serif;
+  color: #63748c;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+  color: #6a7a90;
+  font-size: 12px;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-footer a {
+  color: #e9532d;
+  font-weight: 600;
+  text-decoration: none;
+}
+#sixtythree-headless-root.sixtythree-home .dp-apps-footer a:hover { text-decoration: underline; }
+
+/* Global floating button: the homepage contains its own footer, unlike inner pages. */
+.sixtythree-floating-scroll-top {
+  position: fixed;
+  z-index: 1500;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid #dec4a2;
+  border-radius: 50%;
+  background: #fffdf9;
+  background-image: none;
+  color: #a36722;
+  cursor: pointer;
+  box-shadow: 0 9px 25px rgba(62, 43, 25, .15);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+}
+.sixtythree-floating-scroll-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.sixtythree-floating-scroll-top:hover { color: #7f4b11; border-color: #b98b52; }
+.sixtythree-floating-scroll-top:focus-visible { outline: 3px solid #c78b3a; outline-offset: 4px; }
+
+@media (max-width: 1299px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 869px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 599px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-section { padding-top: 20px !important; padding-bottom: 40px !important; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-shell { padding: 20px 12px; border-radius: 20px; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-head { gap: 15px; padding-bottom: 20px; }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-intro h2 { font-size: clamp(29px, 8vw, 36px); }
+  #sixtythree-headless-root.sixtythree-home .dp-apps-intro p { font-size: 13px; }
+  #sixtythree-headless-root.sixtythree-home .dp-app-card,
+  #sixtythree-headless-root.sixtythree-home .dp-app-card-custom { padding: 14px 12px; min-height: 185px; border-radius: 15px; }
+  .sixtythree-floating-scroll-top { width: 44px; height: 44px; right: 14px; bottom: max(75px, calc(14px + env(safe-area-inset-bottom))); }
+}
+@media (max-width: 374px) {
+  #sixtythree-headless-root.sixtythree-home .dp-apps-grid { grid-template-columns: 1fr; }
+  #sixtythree-headless-root.sixtythree-home .dp-app-card,
+  #sixtythree-headless-root.sixtythree-home .dp-app-card-custom { min-height: 145px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #sixtythree-headless-root.sixtythree-home .dp-app-card,
+  .sixtythree-floating-scroll-top { transition: none; }
+}
