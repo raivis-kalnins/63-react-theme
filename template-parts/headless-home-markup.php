@@ -11,6 +11,7 @@
       <nav class="desktop-nav">
         <a class="nav-pill" href="#pakalpojumi">Pakalpojumi</a>
         <a class="nav-pill" href="#web">Web izstrāde</a>
+        <a class="nav-pill" href="#apps"><?php echo esc_html(sixtythree_i18n('Lietotnes', 'Apps', 'Приложения')); ?></a>
         <a class="nav-pill" href="#cta">Kontakti</a>
         <a class="nav-pill" href="#map">Atrašanās vieta</a>
       </nav>
@@ -62,6 +63,7 @@
     <nav>
       <a href="#pakalpojumi">Pakalpojumi</a>
       <a href="#web">Web izstrāde</a>
+      <a href="#apps"><?php echo esc_html(sixtythree_i18n('Lietotnes', 'Apps', 'Приложения')); ?></a>
       <a href="#cta">Kontakti</a>
       <a href="#map">Atrašanās vieta</a>
     </nav>
@@ -73,7 +75,7 @@
         <div class="kicker">Services · Bauskas 63</div>
         <h1>Telpas, zināšanas un pakalpojumi vienuviet</h1>
         <div class="gold-rule"></div>
-        <p>SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, pirts zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.</p>
+        <p>SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, telpu zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.</p>
         <div class="hero-actions">
           <a class="btn" href="#pakalpojumi">Mūsu pakalpojumi →</a>
           <a class="btn btn-outline" href="#cta">Sazināties</a>
@@ -92,7 +94,7 @@
         <article class="slide active">
           <div class="photo photo-sauna" style="background-image:url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/63lv/pirts-ballitem-sauna.avif'); ?>')"></div>
           <div class="copy">
-            <div class="kicker">Pirts ballītēm</div>
+            <div class="kicker">Telpas ballītēm</div>
             <h2>Atpūta ģimenei un draugiem</h2>
             <p>Darba dienās no 16:00, brīvdienās pēc vienošanās. Rekomendējam līdz 15 personām. Standarta piedāvājums €84 jeb €14/h.</p>
             <a class="btn" href="#pakalpojumi">Skatīt vairāk →</a>
@@ -121,7 +123,7 @@
           <div class="copy">
             <div class="kicker">Ikdienas pakalpojumi</div>
             <h2>Skaistumam un ērtībai</h2>
-            <p>Stāvošais solārijs, frizētava, manikīrs un pedikīrs, šuvēju pakalpojumi, mēbeļu remonts un citi risinājumi vienuviet.</p>
+            <p>Frizētava, manikīrs un pedikīrs, šuvēju pakalpojumi, mēbeļu remonts un citi risinājumi vienuviet.</p>
             <a class="btn" href="#pakalpojumi">Pieteikt laiku →</a>
           </div>
         </article>
@@ -140,14 +142,14 @@
           <div class="kicker">Pakalpojumi</div>
           <h2>Viss svarīgākais vienā vietā</h2>
         </div>
-        <p>Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.</p>
+        <p>Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.</p>
       </div>
 
       <div class="services">
-        <article class="service-card"><h3>Pirts ballītēm</h3><ul><li>Ģimenēm un draugiem</li><li>Līdz ~15 personām</li><li>Darba dienās no 16:00</li><li>€84 vai €14/h</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>Web izstrāde un uzturēšana</h3><ul><li>Business Startup no €550</li><li>WordPress & WooCommerce</li><li>SEO, hostings, optimizācija</li><li>Headless ReactJS risinājumi</li></ul><a href="#web">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>Telpas ballītēm</h3><ul><li>Ģimenēm un draugiem</li><li>Līdz ~15 personām</li><li>Darba dienās no 16:00</li><li>€84 vai €14/h</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>Web izstrāde un uzturēšana</h3><ul><li><?php echo esc_html(sixtythree_i18n('WordPress Business no €1 190', 'WordPress Business from €1,190', 'WordPress Business от €1 190')); ?></li><li>WordPress & WooCommerce</li><li>SEO, hostings, optimizācija</li><li>Headless ReactJS risinājumi</li></ul><a href="#web">UZZINĀT VAIRĀK →</a></article>
         <article class="service-card"><h3>E-apmācības un kursi</h3><ul><li>Individuāli €15/h</li><li>Grupas 3–5 pers. €50/h</li><li>Zoom & Skype</li><li>Biroja darbi, kopēšana, printēšana</li></ul><a href="#learning">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Vertikālais solārijs</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
+        <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Telpu noma pasākumiem</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
         <article class="service-card service-card--forairsoft"><h3>ForAirsoft</h3><ul><li>Airsoft veikals un serviss</li><li>Replikas un taktiskais ekipējums</li><li>Rezerves daļas un uzlabojumi</li><li>Bauskas 63 · k1</li></ul><a href="#forairsoft">UZZINĀT VAIRĀK →</a></article>
       </div>
 
@@ -244,7 +246,7 @@
             </div>
 
             <div class="pirts-v21-side">
-              <div class="clean-native-gallery" aria-label="63.lv pirts galerija">
+              <div class="clean-native-gallery" aria-label="63.lv telpu galerija">
                 <div class="clean-gallery-stage">
                   <div class="clean-gallery-slide active" data-pirts="0" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_1', 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg')); ?>')"></div>
                   <div class="clean-gallery-slide" data-pirts="1" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_2', 'assets/images/63lv/pirts-zone-clean-02.jpg')); ?>')"></div>
@@ -254,12 +256,12 @@
                   <div class="clean-gallery-slide" data-pirts="5" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_6', 'assets/images/63lv/pirts-zone-clean-06.jpg')); ?>')"></div>
                 </div>
                 <div class="clean-gallery-thumbs">
-                  <button class="clean-gallery-thumb active" type="button" data-pirts-target="0" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_1', 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg')); ?>')" aria-label="Pirts galerijas attēls 1"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="1" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_2', 'assets/images/63lv/pirts-zone-clean-02.jpg')); ?>')" aria-label="Pirts galerijas attēls 2"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="2" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_3', 'assets/images/63lv/pirts-zone-clean-03.jpg')); ?>')" aria-label="Pirts galerijas attēls 3"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="3" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_4', 'assets/images/63lv/pirts-zone-clean-04.jpg')); ?>')" aria-label="Pirts galerijas attēls 4"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="4" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_5', 'assets/images/63lv/pirts-zone-clean-05.jpg')); ?>')" aria-label="Pirts galerijas attēls 5"></button>
-                  <button class="clean-gallery-thumb" type="button" data-pirts-target="5" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_6', 'assets/images/63lv/pirts-zone-clean-06.jpg')); ?>')" aria-label="Pirts galerijas attēls 6"></button>
+                  <button class="clean-gallery-thumb active" type="button" data-pirts-target="0" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_1', 'assets/images/63lv/pirts-zone-clean-01-replacement.jpg')); ?>')" aria-label="Telpu galerijas attēls 1"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="1" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_2', 'assets/images/63lv/pirts-zone-clean-02.jpg')); ?>')" aria-label="Telpu galerijas attēls 2"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="2" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_3', 'assets/images/63lv/pirts-zone-clean-03.jpg')); ?>')" aria-label="Telpu galerijas attēls 3"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="3" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_4', 'assets/images/63lv/pirts-zone-clean-04.jpg')); ?>')" aria-label="Telpu galerijas attēls 4"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="4" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_5', 'assets/images/63lv/pirts-zone-clean-05.jpg')); ?>')" aria-label="Telpu galerijas attēls 5"></button>
+                  <button class="clean-gallery-thumb" type="button" data-pirts-target="5" style="background-image:url('<?php echo esc_url(sixtythree_homepage_media_url('pirts_gallery_image_6', 'assets/images/63lv/pirts-zone-clean-06.jpg')); ?>')" aria-label="Telpu galerijas attēls 6"></button>
                 </div>
               </div>
 
@@ -351,64 +353,17 @@
       </div>
     </section>
 
-    <section class="solarium-section" id="skaistums-cenas">
-      <div class="solarium-wrap">
-        <div class="solarium-card">
-          <div class="solarium-copy">
-            <div class="kicker">Skaistumam</div>
-            <h2>Vertikālais solārijs — cenas</h2>
-            <p>Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos. Pieejams pēc iepriekšējas vienošanās, saziņai <b><?php echo esc_html(sixtythree_contact_phone()); ?></b>.</p>
-
-            <div class="solarium-price-grid">
-              <div class="solarium-price-item">
-                <span class="solarium-mini">Sesija</span>
-                <b>€3</b>
-                <small>10 minūtes</small>
-              </div>
-              <div class="solarium-price-item">
-                <span class="solarium-mini">Sesija</span>
-                <b>€3,30</b>
-                <small>12 minūtes</small>
-              </div>
-              <div class="solarium-price-item">
-                <span class="solarium-mini">Sesija</span>
-                <b>€4</b>
-                <small>14 minūtes</small>
-              </div>
-              <div class="solarium-price-item highlight">
-                <span class="solarium-mini">Papildus</span>
-                <b>€2</b>
-                <small>Krēms</small>
-              </div>
-            </div>
-
-            <div class="solarium-pills">
-              <div class="price-pill">Vertikālais solārijs</div>
-              <div class="price-pill">Pieraksts pēc vienošanās</div>
-              <div class="price-pill">Bauskas iela 63, Rīga</div>
-            </div>
-          </div>
-
-          <div class="solarium-visual">
-            <div class="solarium-image-shell">
-              <div class="solarium-image" role="img" aria-label="Vertikālais solārijs Bauskas ielā 63"></div>
-              <div class="solarium-overlay-card">
-                <div class="kicker">For beauty</div>
-                <h3>Iedegumam un labsajūtai</h3>
-                <p>Mūsdienīgs, kompakts un vizuāli izcelts piedāvājums ar skaidri nolasāmām cenām.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section id="web" class="section" style="padding-top:0;">
       <div class="web-wrap">
         <div class="web-intro">
           <div class="kicker">Web Development</div>
           <h2>WordPress un full stack izstrāde</h2>
-          <p>Izstrādājam WordPress, WooCommerce un headless ReactJS risinājumus uzņēmumiem, kuriem svarīgs ātrums, pārskatāma administrēšana un labs rezultāts meklētājos.</p>
+          <p><?php echo esc_html(sixtythree_i18n(
+            'Izstrādājam WordPress, WooCommerce, LPCMS, React un PHP risinājumus — no uzņēmumu mājaslapām līdz pielāgotām lietotnēm, automatizācijai un AI integrācijām.',
+            'We build WordPress, WooCommerce, LPCMS, React and PHP solutions — from business websites to custom apps, automation and AI integrations.',
+            'Мы разрабатываем решения на WordPress, WooCommerce, LPCMS, React и PHP — от сайтов компаний до приложений, автоматизации и интеграций ИИ.'
+          )); ?></p>
           <p><?php echo esc_html(sixtythree_i18n(
             'No Figma vai Adobe XD dizaina līdz WordPress, PHP un React izstrādei — veidojam responsīvu priekšpusi, REST API, datubāzu un integrāciju loģiku. Pārņemam un labojam arī esošas WordPress vietnes, migrējam novecojušus risinājumus, ieviešam AI funkcijas un nodrošinām hostingu, rezerves kopijas, drošību un veiktspējas uzraudzību.',
             'From Figma or Adobe XD designs to WordPress, PHP and React development — we build responsive front ends, REST APIs, database logic and integrations. We also take over and fix existing WordPress sites, migrate older systems, add practical AI features, and provide hosting, backups, security and performance monitoring.',
@@ -427,6 +382,8 @@
             <span>Full Stack</span>
             <span>SEO</span>
             <span>Headless ReactJS</span>
+            <span>LPCMS</span>
+            <span>Web Apps</span>
             <span>AI Themes</span>
             <span>Hosting Support</span>
           </div>
@@ -485,82 +442,19 @@
           <h3>Hosting, support & maintenance</h3>
           <p>Hostings, atjauninājumi, drošība, rezerves kopijas, veiktspējas uzlabojumi un regulārs tehniskais atbalsts.</p>
         </article>
+        <article class="web-extra-card">
+          <div class="mini-icon">CMS</div>
+          <h3>LPCMS</h3>
+          <p><?php echo esc_html(sixtythree_i18n(
+            'Ātra satura pārvaldība, pielāgota izstrāde un pieejami Premium un Premium Pro mēneša plāni.',
+            'Fast content management, custom development and affordable Premium or Premium Pro monthly plans.',
+            'Быстрое управление контентом, индивидуальная разработка и доступные планы Premium и Premium Pro.'
+          )); ?></p>
+        </article>
       </div>
 
       <?php
       $sixtythree_portfolio_projects = array(
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'SEO & Performance test',
-          'description' => array(
-            'SEO un veiktspējas rīks ātrām vietņu pārbaudēm un praktiskai optimizācijai.',
-            'SEO and performance toolkit for quick website checks and practical optimisation.',
-            'Инструмент SEO и производительности для быстрых проверок сайтов и практической оптимизации.'
-          ),
-          'url' => 'https://seo.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://seo.63.lv',
-        ),
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'Radio 63',
-          'description' => array(
-            'Mobilajām ierīcēm pielāgots interneta radio ar staciju vadību un bezsaistes audio rezerves režīmu.',
-            'Mobile-first internet radio with station controls and an offline audio fallback.',
-            'Мобильное интернет-радио с управлением станциями и резервным офлайн-аудио.'
-          ),
-          'url' => 'https://radio.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://radio.63.lv',
-        ),
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'Language Bridge',
-          'description' => array(
-            'Interaktīva valodu apguves lietotne vārdu krājumam, frāzēm un daudzvalodu mācību plūsmām.',
-            'Interactive language-learning app for vocabulary, phrases and multilingual study workflows.',
-            'Интерактивное приложение для изучения языков, словаря, фраз и многоязычных учебных сценариев.'
-          ),
-          'url' => 'https://language.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://language.63.lv',
-        ),
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'Book Reader',
-          'description' => array(
-            'Pārlūkā darbināma lasīšanas lietotne ar tīru, mobilajām ierīcēm ērtu saskarni.',
-            'Browser-based reading app with a clean, mobile-friendly interface.',
-            'Приложение для чтения в браузере с чистым и удобным мобильным интерфейсом.'
-          ),
-          'url' => 'https://book.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://book.63.lv',
-        ),
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'Music Writer',
-          'description' => array(
-            'Interaktīva nošu rakstīšanas un komponēšanas lietotne muzikālu ideju veidošanai un atskaņošanai pārlūkā.',
-            'Interactive music-notation and composition app for creating, editing and playing musical ideas in the browser.',
-            'Интерактивное приложение для нотной записи и композиции с созданием, редактированием и воспроизведением музыки в браузере.'
-          ),
-          'url' => 'https://music-writer.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://music-writer.63.lv',
-        ),
-        array(
-          'group' => 'apps',
-          'type' => array('Lietotne', 'App', 'Приложение'),
-          'title' => 'Music 63',
-          'description' => array(
-            'Mūzikai paredzēta responsīva tīmekļa lietotne 63.lv digitālajā ekosistēmā.',
-            'Responsive music-focused web application within the 63.lv digital ecosystem.',
-            'Адаптивное музыкальное веб-приложение в цифровой экосистеме 63.lv.'
-          ),
-          'url' => 'https://music.63.lv',
-          'image' => 'https://image.thum.io/get/width/1200/crop/760/maxAge/168/noanimate/https://music.63.lv',
-        ),
         array(
           'group' => 'websites',
           'type' => array('Mājaslapa', 'Website', 'Сайт'),
@@ -603,16 +497,16 @@
         <div class="web-portfolio-head">
           <div>
             <div class="kicker"><?php echo esc_html(sixtythree_i18n('Portfolio', 'Portfolio', 'Портфолио')); ?></div>
-            <h2><?php echo esc_html(sixtythree_i18n('Lietotnes un mājaslapas', 'Apps & websites', 'Приложения и сайты')); ?></h2>
+            <h2><?php echo esc_html(sixtythree_i18n('Izstrādātās mājaslapas', 'Developed websites', 'Разработанные сайты')); ?></h2>
           </div>
           <p><?php echo esc_html(sixtythree_i18n(
-            'Atlasīti 63.lv un DigitalPulse izstrādes darbi — no specializētām pārlūka lietotnēm līdz e-komercijai un uzņēmumu mājaslapām.',
-            'Selected 63.lv and DigitalPulse development work — from specialist browser apps to e-commerce and business websites.',
-            'Избранные проекты 63.lv и DigitalPulse — от специализированных браузерных приложений до интернет-магазинов и сайтов компаний.'
+            'Atlasīti 63.lv un DigitalPulse klientu projekti — e-komercijas veikali un uzņēmumu mājaslapas. Visas pārlūka lietotnes atradīsiet tālāk lietotņu galerijā.',
+            'Selected 63.lv and DigitalPulse client projects — online stores and business websites. Explore the full web-app gallery below.',
+            'Избранные клиентские проекты 63.lv и DigitalPulse — интернет-магазины и сайты компаний. Полная галерея приложений представлена ниже.'
           )); ?></p>
         </div>
 
-        <?php foreach (array('apps', 'websites') as $portfolio_group) : ?>
+        <?php foreach (array('websites') as $portfolio_group) : ?>
           <div class="web-portfolio-group">
             <div class="web-portfolio-group-title">
               <span><?php echo esc_html($portfolio_group === 'apps'
@@ -640,54 +534,83 @@
       </div>
 
       <div class="portfolio-row">
-        <a class="portfolio-btn" href="https://digitalpulse.click" target="_blank" rel="noopener"><?php echo esc_html(sixtythree_i18n('Skatīt pilnu DigitalPulse portfolio', 'View full DigitalPulse portfolio', 'Смотреть полное портфолио DigitalPulse')); ?> <span>↗</span></a>
+        <a class="portfolio-btn" href="https://digitalpulse.click/lv/#gallery" target="_blank" rel="noopener noreferrer"><?php echo esc_html(sixtythree_i18n('Skatīt pilnu DigitalPulse portfolio', 'View full DigitalPulse portfolio', 'Смотреть полное портфолио DigitalPulse')); ?> <span>↗</span></a>
+        <a class="btn btn-outline" href="#apps"><?php echo esc_html(sixtythree_i18n('Skatīt lietotnes', 'View apps', 'Смотреть приложения')); ?> &#8595;</a>
         <a class="btn btn-outline" href="#cta"><?php echo esc_html(sixtythree_i18n('Pieteikt web projektu', 'Start a web project', 'Обсудить веб-проект')); ?></a>
       </div>
     </section>
 
 
-    <section class="price-section" id="web-cenas">
+    <?php require get_template_directory() . '/template-parts/digitalpulse-app-gallery.php'; ?>
+
+    <?php
+    // Publicly visible EUR starting prices use the DigitalPulse 2026 offer.
+    $sixtythree_development_prices = array(
+      array('category' => array('Mājaslapas', 'Websites', 'Сайты'), 'title' => 'Landing Page', 'price' => '€490', 'summary' => array('Kompakta, pārliecinoša vienas lapas vietne.', 'A focused, effective single-page website.', 'Компактный и убедительный одностраничный сайт.'), 'detail' => array('Piemērots kampaņām, pakalpojumiem un ātrai pieteikumu saņemšanai.', 'Ideal for campaigns, services and direct enquiries.', 'Для кампаний, услуг и получения заявок.'), 'featured' => false),
+      array('category' => array('WordPress', 'WordPress', 'WordPress'), 'title' => 'WordPress Business', 'price' => '€1 190', 'summary' => array('Profesionāla mājaslapa mazam uzņēmumam.', 'A professional site for a small business.', 'Профессиональный сайт для малого бизнеса.'), 'detail' => array('Pielāgots saturs, pārskatāma administrēšana, responsīvs dizains un SEO pamati.', 'Custom content, clear editing tools, responsive design and an SEO foundation.', 'Индивидуальный контент, удобное редактирование, адаптивный дизайн и основы SEO.'), 'featured' => true),
+      array('category' => array('WordPress', 'WordPress', 'WordPress'), 'title' => 'WordPress Growth', 'price' => '€2 490', 'summary' => array('Plašāks risinājums augošam biznesam.', 'A larger solution for a growing business.', 'Расширенное решение для растущего бизнеса.'), 'detail' => array('Sarežģītāka struktūra, pielāgoti bloki un biznesa integrāciju iespējas.', 'More advanced content structures, custom blocks and business integrations.', 'Более сложная структура, специальные блоки и бизнес-интеграции.'), 'featured' => false),
+      array('category' => array('E-komercija', 'E-commerce', 'Электронная коммерция'), 'title' => 'WooCommerce', 'price' => '€2 490', 'summary' => array('E-veikals ar pielāgotu pirkšanas pieredzi.', 'An online store with a tailored buying experience.', 'Интернет-магазин с удобными покупками.'), 'detail' => array('Preču katalogi, variācijas, maksājumi un piegādes loģika.', 'Product catalogues, variants, payments and delivery logic.', 'Каталоги, вариации товаров, оплата и доставка.'), 'featured' => false),
+      array('category' => array('B2B', 'B2B', 'B2B'), 'title' => 'Advanced / B2B', 'price' => '€7 500+', 'summary' => array('Kompleksa tirdzniecība un uzņēmumu procesi.', 'Complex commerce and business workflows.', 'Сложная коммерция и корпоративные процессы.'), 'detail' => array('B2B cenas, klientu lomas, sarežģīti katalogi un integrācijas.', 'B2B prices, customer roles, complex catalogues and integrations.', 'B2B-цены, роли клиентов, сложные каталоги и интеграции.'), 'featured' => false),
+      array('category' => array('Spraudņi', 'Plugins', 'Плагины'), 'title' => 'Custom WordPress Plugin', 'price' => '€990+', 'summary' => array('Individuāla WordPress funkcionalitāte.', 'Custom WordPress functionality.', 'Индивидуальные функции WordPress.'), 'detail' => array('ACF, Gutenberg bloki, integrācijas, automatizācija un administrācijas rīki.', 'ACF, Gutenberg blocks, integrations, automation and admin tools.', 'ACF, блоки Gutenberg, интеграции, автоматизация и инструменты управления.'), 'featured' => false),
+      array('category' => array('Lietotnes un MI', 'Apps & AI', 'Приложения и ИИ'), 'title' => 'Web Apps & AI', 'price' => '€8 000+', 'summary' => array('Pielāgotas lietotnes un mākslīgā intelekta risinājumi.', 'Custom web apps and artificial-intelligence solutions.', 'Веб-приложения и решения с искусственным интеллектом.'), 'detail' => array('React/PHP paneļi, portāli, API, AI integrācijas un automatizācija.', 'React/PHP dashboards, portals, APIs, AI integrations and automation.', 'Панели React/PHP, порталы, API, интеграции ИИ и автоматизация.'), 'featured' => false),
+    );
+    $sixtythree_care_prices = array(
+      array('title' => 'LPCMS Premium', 'price' => '€4', 'detail' => array('Vienkārša vietnes pārvaldība LPCMS vidē.', 'Straightforward website management with LPCMS.', 'Простое управление сайтом через LPCMS.')),
+      array('title' => 'LPCMS Premium Pro', 'price' => '€7', 'detail' => array('Plašākas iespējas LPCMS platformā.', 'Additional features on the LPCMS platform.', 'Дополнительные возможности платформы LPCMS.')),
+      array('title' => 'WordPress Hosting + Care', 'price' => '€3,50', 'detail' => array('+ 0,5 h uzturēšana mēnesī', '+ 0.5 h of monthly maintenance', '+ 0,5 ч обслуживания в месяц')),
+      array('title' => 'WooCommerce Hosting + Care', 'price' => '€5', 'detail' => array('+ 0,5 h uzturēšana mēnesī', '+ 0.5 h of monthly maintenance', '+ 0,5 ч обслуживания в месяц')),
+      array('title' => 'Website Maintenance', 'price' => '€69', 'detail' => array('Vietnes uzturēšana un tehniskais atbalsts.', 'Website maintenance and technical support.', 'Поддержка сайта и техническое обслуживание.')),
+    );
+    ?>
+    <section class="price-section dp-pricing-section" id="web-cenas" aria-labelledby="dp-pricing-title">
       <div class="price-wrap">
         <div class="price-head">
           <div>
-            <div class="kicker">Web development cenas</div>
-            <h2>Digitālie risinājumi ar skaidru sākuma cenu</h2>
+            <div class="kicker"><?php echo esc_html(sixtythree_i18n('DigitalPulse · cenas', 'DigitalPulse · pricing', 'DigitalPulse · цены')); ?></div>
+            <h2 id="dp-pricing-title"><?php echo esc_html(sixtythree_i18n('Web izstrāde un lietotnes — cenas', 'Web development and apps — pricing', 'Разработка сайтов и приложений — цены')); ?></h2>
           </div>
-          <p>Cenas strukturētas pēc pašreizējās 63.lv pakalpojumu informācijas — sākot no biznesa mājaslapas līdz e-komercijai, uzturēšanai un hostingam.</p>
+          <p><?php echo esc_html(sixtythree_i18n(
+            'Digitālie risinājumi pēc DigitalPulse piedāvājuma. Norādītas sākuma cenas EUR; gala tāme atkarīga no projekta apjoma.',
+            'Digital solutions from the DigitalPulse offer. Starting prices are shown in EUR; your final quote depends on project scope.',
+            'Цифровые решения DigitalPulse. Указаны стартовые цены в евро; итоговая смета зависит от объёма проекта.'
+          )); ?></p>
         </div>
-
-        <div class="pricing-grid">
-          <article class="price-card featured">
-            <small>Business</small>
-            <h3>Startup</h3>
-            <p>Labs sākums uzņēmuma klātbūtnei internetā.</p>
-            <div class="price-value">€550 <span>no</span></div>
-          </article>
-          <article class="price-card">
-            <small>Business</small>
-            <h3>Pro</h3>
-            <p>Plašāka struktūra, vairāk sadaļu un pielāgots saturs.</p>
-            <div class="price-value">€850 <span>no</span></div>
-          </article>
-          <article class="price-card">
-            <small>Industry</small>
-            <h3>Nozares lapa</h3>
-            <p>Individuālāka uzņēmuma/nozares mājaslapas izstrāde.</p>
-            <div class="price-value">€1050 <span>no</span></div>
-          </article>
-          <article class="price-card">
-            <small>E-commerce</small>
-            <h3>Veikals</h3>
-            <p>WooCommerce / shop tipa risinājums pārdošanai tiešsaistē.</p>
-            <div class="price-value">€1500 <span>no</span></div>
-          </article>
+        <div class="pricing-grid dp-pricing-grid">
+          <?php foreach ($sixtythree_development_prices as $dp_plan) : ?>
+            <article class="price-card dp-price-card<?php echo $dp_plan['featured'] ? ' featured' : ''; ?>">
+              <small><?php echo esc_html(sixtythree_i18n($dp_plan['category'][0], $dp_plan['category'][1], $dp_plan['category'][2])); ?></small>
+              <h3><?php echo esc_html($dp_plan['title']); ?></h3>
+              <p class="dp-price-teaser"><?php echo esc_html(sixtythree_i18n($dp_plan['summary'][0], $dp_plan['summary'][1], $dp_plan['summary'][2])); ?></p>
+              <div class="price-value"><?php echo esc_html($dp_plan['price']); ?> <span><?php echo esc_html(sixtythree_i18n('no', 'from', 'от')); ?></span></div>
+              <details class="dp-price-details">
+                <summary><?php echo esc_html(sixtythree_i18n('Uzzināt vairāk', 'Learn more', 'Подробнее')); ?></summary>
+                <p><?php echo esc_html(sixtythree_i18n($dp_plan['detail'][0], $dp_plan['detail'][1], $dp_plan['detail'][2])); ?></p>
+              </details>
+            </article>
+          <?php endforeach; ?>
         </div>
-
-        <div class="price-note">
-          <div class="price-pill">Old to New Website — no €1050</div>
-          <div class="price-pill">Maintenance / Coding — no €25/h</div>
-          <div class="price-pill">Hosting 63.lv klientiem — no €3/mēn</div>
-          <div class="price-pill">SEO, optimizācija, sociālo tīklu pieslēgšana</div>
+        <div class="dp-care-section">
+          <div class="dp-care-heading">
+            <h3><?php echo esc_html(sixtythree_i18n('Platformas, hostings un uzturēšana', 'Platforms, hosting and maintenance', 'Платформы, хостинг и поддержка')); ?></h3>
+            <p><?php echo esc_html(sixtythree_i18n('Mēneša sākuma cenas', 'Monthly starting prices', 'Стартовые цены в месяц')); ?></p>
+          </div>
+          <div class="dp-care-grid">
+            <?php foreach ($sixtythree_care_prices as $dp_care) : ?>
+              <article class="dp-care-card">
+                <strong><?php echo esc_html($dp_care['title']); ?></strong>
+                <span class="dp-care-price"><?php echo esc_html($dp_care['price']); ?><small><?php echo esc_html(sixtythree_i18n('/mēn', '/mo', '/мес')); ?></small></span>
+                <span class="dp-care-detail"><?php echo esc_html(sixtythree_i18n($dp_care['detail'][0], $dp_care['detail'][1], $dp_care['detail'][2])); ?></span>
+              </article>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <div class="dp-pricing-foot">
+          <p><?php echo esc_html(sixtythree_i18n(
+            'Precīzu cenu un iekļautos darbus saskaņosim pirms izstrādes sākuma.',
+            'We will confirm the exact price and included work before development begins.',
+            'Точную цену и состав работ согласуем до начала разработки.'
+          )); ?></p>
+          <a class="btn" href="#cta"><?php echo esc_html(sixtythree_i18n('Saņemt piedāvājumu', 'Request a quote', 'Запросить предложение')); ?> →</a>
         </div>
       </div>
     </section>
@@ -750,7 +673,7 @@
   <div class="pirts-lightbox" id="pirtsLightbox" aria-hidden="true">
     <div class="pirts-lightbox-inner">
       <button class="pirts-lightbox-close" id="pirtsLightboxClose" type="button" aria-label="Aizvērt galeriju">×</button>
-      <img class="pirts-lightbox-img" id="pirtsLightboxImg" alt="Pirts galerijas attēls">
+      <img class="pirts-lightbox-img" id="pirtsLightboxImg" alt="Telpu galerijas attēls">
       <div class="pirts-lightbox-nav">
         <button id="pirtsLightboxPrev" type="button" aria-label="Iepriekšējais attēls">‹</button>
         <button id="pirtsLightboxNext" type="button" aria-label="Nākamais attēls">›</button>

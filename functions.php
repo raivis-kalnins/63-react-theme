@@ -4,7 +4,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.8.2');
+define('SIXTYTHREE_THEME_VERSION', '1.8.4');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
@@ -93,14 +93,14 @@ function sixtythree_contact_phone() {
 function sixtythree_social_share_defaults() {
     return array(
         'title' => sixtythree_i18n(
-            '63.lv — pirts, telpu noma, web izstrāde un apmācības Rīgā',
-            '63.lv — sauna, room rental, web development and training in Riga',
-            '63.lv — сауна, аренда помещений, веб-разработка и обучение в Риге'
+            '63.lv — telpas, telpu noma, web izstrāde un apmācības Rīgā',
+            '63.lv — event spaces, room rental, web development and training in Riga',
+            '63.lv — аренда помещений, аренда помещений, веб-разработка и обучение в Риге'
         ),
         'description' => sixtythree_i18n(
-            '63.lv Bauskas ielā 63, Rīgā: pirts ģimenei un draugiem, telpu noma, mācības, frizētava, solārijs, ForAirsoft airsoft veikals un WordPress / React web izstrāde.',
-            '63.lv at Bauskas Street 63 in Riga: sauna for family and friends, room rental, training, hairdresser, solarium, the ForAirsoft airsoft shop and WordPress / React web development.',
-            '63.lv на улице Баускас 63 в Риге: сауна для семьи и друзей, аренда помещений, обучение, парикмахерская, солярий, магазин ForAirsoft и разработка WordPress / React.'
+            '63.lv Bauskas ielā 63, Rīgā: telpu noma ģimenes svinībām, apmācības, frizētava, ForAirsoft veikals un WordPress / React web izstrāde.',
+            '63.lv at Bauskas Street 63 in Riga: event space rental, training, hairdresser, ForAirsoft shop and WordPress / React web development.',
+            '63.lv на улице Баускас 63 в Риге: аренда помещений для мероприятий, обучение, парикмахерская, магазин ForAirsoft и разработка WordPress / React.'
         ),
         'image' => 'https://63.lv/wp-content/uploads/2026/05/pirts-zone-clean-01-replacement.jpg',
         'url' => sixtythree_language_home_url(),
@@ -271,8 +271,8 @@ function sixtythree_social_share_meta() {
     echo '<meta property="og:image:secure_url" content="' . esc_url($image) . '">' . "\n";
     echo '<meta property="og:image:alt" content="' . esc_attr($title . ' - ' . $description) . '">' . "\n";
     if (($defaults['type'] ?? '') === 'article') {
-        echo '<meta property="article:section" content="Pirts blogs">' . "\n";
-        echo '<meta property="article:tag" content="Pirts">' . "\n";
+        echo '<meta property="article:section" content="Pasākumu blogs">' . "\n";
+        echo '<meta property="article:tag" content="Telpu noma">' . "\n";
         echo '<meta property="article:tag" content="Bauskas 63">' . "\n";
     }
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
@@ -373,7 +373,7 @@ function sixtythree_localbusiness_schema() {
         ),
         'sameAs' => array('https://www.facebook.com/profile.php?id=100068508997510'),
         'makesOffer' => array(
-            array('@type' => 'Offer', 'name' => 'Pirts zona'),
+            array('@type' => 'Offer', 'name' => 'Telpu noma'),
             array('@type' => 'Offer', 'name' => 'Telpu noma'),
             array('@type' => 'Offer', 'name' => 'Web izstrāde'),
             array('@type' => 'Offer', 'name' => 'Apmācības'),
@@ -554,6 +554,11 @@ function sixtythree_scripts() {
         $theme_style_deps = array('sixtythree-fonts', 'bootstrap');
     }
     wp_enqueue_style('sixtythree-theme', get_template_directory_uri() . $css_asset, $theme_style_deps, $css_ver);
+    $enhancement_css = get_template_directory() . '/assets/css/63lv-enhancements.css';
+    if (file_exists($enhancement_css)) {
+        wp_enqueue_style('sixtythree-enhancements', get_template_directory_uri() . '/assets/css/63lv-enhancements.css', array('sixtythree-theme'), filemtime($enhancement_css));
+    }
+
 
     $wpbb_compat_css = get_template_directory() . '/assets/css/wpbb-compat.css';
     if (file_exists($wpbb_compat_css)) {
@@ -571,6 +576,11 @@ function sixtythree_scripts() {
         $theme_script_deps[] = 'sixtythree-react-home';
     }
     wp_enqueue_script('sixtythree-theme', get_template_directory_uri() . $js_asset, $theme_script_deps, $js_ver, true);
+    $enhancement_js = get_template_directory() . '/assets/js/63lv-enhancements.js';
+    if (file_exists($enhancement_js)) {
+        wp_enqueue_script('sixtythree-enhancements', get_template_directory_uri() . '/assets/js/63lv-enhancements.js', array('sixtythree-theme'), filemtime($enhancement_js), true);
+    }
+
 
     $wpbb_compat_asset = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '/assets/js/wpbb-compat.js' : '/assets/js/wpbb-compat.min.js';
     $wpbb_compat_file = get_template_directory() . $wpbb_compat_asset;
@@ -990,17 +1000,14 @@ function sixtythree_default_contact_fields() {
         array('type'=>'email','name'=>'email','placeholder'=>sixtythree_i18n('Epasts', 'Email', 'Эл. почта'),'required'=>true,'width'=>6),
         array('type'=>'phone','name'=>'phone','placeholder'=>sixtythree_i18n('Tālrunis', 'Phone', 'Телефон'),'required'=>false,'width'=>6),
         array('type'=>'select','name'=>'service','placeholder'=>sixtythree_i18n('Interesējošais pakalpojums', 'Service of interest', 'Интересующая услуга'),'options'=>sixtythree_i18n("Telpu noma
-Pirts zona
+Pasākumu telpas
 Web izstrāde
-Solārijs
 Citi pakalpojumi", "Space rental
-Sauna zone
+Event venue
 Web development
-Solarium
 Other services", "Аренда помещений
-Зона сауны
+Зона помещений
 Веб-разработка
-Солярий
 Другие услуги"),'required'=>false,'width'=>12),
         array('type'=>'textarea','name'=>'message','placeholder'=>sixtythree_i18n('Pastāstiet īsi par savu vajadzību...', 'Tell us briefly what you need...', 'Кратко опишите вашу потребность...'),'required'=>true,'width'=>12),
     );
@@ -1093,22 +1100,14 @@ function sixtythree_ajax_search() {
             'title' => 'Pakalpojumi',
             'url' => home_url('/#pakalpojumi'),
             'type' => 'Lapa',
-            'excerpt' => 'Pirts ballītēm, web izstrāde, e-apmācības, skaistumkopšana, ForAirsoft un citi 63.lv pakalpojumi.',
-            'keywords' => 'pakalpojumi pirts ballītes web izstrāde wordpress kursi solārijs frizētava manikīrs šūšana forairsoft airsoft veikals serviss',
+            'excerpt' => 'Telpas ballītēm, web izstrāde, e-apmācības, skaistumkopšana, ForAirsoft un citi 63.lv pakalpojumi.',
         ),
         array(
-            'title' => function_exists('sixtythree_homepage_text') ? sixtythree_homepage_text('pirts_kicker', 'Bauskas 63 · pirts zona') : 'Bauskas 63 · pirts zona',
+            'title' => function_exists('sixtythree_homepage_text') ? sixtythree_homepage_text('pirts_kicker', 'Bauskas 63 · telpu noma') : 'Bauskas 63 · telpu noma',
             'url' => home_url('/#pirts'),
             'type' => 'Lapa',
-            'excerpt' => function_exists('sixtythree_homepage_text') ? sixtythree_homepage_text('pirts_intro', 'Pirts zona ar rezervācijas kalendāru un pirts ballītes piedāvājumu.') : 'Pirts zona ar rezervācijas kalendāru un pirts ballītes piedāvājumu.',
-            'keywords' => 'pirts sauna ballīte rezervācija kalendārs bauskas 63 atpūta svinības',
-        ),
-        array(
-            'title' => 'Vertikālais solārijs — cenas',
-            'url' => home_url('/#skaistums-cenas'),
-            'type' => 'Lapa',
-            'excerpt' => 'Solārija cenas un skaistuma pakalpojumu informācija.',
-            'keywords' => 'solārijs cenas skaistums frizētava manikīrs pedikīrs',
+            'excerpt' => function_exists('sixtythree_homepage_text') ? sixtythree_homepage_text('pirts_intro', 'Telpu noma ar rezervācijas kalendāru un telpu nomas piedāvājumu.') : 'Telpu noma ar rezervācijas kalendāru un telpu nomas piedāvājumu.',
+            'keywords' => 'telpu sauna ballīte rezervācija kalendārs bauskas 63 atpūta svinības',
         ),
         array(
             'title' => 'ForAirsoft — airsoft veikals un serviss',
@@ -1193,9 +1192,8 @@ function sixtythree_register_polylang_strings() {
     if (!function_exists('pll_register_string')) { return; }
     $strings = array(
         'Telpas, zināšanas un pakalpojumi vienuviet',
-        'Bauskas 63 · pirts zona',
+        'Bauskas 63 · telpu noma',
         'Vieta ģimenei, draugiem un svinībām',
-        'Vertikālais solārijs — cenas',
         'WordPress un full stack izstrāde',
         'Pastāstiet par savu ideju vai vajadzību',
         'Bauskas iela 63, Rīga',
@@ -1357,31 +1355,31 @@ function sixtythree_front_translation_map() {
             'Telpas, zināšanas un pakalpojumi vienuviet' => 'Spaces, knowledge and services in one place',
             'ŠIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus uz vietas Bauskas ielā 63, Rīgā, kā arī attīstām visu Latviju un pasauli. Praktiskas zināšanas tagad, zelta un soli klasiskā-modernā vizuālā valodā.' => 'SIA Kalns RTL was founded in 2003. We offer services on site at Bauskas Street 63 in Riga and develop practical solutions for Latvia and beyond.',
             'Mūsu pakalpojumi →' => 'Our services →',
-            '63.lv pirts' => '63.lv sauna',
+            '63.lv pirts' => '63.lv venue rental',
             'Lieliska vieta' => 'Great location',
             'Bauskas iela 63, Rīga — ērta piekļuve no ielas un pagalma puses.' => 'Bauskas Street 63, Riga — easy access from the street and courtyard.',
             'Elastīgi risinājumi' => 'Flexible solutions',
-            'Telpas nomai, web izstrāde, pasākumi, pirts, skaistums, kursi un zināšanas praktiskam darbam.' => 'Rental spaces, web development, events, sauna, beauty and practical knowledge.',
+            'Telpas nomai, web izstrāde, pasākumi, telpas, skaistums, kursi un zināšanas praktiskam darbam.' => 'Rental spaces, web development, events, venue rental, beauty and practical knowledge.',
             'Pieredze kopš 2003' => 'Experience since 2003',
             'Uzņēmums ar stabilu pamatu un spēju pielāgoties dažādām vajadzībām.' => 'A stable company with the ability to adapt to different needs.',
             'Personiska pieeja' => 'Personal approach',
             'Attieksme, komunikācija un praktisks risinājums — kādam vajadzīgs tieši šodien.' => 'Attitude, communication and practical solutions for today’s needs.',
-            'Pirts ballīte' => 'Sauna party',
+            'Telpu ballīte' => 'Venue party',
             'Atpūta ģimenei un draugiem' => 'Relaxation for family and friends',
             'Darba dienās no 16:00, brīvdienās pēc vienošanās. Rekomendējam līdz 15 personām. Standarta piedāvājums €90 jeb €84.' => 'Weekdays from 16:00, weekends by agreement. Recommended for up to 15 people. Standard offer €90 or €84.',
-            'Skatīt pirts zonu →' => 'View sauna zone →',
+            'Skatīt telpu zonu →' => 'View venue rental →',
             'Viss svarīgākais vienā vietā' => 'Everything important in one place',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find sauna zone bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
-            'Pirts ballītēm' => 'For sauna parties',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find venue rental bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
+            'Telpas ballītēm' => 'For private events',
             'Web izstrāde un uzturēšana' => 'Web development and maintenance',
             'E-apmācības un kursi' => 'E-training and courses',
             'Citi pakalpojumi' => 'Other services',
             'Skatīt vairāk →' => 'View more →',
-            'Bauskas 63 · pirts zona' => 'Bauskas 63 · sauna zone',
+            'Bauskas 63 · telpu noma' => 'Bauskas 63 · venue rental',
             'Vieta ģimenei, draugiem un svinībām' => 'A place for family, friends and celebrations',
-            'Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.' => 'A sauna-zone offer for family, friends and small celebrations with price, duration, included services, calendar and quick booking.',
+            'Telpu piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.' => 'A venue-rental offer for family, friends and small celebrations with price, duration, included services, calendar and quick booking.',
             'Standarta piedāvājums' => 'Standard offer',
-            'Cena par standarta pirts ballītes piedāvājumu.' => 'Price for the standard sauna party offer.',
+            'Cena par standarta telpu nomas piedāvājumu.' => 'Price for the standard venue party offer.',
             'Optimāls ilgums atpūtai un svinībām.' => 'Optimal duration for relaxation and celebrations.',
             'Ieteicamais viesu skaits ģimenēm un draugiem.' => 'Recommended guest count for families and friends.',
             'Pieteikšanās savlaicīgi, drošības nauda 50%.' => 'Book in advance, 50% security deposit.',
@@ -1389,14 +1387,14 @@ function sixtythree_front_translation_map() {
             'Darba dienās no 16:00, brīvdienās pēc vienošanās.' => 'Weekdays from 16:00, weekends by agreement.',
             'Saziņai' => 'Contact',
             'rezervācijām un pieejamībai.' => 'for reservations and availability.',
-            'Kas iekļauts pirts ballītes paketē' => 'What is included in the sauna party package',
-            'Sauna un slotiņas.' => 'Sauna and whisks.',
+            'Kas iekļauts telpu nomas paketē' => 'What is included in the venue party package',
+            'Sauna un slotiņas.' => 'Relaxation area and amenities.',
             'Zāle ar galdiem kopīgai atpūtai.' => 'Hall with tables for shared relaxation.',
             'Atpūtas telpas mierīgai pauzei.' => 'Relaxation rooms for a quiet break.',
             'Virtuve uzkodu sagatavošanai.' => 'Kitchen for preparing snacks.',
             'Baseins šobrīd restaurācijas procesā.' => 'Pool is currently under restoration.',
             'Bauskas iela 63, Rīga.' => 'Bauskas Street 63, Riga.',
-            'Pieteikt pirts laiku →' => 'Book sauna time →',
+            'Pieteikt telpu nomu →' => 'Book the venue →',
             'Visi pakalpojumi' => 'All services',
             'Pieejamība' => 'Availability',
             'Maija rezervācijas' => 'May reservations',
@@ -1407,29 +1405,26 @@ function sixtythree_front_translation_map() {
             'diena' => 'day',
             'Pieteikt izvēlēto laiku →' => 'Book selected time →',
             'Zvanīt' => 'Call',
-            'Pirts blogs' => 'Sauna blog',
+            'Pasākumu blogs' => 'Events blog',
             'Jaunākie raksti' => 'Latest articles',
             'Blogs →' => 'Blog →',
-            'Kā sagatavoties pirts vakaram?' => 'How to prepare for a sauna evening',
+            'Kā sagatavoties pasākuma vakaram?' => 'How to prepare for a event evening',
             'Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.' => 'A short guide on what to bring and how to plan a six-hour relaxation evening.',
-            'Pirts ballīte līdz 15 personām' => 'Sauna party for up to 15 people',
+            'Telpu ballīte līdz 15 personām' => 'Venue party for up to 15 people',
             'Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.' => 'Tips for small celebrations, table layout and a comfortable event rhythm.',
             'Ko iekļaut pasākuma plānā?' => 'What to include in the event plan?',
             'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.' => 'Sauna, whisks, table hall, kitchen and relaxation rooms in one evening.',
             'Lasīt vairāk →' => 'Read more →',
-            'Pilnais raksta saturs par sagatavošanos pirts vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.' => 'Full article content about preparing for a sauna evening. Learn what to bring, how to plan the evening and what the hosts recommend for comfortable relaxation.',
-            'Pilnais raksta saturs par pirts ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.' => 'Full article content about a sauna party for up to 15 people. Here you can add detailed tips about seating, snacks, planning and the flow of the event.',
-            'Pilnais raksta saturs ar idejām pasākuma plānam. Aprakstiet vakara programmu, saunas apmeklējumu, atpūtas pauzes un citus noderīgus ieteikumus.' => 'Full article content with ideas for the event plan. Describe the evening programme, sauna visit, rest breaks and other useful recommendations.',
+            'Pilnais raksta saturs par sagatavošanos pasākuma vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.' => 'Full article content about preparing for a event evening. Learn what to bring, how to plan the evening and what the hosts recommend for comfortable relaxation.',
+            'Pilnais raksta saturs par telpu ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.' => 'Full article content about a venue party for up to 15 people. Here you can add detailed tips about seating, snacks, planning and the flow of the event.',
+            'Pilnais raksta saturs ar idejām pasākuma plānam. Aprakstiet vakara programmu, saunas apmeklējumu, atpūtas pauzes un citus noderīgus ieteikumus.' => 'Full article content with ideas for the event plan. Describe the evening programme, venue visit, rest breaks and other useful recommendations.',
             'Kopēt saiti' => 'Copy link',
             'Saite nokopēta' => 'Link copied',
             'Skaistumam' => 'For beauty',
-            'Vertikālais solārijs — cenas' => 'Vertical solarium — prices',
-            'Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos. Pieejams pēc iepriekšējas vienošanās, saziņai' => 'Vertical solarium with clear pricing and convenient booking. Available by appointment, contact',
             'Sesija' => 'Session',
             'minūtes' => 'minutes',
             'Papildus' => 'Extra',
             'Krēms' => 'Cream',
-            'Vertikālais solārijs' => 'Vertical solarium',
             'Pieraksts pēc vienošanās' => 'Appointment by agreement',
             'Iedegumam un labsajūtai' => 'For tanning and wellbeing',
             'Mūsdienīgs, kompakts un vizuāli izcelts piedāvājums ar skaidri nolasāmām cenām.' => 'A modern, compact and visually highlighted offer with clear pricing.',
@@ -1468,25 +1463,25 @@ function sixtythree_front_translation_map() {
             'Bauskas 63 · Rīga' => 'Bauskas 63 · Рига',
             'Telpas, zināšanas un pakalpojumi vienuviet' => 'Помещения, знания и услуги в одном месте',
             'Mūsu pakalpojumi →' => 'Наши услуги →',
-            '63.lv pirts' => '63.lv сауна',
+            '63.lv pirts' => '63.lv аренда помещений',
             'Lieliska vieta' => 'Отличное место',
             'Elastīgi risinājumi' => 'Гибкие решения',
             'Pieredze kopš 2003' => 'Опыт с 2003 года',
             'Personiska pieeja' => 'Индивидуальный подход',
-            'Pirts ballīte' => 'Сауна-вечеринка',
+            'Telpu ballīte' => 'Вечеринка в зале',
             'Atpūta ģimenei un draugiem' => 'Отдых для семьи и друзей',
-            'Skatīt pirts zonu →' => 'Смотреть сауну →',
+            'Skatīt telpu zonu →' => 'Смотреть помещения →',
             'Viss svarīgākais vienā vietā' => 'Всё важное в одном месте',
-            'Pirts ballītēm' => 'Для сауна-вечеринок',
+            'Telpas ballītēm' => 'Для аренда помещений-вечеринок',
             'Web izstrāde un uzturēšana' => 'Веб-разработка и поддержка',
             'E-apmācības un kursi' => 'Онлайн-обучение и курсы',
             'Citi pakalpojumi' => 'Другие услуги',
             'Skatīt vairāk →' => 'Подробнее →',
-            'Bauskas 63 · pirts zona' => 'Bauskas 63 · зона сауны',
+            'Bauskas 63 · telpu noma' => 'Bauskas 63 · зона помещений',
             'Vieta ģimenei, draugiem un svinībām' => 'Место для семьи, друзей и праздников',
-            'Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.' => 'Предложение сауны для семьи, друзей и небольших праздников с ценой, длительностью, включёнными услугами, календарём и быстрой заявкой.',
+            'Telpu piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.' => 'Предложение помещений для семьи, друзей и небольших праздников с ценой, длительностью, включёнными услугами, календарём и быстрой заявкой.',
             'Standarta piedāvājums' => 'Стандартное предложение',
-            'Cena par standarta pirts ballītes piedāvājumu.' => 'Цена стандартного предложения сауны.',
+            'Cena par standarta telpu nomas piedāvājumu.' => 'Цена стандартного предложения помещений.',
             'Optimāls ilgums atpūtai un svinībām.' => 'Оптимальная длительность для отдыха и праздника.',
             'Ieteicamais viesu skaits ģimenēm un draugiem.' => 'Рекомендуемое количество гостей для семьи и друзей.',
             'Pieteikšanās savlaicīgi, drošības nauda 50%.' => 'Бронирование заранее, депозит 50%.',
@@ -1494,14 +1489,14 @@ function sixtythree_front_translation_map() {
             'Darba dienās no 16:00, brīvdienās pēc vienošanās.' => 'В рабочие дни с 16:00, в выходные по договорённости.',
             'Saziņai' => 'Связь',
             'rezervācijām un pieejamībai.' => 'для бронирования и доступности.',
-            'Kas iekļauts pirts ballītes paketē' => 'Что входит в пакет сауны',
-            'Sauna un slotiņas.' => 'Сауна и веники.',
+            'Kas iekļauts telpu nomas paketē' => 'Что входит в пакет помещений',
+            'Sauna un slotiņas.' => 'Аренда помещений и веники.',
             'Zāle ar galdiem kopīgai atpūtai.' => 'Зал со столами для отдыха.',
             'Atpūtas telpas mierīgai pauzei.' => 'Комнаты отдыха для спокойной паузы.',
             'Virtuve uzkodu sagatavošanai.' => 'Кухня для подготовки закусок.',
             'Baseins šobrīd restaurācijas procesā.' => 'Бассейн сейчас на реставрации.',
             'Bauskas iela 63, Rīga.' => 'Улица Баускас 63, Рига.',
-            'Pieteikt pirts laiku →' => 'Забронировать сауну →',
+            'Pieteikt telpu nomu →' => 'Забронировать помещения →',
             'Visi pakalpojumi' => 'Все услуги',
             'Pieejamība' => 'Доступность',
             'Maija rezervācijas' => 'Бронирования на май',
@@ -1512,28 +1507,26 @@ function sixtythree_front_translation_map() {
             'diena' => 'день',
             'Pieteikt izvēlēto laiku →' => 'Забронировать выбранное →',
             'Zvanīt' => 'Позвонить',
-            'Pirts blogs' => 'Блог сауны',
+            'Pasākumu blogs' => 'Блог помещений',
             'Jaunākie raksti' => 'Последние статьи',
             'Blogs →' => 'Блог →',
-            'Kā sagatavoties pirts vakaram?' => 'Как подготовиться к вечеру в сауне',
+            'Kā sagatavoties pasākuma vakaram?' => 'Как подготовиться к вечеру в сауне',
             'Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.' => 'Кратко: что взять с собой и как спланировать шесть часов отдыха.',
-            'Pirts ballīte līdz 15 personām' => 'Сауна-вечеринка до 15 человек',
+            'Telpu ballīte līdz 15 personām' => 'Вечеринка в зале до 15 человек',
             'Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.' => 'Советы для небольшого праздника, расстановки столов и ритма отдыха.',
             'Ko iekļaut pasākuma plānā?' => 'Что включить в план мероприятия?',
-            'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.' => 'Сауна, веники, зал со столами, кухня и комнаты отдыха за один вечер.',
+            'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.' => 'Аренда помещений, веники, зал со столами, кухня и комнаты отдыха за один вечер.',
             'Lasīt vairāk →' => 'Читать дальше →',
-            'Pilnais raksta saturs par sagatavošanos pirts vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.' => 'Полный текст статьи о подготовке к вечеру в сауне. Что взять с собой, как спланировать вечер и что рекомендуют хозяева для комфортного отдыха.',
-            'Pilnais raksta saturs par pirts ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.' => 'Полный текст статьи о сауне-вечеринке до 15 человек. Здесь можно добавить подробные советы о местах, закусках, плане и ходе мероприятия.',
-            'Pilnais raksta saturs ar idejām pasākuma plānam. Aprakstiet vakara programmu, saunas apmeklējumu, atpūtas pauzes un citus noderīgus ieteikumus.' => 'Полный текст статьи с идеями для плана мероприятия. Опишите программу вечера, посещение сауны, паузы для отдыха и другие полезные рекомендации.',
+            'Pilnais raksta saturs par sagatavošanos pasākuma vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.' => 'Полный текст статьи о подготовке к вечеру в сауне. Что взять с собой, как спланировать вечер и что рекомендуют хозяева для комфортного отдыха.',
+            'Pilnais raksta saturs par telpu ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.' => 'Полный текст статьи о сауне-вечеринке до 15 человек. Здесь можно добавить подробные советы о местах, закусках, плане и ходе мероприятия.',
+            'Pilnais raksta saturs ar idejām pasākuma plānam. Aprakstiet vakara programmu, saunas apmeklējumu, atpūtas pauzes un citus noderīgus ieteikumus.' => 'Полный текст статьи с идеями для плана мероприятия. Опишите программу вечера, посещение помещений, паузы для отдыха и другие полезные рекомендации.',
             'Kopēt saiti' => 'Скопировать ссылку',
             'Saite nokopēta' => 'Ссылка скопирована',
             'Skaistumam' => 'Красота',
-            'Vertikālais solārijs — cenas' => 'Вертикальный солярий — цены',
             'Sesija' => 'Сеанс',
             'minūtes' => 'минут',
             'Papildus' => 'Дополнительно',
             'Krēms' => 'Крем',
-            'Vertikālais solārijs' => 'Вертикальный солярий',
             'Pieraksts pēc vienošanās' => 'Запись по договорённости',
             'Iedegumam un labsajūtai' => 'Для загара и самочувствия',
             'Iznomā' => 'Аренда',
@@ -1613,10 +1606,10 @@ function sixtythree_front_translation_extra_map() {
     return array(
         'en' => array(
             'Ko vēlaties atrast?' => 'What would you like to find?',
-            'Pirts ballītēm' => 'For sauna parties',
+            'Telpas ballītēm' => 'For private events',
             'Manikīrs' => 'Manicure',
             'Kursi' => 'Courses',
-            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, pirts zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL was founded in 2003. We provide services on site at Bauskas Street 63 in Riga, as well as remotely across Latvia and worldwide. ',
+            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, telpu zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL was founded in 2003. We provide services on site at Bauskas Street 63 in Riga, as well as remotely across Latvia and worldwide. ',
             'Sazināties' => 'Contact us',
             'Privātpersonām, uzņēmumiem, telpu nomai, kursiem un ikdienas pakalpojumiem.' => 'For individuals, companies, space rental, courses and everyday services.',
             'Uzticams lokāls centrs ar plašu pakalpojumu klāstu vienā adresē.' => 'A trusted local centre with a wide range of services at one address.',
@@ -1629,9 +1622,8 @@ function sixtythree_front_translation_extra_map() {
             'Individuāli un grupās — uzņēmējdarbība, ekonomika, Zoom & Skype, web rīki, biroja darbi, kopēšana un printēšana.' => 'Individual and group training — business, economics, Zoom & Skype, web tools, office work, copying and printing.',
             'Kursi un pakalpojumi →' => 'Courses and services →',
             'Skaistumam un ērtībai' => 'For beauty and convenience',
-            'Stāvošais solārijs, frizētava, manikīrs un pedikīrs, šuvēju pakalpojumi, mēbeļu remonts un citi risinājumi vienuviet.' => 'Vertical solarium, hairdresser, manicure and pedicure, tailoring, furniture repair and other solutions in one place.',
             'Pieteikt laiku →' => 'Book a time →',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find sauna zone bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find venue rental bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
             'Ģimenēm un draugiem' => 'For families and friends',
             'Līdz ~15 personām' => 'Up to ~15 people',
             'Darba dienās no 16:00' => 'Weekdays from 16:00',
@@ -1640,7 +1632,6 @@ function sixtythree_front_translation_extra_map() {
             'Headless ReactJS risinājumi' => 'Headless ReactJS solutions',
             'Individuāli €15/h' => 'Individual €15/h',
             'Biroja darbi, kopēšana, printēšana' => 'Office work, copying, printing',
-            'Vertikālais solārijs' => 'Vertical solarium',
             'Frizētava IEVA' => 'Hairdresser IEVA',
             'Manikīrs & pedikīrs' => 'Manicure & pedicure',
             'Šūšanas un remonta darbi' => 'Tailoring and repair work',
@@ -1665,7 +1656,7 @@ function sixtythree_front_translation_extra_map() {
             'ForAirsoft veikals Bauskas ielā 63' => 'ForAirsoft shop at Bauskas Street 63',
             'ForAirsoft veikala izkārtne Bauskas ielā 63' => 'ForAirsoft shop sign at Bauskas Street 63',
             'ForAirsoft fiziskā veikala interjers' => 'ForAirsoft physical store interior',
-            'Pirts' => 'Sauna',
+            'Pirts' => 'Venue rental',
             'Apmācības' => 'Training',
             '€90 / akcijā €84' => '€90 / promo €84',
             'Līdz 15 personām' => 'Up to 15 people',
@@ -1673,7 +1664,6 @@ function sixtythree_front_translation_extra_map() {
             '10 minūtes' => '10 minutes',
             '12 minūtes' => '12 minutes',
             '14 minūtes' => '14 minutes',
-            'Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos. Pieejams pēc iepriekšējas vienošanās, saziņai' => 'Vertical solarium with clear pricing and convenient booking. Available by appointment, contact',
             'Telpas biznesam' => 'Business premises',
             'Atvērt piedāvājumu' => 'Open offer',
             'Mūsdienīgas telpas, personīga pieeja un kvalitatīvi pakalpojumi — kopš 2003. gada jūsu atbalstam ikdienā un biznesā.' => 'Modern spaces, a personal approach and quality services — supporting your everyday and business needs since 2003.',
@@ -1723,7 +1713,7 @@ function sixtythree_front_translation_extra_map() {
         ),
         'ru' => array(
             'Ko vēlaties atrast?' => 'Что вы хотите найти?',
-            'Pirts ballītēm' => 'Для сауна-вечеринок',
+            'Telpas ballītēm' => 'Для аренда помещений-вечеринок',
             'Manikīrs' => 'Маникюр',
             'Kursi' => 'Курсы',
             'Sazināties' => 'Связаться',
@@ -1770,7 +1760,7 @@ function sixtythree_front_translation_extra_map() {
             'ForAirsoft veikals Bauskas ielā 63' => 'Магазин ForAirsoft на ул. Баускас 63',
             'ForAirsoft veikala izkārtne Bauskas ielā 63' => 'Вывеска магазина ForAirsoft на ул. Баускас 63',
             'ForAirsoft fiziskā veikala interjers' => 'Интерьер физического магазина ForAirsoft',
-            'Pirts' => 'Сауна',
+            'Pirts' => 'Аренда помещений',
             'Apmācības' => 'Обучение',
             '€90 / akcijā €84' => '€90 / акция €84',
             'Līdz 15 personām' => 'До 15 человек',
@@ -1837,13 +1827,12 @@ function sixtythree_front_translation_complete_map() {
             'Meklēt pakalpojumus, telpas, kursus vai kontaktus...' => 'Search services, spaces, courses or contacts...',
             'Ko vēlaties atrast?' => 'What would you like to find?',
             'Aizvērt meklēšanu' => 'Close search',
-            'Pirts galerijas attēls 1' => 'Sauna gallery image 1',
-            'Pirts galerijas attēls 2' => 'Sauna gallery image 2',
-            'Pirts galerijas attēls 3' => 'Sauna gallery image 3',
-            'Pirts galerijas attēls 4' => 'Sauna gallery image 4',
-            'Pirts galerijas attēls 5' => 'Sauna gallery image 5',
-            'Pirts galerijas attēls 6' => 'Sauna gallery image 6',
-            'Vertikālais solārijs Bauskas ielā 63' => 'Vertical solarium at Bauskas Street 63',
+            'Telpu galerijas attēls 1' => 'Venue gallery image 1',
+            'Telpu galerijas attēls 2' => 'Venue gallery image 2',
+            'Telpu galerijas attēls 3' => 'Venue gallery image 3',
+            'Telpu galerijas attēls 4' => 'Venue gallery image 4',
+            'Telpu galerijas attēls 5' => 'Venue gallery image 5',
+            'Telpu galerijas attēls 6' => 'Venue gallery image 6',
             'Telpu attēli' => 'Space images',
             'Ēkas art vizuālis' => 'Art-style building visual',
             'Google Map Bauskas iela 63, Rīga' => 'Google Map Bauskas Street 63, Riga',
@@ -1862,13 +1851,12 @@ function sixtythree_front_translation_complete_map() {
             'Nosūtīt pieteikumu' => 'Send request',
             'Pieteikt konsultāciju' => 'Request a consultation',
             'Telpu noma' => 'Space rental',
-            'Pirts zona' => 'Sauna zone',
-            'Solārijs' => 'Solarium',
+            'Telpu noma' => 'Venue rental',
             'Citi pakalpojumi' => 'Other services',
             'Manikīrs' => 'Manicure',
             'Kursi' => 'Courses',
             'Services · Bauskas 63' => 'Services · Bauskas 63',
-            'Pirts ballītēm' => 'For sauna parties',
+            'Telpas ballītēm' => 'For private events',
             'Mūsu pakalpojumi →' => 'Our services →',
             'Sazināties' => 'Contact',
             'Bauskas iela 63, Rīga — ērta piekļuve no ielas un pagalma puses.' => 'Bauskas Street 63, Riga — easy access from the street and courtyard.',
@@ -1883,11 +1871,10 @@ function sixtythree_front_translation_complete_map() {
             'Individuāli un grupās — uzņēmējdarbība, ekonomika, Zoom & Skype, web rīki, biroja darbi, kopēšana un printēšana.' => 'Individual and group training — business, economics, Zoom & Skype, web tools, office work, copying and printing.',
             'Kursi un pakalpojumi →' => 'Courses and services →',
             'Skaistumam un ērtībai' => 'For beauty and convenience',
-            'Stāvošais solārijs, frizētava, manikīrs un pedikīrs, šuvēju pakalpojumi, mēbeļu remonts un citi risinājumi vienuviet.' => 'Vertical solarium, hairdresser, manicure and pedicure, tailoring, furniture repair and other solutions in one place.',
             'Pieteikt laiku →' => 'Book a time →',
             'Pakalpojumi' => 'Services',
             'Viss svarīgākais vienā vietā' => 'Everything important in one place',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find sauna zone bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find venue rental bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
             'Ģimenēm un draugiem' => 'For families and friends',
             'Līdz ~15 personām' => 'Up to ~15 people',
             'Darba dienās no 16:00' => 'Weekdays from 16:00',
@@ -1896,11 +1883,10 @@ function sixtythree_front_translation_complete_map() {
             'Headless ReactJS risinājumi' => 'Headless ReactJS solutions',
             'Individuāli €15/h' => 'Individual €15/h',
             'Biroja darbi, kopēšana, printēšana' => 'Office work, copying, printing',
-            'Vertikālais solārijs' => 'Vertical solarium',
             'Frizētava IEVA' => 'Hairdresser IEVA',
             'Manikīrs & pedikīrs' => 'Manicure & pedicure',
             'Šūšanas un remonta darbi' => 'Tailoring and repair work',
-            'Pirts' => 'Sauna',
+            'Pirts' => 'Venue rental',
             'Apmācības' => 'Training',
             '€90 / akcijā €84' => '€90 / promo €84',
             'Līdz 15 personām' => 'Up to 15 people',
@@ -1962,13 +1948,12 @@ function sixtythree_front_translation_complete_map() {
             'Meklēt pakalpojumus, telpas, kursus vai kontaktus...' => 'Искать услуги, помещения, курсы или контакты...',
             'Ko vēlaties atrast?' => 'Что вы хотите найти?',
             'Aizvērt meklēšanu' => 'Закрыть поиск',
-            'Pirts galerijas attēls 1' => 'Изображение сауны 1',
-            'Pirts galerijas attēls 2' => 'Изображение сауны 2',
-            'Pirts galerijas attēls 3' => 'Изображение сауны 3',
-            'Pirts galerijas attēls 4' => 'Изображение сауны 4',
-            'Pirts galerijas attēls 5' => 'Изображение сауны 5',
-            'Pirts galerijas attēls 6' => 'Изображение сауны 6',
-            'Vertikālais solārijs Bauskas ielā 63' => 'Вертикальный солярий на улице Баускас 63',
+            'Telpu galerijas attēls 1' => 'Изображение помещений 1',
+            'Telpu galerijas attēls 2' => 'Изображение помещений 2',
+            'Telpu galerijas attēls 3' => 'Изображение помещений 3',
+            'Telpu galerijas attēls 4' => 'Изображение помещений 4',
+            'Telpu galerijas attēls 5' => 'Изображение помещений 5',
+            'Telpu galerijas attēls 6' => 'Изображение помещений 6',
             'Telpu attēli' => 'Изображения помещений',
             'Ēkas art vizuālis' => 'Художественный вид здания',
             'Google Map Bauskas iela 63, Rīga' => 'Google Map улица Баускас 63, Рига',
@@ -1987,13 +1972,12 @@ function sixtythree_front_translation_complete_map() {
             'Nosūtīt pieteikumu' => 'Отправить заявку',
             'Pieteikt konsultāciju' => 'Запросить консультацию',
             'Telpu noma' => 'Аренда помещений',
-            'Pirts zona' => 'Зона сауны',
+            'Telpu noma' => 'Зона помещений',
             'Web izstrāde' => 'Веб-разработка',
-            'Solārijs' => 'Солярий',
             'Citi pakalpojumi' => 'Другие услуги',
             'Manikīrs' => 'Маникюр',
             'Kursi' => 'Курсы',
-            'Pirts ballītēm' => 'Для сауна-вечеринок',
+            'Telpas ballītēm' => 'Для аренда помещений-вечеринок',
             'Mūsu pakalpojumi →' => 'Наши услуги →',
             'Sazināties' => 'Связаться',
             'Pakalpojumi' => 'Услуги',
@@ -2005,11 +1989,10 @@ function sixtythree_front_translation_complete_map() {
             'Headless ReactJS risinājumi' => 'Headless ReactJS решения',
             'Individuāli €15/h' => 'Индивидуально €15/ч',
             'Biroja darbi, kopēšana, printēšana' => 'Офисные работы, копирование, печать',
-            'Vertikālais solārijs' => 'Вертикальный солярий',
             'Frizētava IEVA' => 'Парикмахерская IEVA',
             'Manikīrs & pedikīrs' => 'Маникюр и педикюр',
             'Šūšanas un remonta darbi' => 'Швейные и ремонтные работы',
-            'Pirts' => 'Сауна',
+            'Pirts' => 'Аренда помещений',
             'Apmācības' => 'Обучение',
             '€90 / akcijā €84' => '€90 / акция €84',
             'Līdz 15 personām' => 'До 15 человек',
@@ -2061,9 +2044,9 @@ function sixtythree_front_translation_complete_map() {
 function sixtythree_front_translation_live_override_map() {
     return array(
         'en' => array(
-            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, pirts zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL was founded in 2003. We provide services on site at Bauskas Street 63 in Riga, as well as remotely across Latvia and worldwide. ',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find sauna zone bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find sauna zone bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
+            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, telpu zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL was founded in 2003. We provide services on site at Bauskas Street 63 in Riga, as well as remotely across Latvia and worldwide. ',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find venue rental bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'In the services section you can find venue rental bookings, room rental, web development, training and everyday services. Choose the direction you need and contact us about availability.',
             'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus uz vietas Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē.' => 'SIA Kalns RTL was founded in 2003. We provide services on site at Bauskas Street 63 in Riga, as well as remotely across Latvia and worldwide.',
             '' => '',
             'ikdienas servisi' => 'everyday services',
@@ -2081,13 +2064,13 @@ function sixtythree_front_translation_live_override_map() {
             'Pastāstiet īsi par savu vajadzību...' => 'Tell us briefly what you need...',
             'Nosūtīt pieteikumu' => 'Send request',
             'Telpu noma' => 'Space rental',
-            'Pirts zona' => 'Sauna zone',
+            'Telpu noma' => 'Venue rental',
             'Citi pakalpojumi' => 'Other services',
         ),
         'ru' => array(
-            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, pirts zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL основана в 2003 году. Мы предоставляем услуги на месте по адресу улица Баускас 63 в Риге, а также удалённо по всей Латвии и миру. ',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'В разделе услуг доступны бронирование сауны, аренда помещений, веб-разработка, обучение и повседневные услуги. Выберите нужное направление и свяжитесь с нами по поводу доступности.',
-            'Pakalpojumu sadaļā atradīsiet pirts zonas rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'В разделе услуг доступны бронирование сауны, аренда помещений, веб-разработка, обучение и повседневные услуги. Выберите нужное направление и свяжитесь с нами по поводу доступности.',
+            'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, telpu zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.' => 'SIA Kalns RTL основана в 2003 году. Мы предоставляем услуги на месте по адресу улица Баускас 63 в Риге, а также удалённо по всей Латвии и миру. ',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'В разделе услуг доступны бронирование помещений, аренда помещений, веб-разработка, обучение и повседневные услуги. Выберите нужное направление и свяжитесь с нами по поводу доступности.',
+            'Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.' => 'В разделе услуг доступны бронирование помещений, аренда помещений, веб-разработка, обучение и повседневные услуги. Выберите нужное направление и свяжитесь с нами по поводу доступности.',
             'SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus uz vietas Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē.' => 'SIA Kalns RTL основана в 2003 году. Мы предоставляем услуги на месте по адресу улица Баускас 63 в Риге, а также удалённо по всей Латвии и миру.',
             '' => '',
             'ikdienas servisi' => 'ежедневные сервисы',
@@ -2106,7 +2089,7 @@ function sixtythree_front_translation_live_override_map() {
             'Pastāstiet īsi par savu vajadzību...' => 'Кратко опишите вашу потребность...',
             'Nosūtīt pieteikumu' => 'Отправить заявку',
             'Telpu noma' => 'Аренда помещений',
-            'Pirts zona' => 'Зона сауны',
+            'Telpu noma' => 'Зона помещений',
             'Citi pakalpojumi' => 'Другие услуги',
         ),
     );
@@ -2185,7 +2168,7 @@ function sixtythree_front_translation_modal_override_map() {
             'Pieteikt apskati' => 'Book a viewing',
             'Sazināties →' => 'Contact →',
             'Aizvērt' => 'Close',
-            'Pirts galerijas attēls' => 'Sauna gallery image',
+            'Telpu galerijas attēls' => 'Venue gallery image',
         ),
         'ru' => array(
             'Telpa nomai Bauskas ielā 63' => 'Помещение в аренду на улице Баускас 63',
@@ -2212,7 +2195,7 @@ function sixtythree_front_translation_modal_override_map() {
             'Pieteikt apskati' => 'Записаться на просмотр',
             'Sazināties →' => 'Связаться →',
             'Aizvērt' => 'Закрыть',
-            'Pirts galerijas attēls' => 'Изображение сауны',
+            'Telpu galerijas attēls' => 'Изображение помещений',
         ),
     );
 }
@@ -2539,7 +2522,7 @@ function sixtythree_booking_settings_page() {
     ?>
     <div class="wrap sixtythree-booking-admin">
       <h1><?php esc_html_e('63.lv Booking Calendar', 'sixty-three-lv'); ?></h1>
-      <p><?php esc_html_e('Control the public pirts booking calendar shown on the homepage and through the [sixtythree_booking_calendar] shortcode.', 'sixty-three-lv'); ?></p>
+      <p><?php esc_html_e('Control the public telpu booking calendar shown on the homepage and through the [sixtythree_booking_calendar] shortcode.', 'sixty-three-lv'); ?></p>
       <form method="post" action="options.php" id="sixtythree-booking-settings-form">
         <?php settings_fields('sixtythree_booking_settings_group'); ?>
         <div class="sixtythree-admin-card">
@@ -2704,12 +2687,12 @@ function sixtythree_booking_settings_page() {
  */
 function sixtythree_homepage_defaults() {
     return array(
-        'pirts_kicker' => 'Bauskas 63 · pirts zona',
+        'pirts_kicker' => 'Bauskas 63 · telpu noma',
         'pirts_heading' => 'Vieta ģimenei, draugiem un svinībām',
-        'pirts_intro' => 'Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.',
+        'pirts_intro' => 'Telpu piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.',
         'pirts_badge' => 'Standarta piedāvājums',
         'pirts_price_title' => '€90 / akcijā €84',
-        'pirts_price_body' => 'Cena par standarta pirts ballītes piedāvājumu.',
+        'pirts_price_body' => 'Cena par standarta telpu nomas piedāvājumu.',
         'pirts_hours_title' => '6 stundas',
         'pirts_hours_body' => 'Optimāls ilgums atpūtai un svinībām.',
         'pirts_people_title' => 'Līdz 15 personām',
@@ -2719,31 +2702,31 @@ function sixtythree_homepage_defaults() {
         'pirts_available_title' => 'Pieejams',
         'pirts_available_body' => 'Darba dienās no 16:00, brīvdienās pēc vienošanās.',
         'pirts_contact_title' => 'Saziņai',
-        'pirts_package_heading' => 'Kas iekļauts pirts ballītes paketē',
+        'pirts_package_heading' => 'Kas iekļauts telpu nomas paketē',
         'pirts_package_1' => 'Sauna un slotiņas.',
         'pirts_package_2' => 'Zāle ar galdiem kopīgai atpūtai.',
         'pirts_package_3' => 'Atpūtas telpas mierīgai pauzei.',
         'pirts_package_4' => 'Virtuve uzkodu sagatavošanai.',
         'pirts_package_5' => 'Baseins šobrīd restaurācijas procesā.',
         'pirts_package_6' => 'Bauskas iela 63, Rīga.',
-        'pirts_cta_primary' => 'Pieteikt pirts laiku →',
+        'pirts_cta_primary' => 'Pieteikt telpu nomu →',
         'pirts_cta_secondary' => 'Visi pakalpojumi',
-        'pirts_blog_kicker' => 'Pirts blogs',
+        'pirts_blog_kicker' => 'Pasākumu blogs',
         'pirts_blog_heading' => 'Jaunākie raksti',
         'pirts_blog_button' => 'Blogs →',
         'pirts_blog_modal_close' => 'Aizvērt',
         'pirts_blog_1_date' => 'Jaunumi',
-        'pirts_blog_1_title' => 'Kā sagatavoties pirts vakaram?',
+        'pirts_blog_1_title' => 'Kā sagatavoties pasākuma vakaram?',
         'pirts_blog_1_text' => 'Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.',
         'pirts_blog_1_link' => 'Lasīt vairāk →',
         'pirts_blog_1_url' => '#',
-        'pirts_blog_1_full' => 'Pilnais raksta saturs par sagatavošanos pirts vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.',
+        'pirts_blog_1_full' => 'Pilnais raksta saturs par sagatavošanos pasākuma vakaram. Aprakstiet, ko paņemt līdzi, kā plānot vakaru un kādi ir saimnieku ieteikumi ērtai atpūtai.',
         'pirts_blog_2_date' => 'Padomi',
-        'pirts_blog_2_title' => 'Pirts ballīte līdz 15 personām',
+        'pirts_blog_2_title' => 'Telpu ballīte līdz 15 personām',
         'pirts_blog_2_text' => 'Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.',
         'pirts_blog_2_link' => 'Lasīt vairāk →',
         'pirts_blog_2_url' => '#',
-        'pirts_blog_2_full' => 'Pilnais raksta saturs par pirts ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.',
+        'pirts_blog_2_full' => 'Pilnais raksta saturs par telpu ballīti līdz 15 personām. Šeit var ievadīt detalizētākus padomus par sēdvietām, uzkodām, plānu un pasākuma gaitu.',
         'pirts_blog_3_date' => 'Idejas',
         'pirts_blog_3_title' => 'Ko iekļaut pasākuma plānā?',
         'pirts_blog_3_text' => 'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.',
@@ -2818,7 +2801,11 @@ function sixtythree_rewrite_uploaded_theme_image_url($url) {
 function sixtythree_homepage_text($key, $fallback = '') {
     $defaults = sixtythree_homepage_defaults();
     $default = array_key_exists($key, $defaults) ? $defaults[$key] : $fallback;
-    return get_theme_mod('sixtythree_' . $key, $default);
+    $value = get_theme_mod('sixtythree_' . $key, $default);
+    if (is_string($value)) {
+        $value = str_ireplace(array('pirts ballītes', 'pirts ballīti', 'pirts ballīte', 'pirts zonas', 'pirts zonu', 'pirts zona', 'pirts vakaram', 'pirts laiku', 'pirts blogs', 'pirts'), array('telpu nomas', 'telpu ballīti', 'telpu ballīte', 'telpu nomas', 'telpu nomu', 'telpu noma', 'pasākuma vakaram', 'telpu nomu', 'pasākumu blogs', 'telpu'), $value);
+    }
+    return $value;
 }
 
 function sixtythree_homepage_text_i18n($key, $fallback = '') {
@@ -2911,10 +2898,10 @@ function sixtythree_register_homepage_customizer($wp_customize) {
     ));
 
     $sections = array(
-        'sixtythree_pirts_content' => __('Pirts zone content', 'sixty-three-lv'),
-        'sixtythree_pirts_gallery' => __('Pirts zone gallery', 'sixty-three-lv'),
-        'sixtythree_pirts_blog' => __('Pirts blog cards', 'sixty-three-lv'),
-        'sixtythree_pirts_booking' => __('Pirts booking calendar', 'sixty-three-lv'),
+        'sixtythree_pirts_content' => __('Telpu zone content', 'sixty-three-lv'),
+        'sixtythree_pirts_gallery' => __('Telpu zone gallery', 'sixty-three-lv'),
+        'sixtythree_pirts_blog' => __('Telpu blog cards', 'sixty-three-lv'),
+        'sixtythree_pirts_booking' => __('Telpu booking calendar', 'sixty-three-lv'),
     );
     foreach ($sections as $section_id => $title) {
         $wp_customize->add_section($section_id, array(
@@ -3070,7 +3057,7 @@ add_action('init', 'sixtythree_disable_plain_homepage_takeover', 1);
 
 
 /**
- * v12 migration: replace first pirts gallery image with the provided PAGRABS logo
+ * v12 migration: replace first telpu gallery image with the provided PAGRABS logo
  * and make sure the booking calendar remains editable from theme settings.
  */
 function sixtythree_upgrade_v12_assets() {

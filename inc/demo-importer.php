@@ -77,9 +77,8 @@ function sixtythree_demo_form_fields($lang = 'lv') {
             'service'=>'Interesējošais pakalpojums','message'=>'Ziņa',
             'placeholder_message'=>'Pastāstiet īsi par savu vajadzību...',
             'options'=>"Telpu noma
-Pirts zona
+Telpu noma
 Web izstrāde
-Solārijs
 Citi pakalpojumi",
         ),
         'en' => array(
@@ -87,9 +86,8 @@ Citi pakalpojumi",
             'service'=>'Service of interest','message'=>'Message',
             'placeholder_message'=>'Tell us briefly what you need...',
             'options'=>"Space rental
-Sauna zone
+Venue rental
 Web development
-Solarium
 Other services",
         ),
         'ru' => array(
@@ -97,9 +95,8 @@ Other services",
             'service'=>'Интересующая услуга','message'=>'Сообщение',
             'placeholder_message'=>'Кратко опишите вашу потребность...',
             'options'=>"Аренда помещений
-Зона сауны
+Зона помещений
 Веб-разработка
-Солярий
 Другие услуги",
         ),
     );
@@ -169,9 +166,9 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- /wp:heading -->
 <!-- wp:list {"className":"sixtythree-feature-list"} -->
 <ul class="wp-block-list sixtythree-feature-list">
-<!-- wp:list-item --><li>Pirts ballītēm</li><!-- /wp:list-item -->
+<!-- wp:list-item --><li>Telpas ballītēm</li><!-- /wp:list-item -->
 <!-- wp:list-item --><li>Web izstrāde un uzturēšana</li><!-- /wp:list-item -->
-<!-- wp:list-item --><li>Vertikālais solārijs</li><!-- /wp:list-item -->
+
 <!-- wp:list-item --><li>Telpu noma Bauskas 63</li><!-- /wp:list-item -->
 <!-- wp:list-item --><li>ForAirsoft airsoft veikals</li><!-- /wp:list-item -->
 </ul>
@@ -197,13 +194,13 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- wp:columns {"className":"sixtythree-admin-service-grid"} -->
 <div class="wp-block-columns sixtythree-admin-service-grid">
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Pirts ballītēm</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Ģimenēm un draugiem, līdz 15 personām, darba dienās no 16:00.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
+<div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Telpas ballītēm</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Ģimenēm un draugiem, līdz 15 personām, darba dienās no 16:00.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Web izstrāde</h3><!-- /wp:heading --><!-- wp:paragraph --><p>WordPress, headless ReactJS, SEO, hostings un uzturēšana.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
 <!-- /wp:column -->
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Solārijs</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Vertikālais solārijs ar skaidrām cenām un pierakstu.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
+
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Telpu noma</h3><!-- /wp:heading --><!-- wp:paragraph --><p>105 m² biznesa telpas Bauskas ielā 63, Rīgā.</p><!-- /wp:paragraph --></div><!-- /wp:group --></div>
@@ -219,7 +216,7 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <!-- wp:group {"tagName":"section","className":"sixtythree-admin-section","layout":{"type":"constrained"}} -->
 <section class="wp-block-group sixtythree-admin-section" id="pirts">
 <!-- wp:heading {"level":2} -->
-<h2 class="wp-block-heading">Bauskas 63 · pirts zona</h2>
+<h2 class="wp-block-heading">Bauskas 63 · telpu noma</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p>Vieta ģimenei, draugiem un svinībām</p>
@@ -233,7 +230,7 @@ function sixtythree_home_builder_content($lang = 'lv') {
 <h2 class="wp-block-heading">Vieta ģimenei, draugiem un svinībām</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Pirts zonas piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.</p>
+<p>Telpu piedāvājums ģimenei, draugiem un nelielām svinībām ar cenu, ilgumu, iekļautajiem pakalpojumiem, kalendāru un ātru pieteikšanos.</p>
 <!-- /wp:paragraph -->
 <!-- wp:list {"className":"sixtythree-feature-list"} -->
 <ul class="wp-block-list sixtythree-feature-list">
@@ -258,47 +255,6 @@ function sixtythree_home_builder_content($lang = 'lv') {
 </section>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","className":"sixtythree-admin-section","layout":{"type":"constrained"}} -->
-<section class="wp-block-group sixtythree-admin-section" id="skaistums">
-<!-- wp:heading {"level":2} -->
-<h2 class="wp-block-heading">Skaistumam</h2>
-<!-- /wp:heading -->
-<!-- wp:paragraph -->
-<p>Vertikālais solārijs — cenas</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:columns {"verticalAlignment":"top"} -->
-<div class="wp-block-columns are-vertically-aligned-top">
-<!-- wp:column {"width":"55%"} -->
-<div class="wp-block-column" style="flex-basis:55%">
-<!-- wp:heading {"level":2} -->
-<h2 class="wp-block-heading">Vertikālais solārijs — cenas</h2>
-<!-- /wp:heading -->
-<!-- wp:columns {"className":"solarium-price-row"} -->
-<div class="wp-block-columns solarium-price-row">
-<!-- wp:column --><div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:paragraph {"className":"solarium-price-value"} --><p class="solarium-price-value"><strong>€3</strong></p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"solarium-price-label"} --><p class="solarium-price-label">10 minūtes</p><!-- /wp:paragraph --></div><!-- /wp:group --></div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:paragraph {"className":"solarium-price-value"} --><p class="solarium-price-value"><strong>€3,30</strong></p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"solarium-price-label"} --><p class="solarium-price-label">12 minūtes</p><!-- /wp:paragraph --></div><!-- /wp:group --></div><!-- /wp:column -->
-</div>
-<!-- /wp:columns -->
-<!-- wp:columns {"className":"solarium-price-row"} -->
-<div class="wp-block-columns solarium-price-row">
-<!-- wp:column --><div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:paragraph {"className":"solarium-price-value"} --><p class="solarium-price-value"><strong>€4</strong></p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"solarium-price-label"} --><p class="solarium-price-label">14 minūtes</p><!-- /wp:paragraph --></div><!-- /wp:group --></div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column"><!-- wp:group {"className":"sixtythree-admin-card","layout":{"type":"constrained"}} --><div class="wp-block-group sixtythree-admin-card"><!-- wp:paragraph {"className":"solarium-price-value"} --><p class="solarium-price-value"><strong>€2</strong></p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"solarium-price-label"} --><p class="solarium-price-label">Krēms</p><!-- /wp:paragraph --></div><!-- /wp:group --></div><!-- /wp:column -->
-</div>
-<!-- /wp:columns -->
-</div>
-<!-- /wp:column -->
-<!-- wp:column {"width":"45%"} -->
-<div class="wp-block-column" style="flex-basis:45%">
-<!-- wp:paragraph -->
-<p>Vertikālais solārijs ar skaidrām cenām un ērtu pieteikšanos.</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:column -->
-</div>
-<!-- /wp:columns -->
-</section>
-<!-- /wp:group -->
 
 <!-- wp:group {"tagName":"section","className":"sixtythree-admin-section","layout":{"type":"constrained"}} -->
 <section class="wp-block-group sixtythree-admin-section" id="web">
@@ -430,7 +386,7 @@ function sixtythree_run_demo_import() {
 
     $simple_pages = array(
         'pakalpojumi' => array('lv'=>'Pakalpojumi','en'=>'Services','ru'=>'Услуги'),
-        'pirts-zona' => array('lv'=>'Pirts zona','en'=>'Sauna zone','ru'=>'Сауна'),
+        'pirts-zona' => array('lv'=>'Telpu noma','en'=>'Venue rental','ru'=>'Аренда помещений'),
         'web-izstrade' => array('lv'=>'Web izstrāde','en'=>'Web development','ru'=>'Веб разработка'),
         'kontakti' => array('lv'=>'Kontakti','en'=>'Contact','ru'=>'Контакты'),
     );
@@ -453,19 +409,19 @@ function sixtythree_run_demo_import() {
 
     $posts = array(
         array(
-            'lv' => array('title'=>'Kā sagatavoties pirts vakaram?', 'content'=>'Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.'),
-            'en' => array('title'=>'How to prepare for a sauna evening', 'content'=>'A short guide on what to bring and how to plan a six-hour relaxation evening.'),
+            'lv' => array('title'=>'Kā sagatavoties pasākuma vakaram?', 'content'=>'Īss ceļvedis, ko paņemt līdzi un kā plānot sešu stundu atpūtu.'),
+            'en' => array('title'=>'How to prepare for a event evening', 'content'=>'A short guide on what to bring and how to plan a six-hour relaxation evening.'),
             'ru' => array('title'=>'Как подготовиться к вечеру в сауне', 'content'=>'Краткое руководство: что взять с собой и как спланировать шесть часов отдыха.'),
         ),
         array(
-            'lv' => array('title'=>'Pirts ballīte līdz 15 personām', 'content'=>'Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.'),
-            'en' => array('title'=>'Sauna party for up to 15 people', 'content'=>'Tips for small celebrations, table layout and a comfortable event rhythm.'),
-            'ru' => array('title'=>'Сауна-вечеринка до 15 человек', 'content'=>'Советы для небольшого праздника, расстановки столов и удобного ритма отдыха.'),
+            'lv' => array('title'=>'Telpu ballīte līdz 15 personām', 'content'=>'Ieteikumi nelielām svinībām, galdu izvietojumam un atpūtas ritmam.'),
+            'en' => array('title'=>'Venue party for up to 15 people', 'content'=>'Tips for small celebrations, table layout and a comfortable event rhythm.'),
+            'ru' => array('title'=>'Вечеринка в зале до 15 человек', 'content'=>'Советы для небольшого праздника, расстановки столов и удобного ритма отдыха.'),
         ),
         array(
             'lv' => array('title'=>'Ko iekļaut pasākuma plānā?', 'content'=>'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas vienā vakarā.'),
             'en' => array('title'=>'What to include in the event plan?', 'content'=>'Sauna, whisks, table hall, kitchen and relaxation rooms in one evening.'),
-            'ru' => array('title'=>'Что включить в план мероприятия?', 'content'=>'Сауна, веники, зал со столами, кухня и комнаты отдыха за один вечер.'),
+            'ru' => array('title'=>'Что включить в план мероприятия?', 'content'=>'Аренда помещений, веники, зал со столами, кухня и комнаты отдыха за один вечер.'),
         ),
     );
 
@@ -516,9 +472,9 @@ function sixtythree_run_demo_import() {
 function sixtythree_demo_menus() {
     $locations = get_theme_mod('nav_menu_locations', array());
     $labels = array(
-        'lv' => array('menu'=>'63.lv Galvenā izvēlne LV','items'=>array('Pakalpojumi'=>'#pakalpojumi','Pirts zona'=>'#pirts','Web izstrāde'=>'#web','Kontakti'=>'#cta')),
-        'en' => array('menu'=>'63.lv Main Menu EN','items'=>array('Services'=>'#pakalpojumi','Sauna'=>'#pirts','Web development'=>'#web','Contact'=>'#cta')),
-        'ru' => array('menu'=>'63.lv Главное меню RU','items'=>array('Услуги'=>'#pakalpojumi','Сауна'=>'#pirts','Веб'=>'#web','Контакты'=>'#cta')),
+        'lv' => array('menu'=>'63.lv Galvenā izvēlne LV','items'=>array('Pakalpojumi'=>'#pakalpojumi','Telpu noma'=>'#pirts','Web izstrāde'=>'#web','Kontakti'=>'#cta')),
+        'en' => array('menu'=>'63.lv Main Menu EN','items'=>array('Services'=>'#pakalpojumi','Venue rental'=>'#pirts','Web development'=>'#web','Contact'=>'#cta')),
+        'ru' => array('menu'=>'63.lv Главное меню RU','items'=>array('Услуги'=>'#pakalpojumi','Аренда помещений'=>'#pirts','Веб'=>'#web','Контакты'=>'#cta')),
     );
     foreach ($labels as $lang => $data) {
         $menu = wp_get_nav_menu_object($data['menu']);
@@ -619,9 +575,8 @@ function sixtythree_demo_translate_content($content, $lang = 'lv') {
             '63.lv pieteikums' => '63.lv request',
             'Paldies! Sazināsimies ar jums.' => 'Thank you! We will contact you.',
             'Telpu noma' => 'Space rental',
-            'Pirts zona' => 'Sauna zone',
+            'Telpu noma' => 'Venue rental',
             'Web izstrāde' => 'Web development',
-            'Solārijs' => 'Solarium',
             'Citi pakalpojumi' => 'Other services',
         ),
         'ru' => array(
@@ -629,16 +584,15 @@ function sixtythree_demo_translate_content($content, $lang = 'lv') {
             '105 m² biznesa telpas Bauskas ielā 63, Rīgā.' => '105 м² бизнес-помещения на улице Баускас 63, Рига.',
             '6 stundas' => '6 часов',
             'Pieteikšanās 2 dienas iepriekš' => 'Бронирование за 2 дня',
-            'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas' => 'Сауна, веники, зал со столами, кухня и комнаты отдыха',
+            'Sauna, slotiņas, zāle ar galdiem, virtuve un atpūtas telpas' => 'Аренда помещений, веники, зал со столами, кухня и комнаты отдыха',
             'Izvēlieties pieejamu datumu un nosūtiet pieteikumu.' => 'Выберите доступную дату и отправьте заявку.',
             'Paldies, pieteikums saņemts.' => 'Спасибо, заявка получена.',
             'Pieteikt' => 'Заказать',
             '63.lv pieteikums' => 'Заявка 63.lv',
             'Paldies! Sazināsimies ar jums.' => 'Спасибо! Мы свяжемся с вами.',
             'Telpu noma' => 'Аренда помещений',
-            'Pirts zona' => 'Зона сауны',
+            'Telpu noma' => 'Зона помещений',
             'Web izstrāde' => 'Веб-разработка',
-            'Solārijs' => 'Солярий',
             'Citi pakalpojumi' => 'Другие услуги',
         ),
     );

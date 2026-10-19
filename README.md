@@ -1,10 +1,28 @@
 # 63.lv React Theme
 
-**Version:** 1.8.0  
+**Version:** 1.8.4  
 **Theme:** WordPress / headless React-style homepage for 63.lv  
 **Requires PHP:** 7.4+  
 **Recommended plugins:** WP BBuilder, Polylang
 
+
+## 1.8.4 Apps gallery and scroll-to-top update
+
+- Visible, compact 18-card DigitalPulse app gallery after the web portfolio, matching the 6-column icon layout on desktop; 17 app links plus a custom-project card.
+- Independent lightweight SVG icons replace third-party remote preview screenshots. Cards and content remain server-rendered in Latvian, English and Russian.
+- Working floating scroll-to-top button on the homepage and interior pages, with language-aware labels and reduced-motion support.
+- Styles and script are loaded separately after the core theme files, with automatic cache-busting asset versions.
+- Theme version bump automatically clears the theme's own saved-page cache. Purge any extra WordPress/CDN cache after uploading.
+
+## 1.8.3 Full WordPress admin-upload package
+
+- Includes all theme files, assets, templates, scripts and previous changes (not just the changed-files patch).
+- Front-page DigitalPulse app gallery with LV/EN/RU texts, project information and pricing.
+- Contact-section solid backgrounds without the unwanted form shadow.
+- Venue/room-hire wording replaces the former sauna-party labels.
+- Discontinued solarium services removed from the homepage and demo importer.
+- The standalone historical HTML preview has also been aligned with the removed services and basic updated prices.
+- Install via Appearance → Themes → Add New → Upload Theme; select Replace current with uploaded if prompted. Existing database pages are not overwritten by theme upload.
 
 ## 1.8.0 ForAirsoft service update
 
@@ -29,9 +47,8 @@
 - Headless React-style homepage matching the approved preview.
 - Bootstrap-grid based layout and Swiper-compatible slider/gallery structure.
 - Lightbox gallery behaviour.
-- Pirts booking calendar preview with selectable available dates.
+- Event-space booking calendar preview with selectable available dates.
 - Booking selection pre-fills the contact form message.
-- Solarium pricing section.
 - Web development pricing section.
 - Google Map section for Bauskas iela 63, Rīga.
 - Ajax search modal UI.
@@ -39,7 +56,7 @@
 - BBuilder Dynamic Form integration with theme fallback.
 - Theme-side fallback registration for common `wpbb/*` blocks, so imported demo content does not show unsupported block warnings before WP BBuilder is activated.
 - Demo importer under **Appearance → 63.lv Demo Import**.
-- Polylang-ready demo content with LV default and EN/RU translations for pages, menus and pirts blog posts.
+- Polylang-ready demo content with LV default and EN/RU translations for pages, menus and venue-booking blog posts.
 
 ## Installation
 
@@ -65,7 +82,7 @@ The demo importer creates LV, EN and RU versions for the main pages and translat
 
 ## Booking calendar
 
-The pirts calendar is a front-end preview calendar. Available days are selectable; the selected day is added to the contact form message when booking. This can later be connected to real availability logic, custom post types, WooCommerce bookings or a BBuilder booking block.
+The venue-booking calendar is a front-end preview calendar. Available days are selectable; the selected day is added to the contact form message when booking. This can later be connected to real availability logic, custom post types, WooCommerce bookings or a BBuilder booking block.
 
 
 ## Logo
@@ -106,11 +123,8 @@ The importer also enables all WP BBuilder blocks in `wpbb_settings`, including `
 
 ## v18 admin block cleanup
 
-The imported admin homepage now uses core Gutenberg Heading, Paragraph and List/List Item blocks for text/list content instead of raw HTML where possible. This makes the pirts package list and service cards easier to edit in the WordPress block editor while keeping the public premium front page unchanged.
+The imported admin homepage now uses core Gutenberg Heading, Paragraph and List/List Item blocks for text/list content instead of raw HTML where possible. This makes the venue-hire package list and service cards easier to edit in the WordPress block editor while keeping the public premium front page unchanged.
 
-## v19 solarium admin cleanup
-
-The solarium price grid now uses WP BBuilder Bootstrap Row/Column/Card blocks with core Paragraph blocks for the price and label text. This removes the raw Bootstrap HTML grid from the imported admin homepage and makes each price item editable as normal blocks.
 
 ## v20 Google Map editor support
 

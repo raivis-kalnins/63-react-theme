@@ -23,7 +23,7 @@
           wp_nav_menu(array('theme_location'=>'primary','container'=>false,'items_wrap'=>'%3$s','fallback_cb'=>false));
       } else {
           echo '<a class="nav-pill" href="' . esc_url(home_url('/#pakalpojumi')) . '">Pakalpojumi</a>';
-          echo '<a class="nav-pill" href="' . esc_url(home_url('/#pirts')) . '">Pirts zona</a>';
+          echo '<a class="nav-pill" href="' . esc_url(home_url('/#pirts')) . '">Telpu noma</a>';
           echo '<a class="nav-pill" href="' . esc_url(home_url('/#web')) . '">Web izstrāde</a>';
           echo '<a class="nav-pill" href="' . esc_url(home_url('/#cta')) . '">Kontakti</a>';
       }
