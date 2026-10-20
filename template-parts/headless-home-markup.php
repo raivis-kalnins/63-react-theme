@@ -73,9 +73,9 @@
     <section class="hero">
       <div class="hero-copy">
         <div class="kicker">Services · Bauskas 63</div>
-        <h1>Telpas, zināšanas un pakalpojumi vienuviet</h1>
+        <h1>%%SIXTYTHREE_LIVE_HERO_TITLE%%</h1>
         <div class="gold-rule"></div>
-        <p>SIA Kalns RTL dibināta 2003. gadā. Piedāvājam pakalpojumus Bauskas ielā 63, Rīgā, kā arī attālināti visā Latvijā un pasaulē — telpas, telpu zonu, apmācības, web risinājumus un ikdienas servisu vienuviet.</p>
+        <p>%%SIXTYTHREE_LIVE_HERO_DESCRIPTION%%</p>
         <div class="hero-actions">
           <a class="btn" href="#pakalpojumi">Mūsu pakalpojumi →</a>
           <a class="btn btn-outline" href="#cta">Sazināties</a>
@@ -140,17 +140,13 @@
       <div class="section-head">
         <div>
           <div class="kicker">Pakalpojumi</div>
-          <h2>Viss svarīgākais vienā vietā</h2>
+          <h2>%%SIXTYTHREE_LIVE_SERVICES_TITLE%%</h2>
         </div>
-        <p>Pakalpojumu sadaļā atradīsiet telpu rezervāciju, telpu nomu, web izstrādi, apmācības un ikdienas pakalpojumus. Izvēlieties vajadzīgo virzienu un sazinieties ar mums par pieejamību.</p>
+        <p>%%SIXTYTHREE_LIVE_SERVICES_DESCRIPTION%%</p>
       </div>
 
       <div class="services">
-        <article class="service-card"><h3>Telpas ballītēm</h3><ul><li>Ģimenēm un draugiem</li><li>Līdz ~15 personām</li><li>Darba dienās no 16:00</li><li>€84 vai €14/h</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>Web izstrāde un uzturēšana</h3><ul><li><?php echo esc_html(sixtythree_i18n('WordPress Business no €1 190', 'WordPress Business from €1,190', 'WordPress Business от €1 190')); ?></li><li>WordPress & WooCommerce</li><li>SEO, hostings, optimizācija</li><li>Headless ReactJS risinājumi</li></ul><a href="#web">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>E-apmācības un kursi</h3><ul><li>Individuāli €15/h</li><li>Grupas 3–5 pers. €50/h</li><li>Zoom & Skype</li><li>Biroja darbi, kopēšana, printēšana</li></ul><a href="#learning">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card"><h3>Citi pakalpojumi</h3><ul><li>Telpu noma pasākumiem</li><li>Frizētava IEVA</li><li>Manikīrs & pedikīrs</li><li>Šūšanas un remonta darbi</li></ul><a href="#cta">UZZINĀT VAIRĀK →</a></article>
-        <article class="service-card service-card--forairsoft"><h3>ForAirsoft</h3><ul><li>Airsoft veikals un serviss</li><li>Replikas un taktiskais ekipējums</li><li>Rezerves daļas un uzlabojumi</li><li>Bauskas 63 · k1</li></ul><a href="#forairsoft">UZZINĀT VAIRĀK →</a></article>
+        %%SIXTYTHREE_LIVE_SERVICE_CARDS%%
       </div>
 
     </section>
@@ -619,8 +615,8 @@
       <div class="cta-wrap">
         <div class="cta-copy">
           <div class="kicker">Pieteikums un kontakti</div>
-          <h2>Pastāstiet par savu ideju vai vajadzību</h2>
-          <p>Varam palīdzēt ar telpu nomu, web izstrādi, apmācībām un citiem pakalpojumiem Bauskas ielā 63. Sazinieties ar mums, lai pārrunātu pieejamību vai projekta vajadzības.</p>
+          <h2>%%SIXTYTHREE_LIVE_CONTACT_TITLE%%</h2>
+          <p>%%SIXTYTHREE_LIVE_CONTACT_DESCRIPTION%%</p>
           <div class="contact-list">
             <div class="contact-item"><div class="mini"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4.5 7 7.5 6 7.5-6"/></svg></div><div><b>Epasts</b><span><?php echo esc_html(sixtythree_contact_email()); ?><br>Atbildēsim 1 darba dienas laikā.</span></div></div>
             <div class="contact-item"><div class="mini"><svg class="gold-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 6.2 6.8c-.7.7-.8 1.8-.3 2.7 2 3.7 4.9 6.6 8.6 8.6.9.5 2 .4 2.7-.3l2.3-2.3-3.7-3.7-1.6 1.6c-1.8-.9-3.1-2.2-4-4l1.6-1.6-3.3-3.9Z"/></svg></div><div><b>Tālrunis</b><span><?php echo esc_html(sixtythree_contact_phone()); ?><br>Zvaniet vai rakstiet par pieejamību.</span></div></div>

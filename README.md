@@ -1,10 +1,21 @@
 # 63.lv React Theme
 
-**Version:** 1.8.4  
+**Version:** 1.8.5  
 **Theme:** WordPress / headless React-style homepage for 63.lv  
 **Requires PHP:** 7.4+  
-**Recommended plugins:** WP BBuilder, Polylang
+**Recommended plugins:** WP BBuilder, Polylang, ACF Pro
 
+
+## 1.8.5 Live content editing + new solarium list item
+
+- Adds **Vertical tanning booth by appointment** as the last item inside **Other services** (LV, EN and RU), not a separate solarium section.
+- The five existing service cards, hero, services introduction and contact heading/intro now read from per-language **ACF Pro fields on the three Polylang homepage pages**. Existing layouts, links, CSS and client scripts remain unchanged.
+- **Appearance -> 63.lv homepage content** provides direct links to each language's editor. Edit the **63.lv · Live homepage content (this language)** ACF fields and click **Update**. A list item is one line in its corresponding card's textarea.
+- The optional ACF **Additional homepage text changes** repeater supports exact visible text replacements on the same language's rendered homepage without editing PHP/HTML. It is for text only; replace whole visible text strings, not CSS or attributes.
+- The old Gutenberg post content on the homepage translation pages is an outdated reference/demo; it does **not** control the public homepage. It can remain unchanged or empty. The old editor is hidden on the three homepage translations so only the working ACF content editor is shown; Gutenberg continues working for normal pages/posts. Do not run the demo importer just to edit the public homepage.
+- Requires **ACF Pro** for the editing UI and **Polylang** for separate languages. The provided 2026-10-20 database backup showed both already active. If ACF is unavailable, the new item still appears with built-in translated defaults.
+- The theme's own cached pages are cleared when the theme version changes or when ACF content is saved. Clear any external server/CDN caching after installation if required.
+- Theme ZIP upload changes only the theme's files. It does not overwrite existing page content, ACF values or Polylang translations in the WordPress database.
 
 ## 1.8.4 Apps gallery and scroll-to-top update
 
@@ -20,7 +31,7 @@
 - Front-page DigitalPulse app gallery with LV/EN/RU texts, project information and pricing.
 - Contact-section solid backgrounds without the unwanted form shadow.
 - Venue/room-hire wording replaces the former sauna-party labels.
-- Discontinued solarium services removed from the homepage and demo importer.
+- Former standalone solarium pricing section removed; v1.8.5 adds an appointment-only item in Other services.
 - The standalone historical HTML preview has also been aligned with the removed services and basic updated prices.
 - Install via Appearance → Themes → Add New → Upload Theme; select Replace current with uploaded if prompted. Existing database pages are not overwritten by theme upload.
 
@@ -61,11 +72,10 @@
 ## Installation
 
 1. Upload and activate `63-react-theme.zip`.
-2. Install and activate **WP BBuilder**.
-3. Install and activate **Polylang**.
-4. Go to **Appearance → 63.lv Demo Import**.
-5. Click **Import / Update 63.lv Demo**.
-6. In Polylang, verify languages:
+2. Keep **WP BBuilder**, **Polylang** and **ACF Pro** active (all were active in the supplied database backup).
+3. On an existing site, go to **Appearance → 63.lv homepage content** and open the relevant LV, EN or RU ACF editor. Save changes with **Update**.
+4. Only for a fresh WordPress installation, open **Appearance → 63.lv Demo Import** and run the importer to create pages. Do not re-import merely to edit existing content.
+5. In Polylang, verify languages:
    - LV as default
    - EN
    - RU
@@ -74,7 +84,7 @@
 
 The theme is designed to work with WP BBuilder blocks. The contact form uses the `wpbb/dynamic-form` block when WP BBuilder is active. If BBuilder is not active, the theme registers a safe fallback for the same block namespace and renders a fallback form, preventing the WordPress editor from showing unsupported block errors.
 
-For full admin editing of all blocks, keep WP BBuilder active.
+Keep WP BBuilder active for its own form and page blocks. The public homepage copy is now edited through ACF Pro, not through the old Gutenberg/BBuilder demo source.
 
 ## Translation notes
 
@@ -99,7 +109,7 @@ This build includes a redesigned modern 63.lv favicon and WP admin upload icon. 
 
 ## Editable BBuilder homepage
 
-From v13, the front page template first renders the WordPress page content. After running **Appearance → 63.lv Demo Import**, the homepage is filled with WP BBuilder / Gutenberg blocks so sections are editable from the admin side. The original headless static preview remains only as a fallback if the page content is empty.
+Historical v13 note (superseded): the front page template used to render the WordPress page content. The demo importer fills page content with WP BBuilder / Gutenberg blocks, but these blocks do not currently drive the public homepage; use the v1.8.5 ACF editor instead. The approved headless HTML is always the live homepage layout.
 
 The demo importer creates editable sections using:
 - `wpbb/section`

@@ -4,7 +4,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-define('SIXTYTHREE_THEME_VERSION', '1.8.4');
+define('SIXTYTHREE_THEME_VERSION', '1.8.5');
 
 function sixtythree_setup() {
     load_theme_textdomain('sixty-three-lv', get_template_directory() . '/languages');
@@ -442,9 +442,19 @@ function sixtythree_admin_content_page() {
     <div class="wrap">
       <h1>63.lv homepage content</h1>
       <?php if ($saved) : ?><div class="notice notice-success is-dismissible"><p>Content overrides saved and cache cleared.</p></div><?php endif; ?>
-      <p>Use this page for safe frontend text edits without touching the fast headless homepage code. Add one replacement per line using this format:</p>
-      <p><code>Original text|New text</code></p>
-      <p>For structured pirts/gallery/blog fields and images, use <a href="<?php echo esc_url(admin_url('customize.php?autofocus[panel]=sixtythree_homepage_panel')); ?>">Appearance → Customize → 63.lv Homepage</a>.</p>
+      <p><strong>Live ACF editor:</strong> Select the homepage language below. Fields in the <em>63.lv · Live homepage content</em> panel update the public React/SSR homepage. Each language has its own text and service lists.</p>
+      <p>The older Gutenberg content/source inside these pages is a reference layout and is <strong>not published as the homepage</strong>. You can leave it untouched or empty. Editing it will not affect the homepage. ACF Pro must be active for the live fields.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin:20px 0;">
+        <?php foreach (sixtythree_live_home_page_ids() as $language => $page_id) : ?>
+          <a class="button button-primary button-hero" href="<?php echo esc_url(get_edit_post_link($page_id, '')); ?>"><?php echo esc_html(strtoupper($language)); ?> · Edit live content</a>
+        <?php endforeach; ?>
+      </div>
+      <?php if (!function_exists('acf_add_local_field_group')) : ?>
+        <div class="notice notice-warning inline"><p>ACF Pro is not active. Activate it to edit the live homepage fields. Default text and the new solarium service still display normally.</p></div>
+      <?php endif; ?>
+      <p>For venue-gallery/blog fields and images, use <a href="<?php echo esc_url(admin_url('customize.php?autofocus[panel]=sixtythree_homepage_panel')); ?>">Appearance → Customize → 63.lv Homepage</a>.</p>
+      <details style="margin-top:24px"><summary><strong>Advanced: legacy text replacements (optional)</strong></summary>
+      <p>Legacy replacement rules use <code>Original text|New text</code>, one per line. Prefer the live ACF fields for normal content updates.</p>
       <form method="post">
         <?php wp_nonce_field('sixtythree_save_content_overrides', 'sixtythree_content_nonce'); ?>
         <h2>Global replacements</h2>
@@ -453,8 +463,9 @@ function sixtythree_admin_content_page() {
           <h2><?php echo esc_html($label); ?> replacements</h2>
           <textarea name="sixtythree_text_overrides_<?php echo esc_attr($code); ?>" rows="10" class="large-text code"><?php echo esc_textarea(get_option('sixtythree_text_overrides_' . $code, '')); ?></textarea>
         <?php endforeach; ?>
-        <?php submit_button('Save homepage content'); ?>
+        <?php submit_button('Save legacy text replacements'); ?>
       </form>
+      </details>
     </div>
     <?php
 }
@@ -510,7 +521,12 @@ function sixtythree_start_safe_html_minifier() {
 add_action('template_redirect', 'sixtythree_start_safe_html_minifier', 1);
 
 function sixtythree_frontpage_output($html) {
+    // First translate the fixed layout, then insert safe, locale-specific ACF
+    // text into placeholders. Never expose saved Gutenberg demo/source markup.
     $html = sixtythree_translate_front_html($html);
+    if (function_exists('sixtythree_live_apply_frontpage')) {
+        $html = sixtythree_live_apply_frontpage($html);
+    }
     return sixtythree_minify_front_html($html);
 }
 
@@ -1214,6 +1230,7 @@ function sixtythree_bbuilder_notice() {
 add_action('admin_notices', 'sixtythree_bbuilder_notice');
 
 require_once get_template_directory() . '/inc/demo-importer.php';
+require_once get_template_directory() . '/inc/live-homepage-editor.php';
 
 
 /**
